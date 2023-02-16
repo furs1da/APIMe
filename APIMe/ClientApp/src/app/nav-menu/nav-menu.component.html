@@ -1,45 +1,33 @@
-<header>
-  <nav
-    class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-  >
-    <div class="container">
-      <a class="navbar-brand" [routerLink]="['/']">APIMe</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target=".navbar-collapse"
-        aria-label="Toggle navigation"
-        [attr.aria-expanded]="isExpanded"
-        (click)="toggle()"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div
-        class="navbar-collapse collapse d-sm-inline-flex justify-content-end"
-        [ngClass]="{ show: isExpanded }"
-      >
-        <ul class="navbar-nav flex-grow">
-          <li
-            class="nav-item"
-            [routerLinkActive]="['link-active']"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']"
-              >Counter</a
-            >
-          </li>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']"
-              >Fetch data</a
-            >
-          </li>
-        </ul>
-        <app-login-menu></app-login-menu>
-      </div>
+<nav class="navbar navbar-expand-sm navbar-light bg-primary" style="padding-top: 0; padding-bottom: 0; line-height: 50px; max-height: 50px">
+  <a class="navbar-brand text-white ml-3 align-middle" href="#" style="font-size: 20px;">
+    <img src="../../assets/APIMe-2.png" alt="Brand logo" class="mr-2" style="max-width: 100px; height: auto; max-height: 30px; margin-top: -5px">
+    APIMe!
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto mr-3">
+      <li class="nav-item active">
+        <a class="nav-link text-white" href="#">Docs</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="#">Testing</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="#">Reports</a>
+      </li>
+    </ul>
+    <div class=" navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav mr-3 ml-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/login">Login</a>
+        </li>
+        <li class="nav-item" style="margin-right: 10px;">
+          <a class="nav-link text-white" href="/register">Register</a>
+        </li>
+      </ul>
     </div>
-  </nav>
-</header>
+  </div>
+  
+</nav>
