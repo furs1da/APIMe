@@ -12,6 +12,6 @@ namespace APIMe.Data
             : base(options, operationalStoreOptions)
         {
 
-        }
+        }  
     }
 }
