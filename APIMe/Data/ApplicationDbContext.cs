@@ -6,9 +6,9 @@ using Microsoft.Extensions.Options;
 
 namespace APIMe.Data
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
+    public class APIMeContext : ApiAuthorizationDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
+        public APIMeContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
             : base(options, operationalStoreOptions)
         {
 
