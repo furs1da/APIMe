@@ -59,13 +59,18 @@ else
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseCors("CorsPolicy");
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller}/{action=Index}/{id?}");
+app.MapRazorPages();
+
+
 app.MapFallbackToFile("index.html");
 
 // Run the app
