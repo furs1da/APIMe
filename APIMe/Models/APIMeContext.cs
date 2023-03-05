@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using APIMe.Data.SeedData;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace APIMe.Models
 {
-    public partial class APIMeContext : IdentityDbContext<User>
+    public partial class APIMeContext : DbContext
     {
         public APIMeContext()
         {
@@ -18,36 +19,7 @@ namespace APIMe.Models
         {
         }
 
-        public static async Task CreateAdminUserAsync(IServiceProvider serviceProvider)
-        {
-            UserManager<User> userManager =
-                serviceProvider.GetRequiredService<UserManager<User>>();
-            RoleManager<IdentityRole> roleManager = serviceProvider
-                .GetRequiredService<RoleManager<IdentityRole>>();
 
-            string username = "admin";
-            string password = "12345"; // #ruzziaIsTerroristState 
-            string roleName = "Admin";
-
-            // if role doesn't exist, create it
-            if (await roleManager.FindByNameAsync(roleName) == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole(roleName));
-            }
-            // if username doesn't exist, create it and add it to role
-            if (await userManager.FindByNameAsync(username) == null)
-            {
-                User user = new User { UserName = username };
-                user.EmailConfirmed = true;
-                user.Email = "apimeconestoga@gmail.com";
-
-                var result = await userManager.CreateAsync(user, password);
-                if (result.Succeeded)
-                {
-                    await userManager.AddToRoleAsync(user, roleName);
-                }
-            }
-        }
 
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; } = null!;
         public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; } = null!;
@@ -72,13 +44,15 @@ namespace APIMe.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=localhost;Database=APIMe;Integrated Security=True;Trusted_Connection=True;MultipleActiveResultSets=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+            //OnModelCreatingPartial(modelBuilder);
+
             modelBuilder.Entity<AspNetRole>(entity =>
             {
                 entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
@@ -472,7 +446,13 @@ namespace APIMe.Models
                     .HasConstraintName("FK_StudentSection_Student");
             });
 
-            OnModelCreatingPartial(modelBuilder);
+
+
+         
+
+            modelBuilder.ApplyConfiguration(new SeedProfessor());
+            modelBuilder.ApplyConfiguration(new SeedSection());
+
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);

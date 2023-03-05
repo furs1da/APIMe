@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace APIMe.Models
 {
@@ -14,6 +15,7 @@ namespace APIMe.Models
             Roles = new HashSet<AspNetRole>();
         }
 
+        [Key]
         public string Id { get; set; } = null!;
         public string? UserName { get; set; }
         public string? NormalizedUserName { get; set; }

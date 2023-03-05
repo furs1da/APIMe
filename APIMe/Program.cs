@@ -8,6 +8,7 @@ using APIMe.Interfaces;
 using APIMe.Services;
 using APIMe.Utilities.EmailSender;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,12 +17,19 @@ builder.Services.Configure<MailSettings>(options =>
 {
     builder.Configuration.GetSection("MailSettings").Bind(options);
 });
+
+var connectionString = builder.Configuration.GetConnectionString("APIMeConnection") ?? throw new InvalidOperationException("Connection string 'APIMeConnection' not found.");
+
+
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
+
+
+builder.Services.AddDbContext<APIMeContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDbContext<APIMeContext>();
+
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 6;
@@ -29,18 +37,13 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequireDigit = true;
     options.User.RequireUniqueEmail = true;
     options.SignIn.RequireConfirmedEmail = true;
-    options.Tokens.EmailConfirmationTokenProvider = "EmailConfirmation";
-
     options.Lockout.AllowedForNewUsers = true;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
     options.Lockout.MaxFailedAccessAttempts = 3;
 })
     .AddEntityFrameworkStores<APIMeContext>()
-    .AddDefaultTokenProviders()
-    .AddTokenProvider<EmailConfirmationTokenProvider<IdentityUser>>("EmailConfirmation");
+    .AddDefaultTokenProviders();
 
-builder.Services.Configure<DataProtectionTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromHours(2));
-builder.Services.Configure<EmailConfirmationTokenProviderOptions>(options => options.TokenLifespan = TimeSpan.FromDays(3));
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
