@@ -21,7 +21,9 @@
                 </div>
                 <div class="form-group">
                     <label for="section" class="form-label">Section:</label>
-                    <input type="number" class="form-control" id="section" placeholder="Enter Section">
+                    <select id="student-section">
+                      <option *ngFor="let section of sectionList" [value]="section.id">{{ section.sectionName }}</option>
+                    </select>
                 </div>
     
               <div class="form-group">
