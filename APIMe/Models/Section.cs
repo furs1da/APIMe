@@ -14,5 +14,7 @@ namespace APIMe.Models
 
         public ICollection<Student> Students { get; set; }
 
+        public virtual ICollection<StudentSection> StudentSections { get; set; }
+
     }
 }

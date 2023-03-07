@@ -12,5 +12,6 @@ namespace APIMe.Models
         public int StudentId { get; set; }
         public string ApiKey { get; set; } = null!;
         public ICollection<Section> Sections { get; set; }
+        public virtual ICollection<StudentSection> StudentSections { get; set; }
     }
 }

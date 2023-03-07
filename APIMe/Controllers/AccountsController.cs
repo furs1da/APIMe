@@ -80,7 +80,8 @@ namespace APIMe.Controllers
                     FirstName = userForRegistration.FirstName != null ? userForRegistration.FirstName : "",
                     LastName = userForRegistration.LastName != null ? userForRegistration.LastName : "",
                     StudentId = int.TryParse(userForRegistration.StudentNumber, out studentNumber) ? studentNumber : 0,
-                    Email = userForRegistration.Email != null ? userForRegistration.Email : ""
+                    Email = userForRegistration.Email != null ? userForRegistration.Email : "",
+                    ApiKey = "."
                 };
 
                 _aPIMeContext.Students.Add(student);

@@ -308,8 +308,23 @@ namespace APIMe.Models
             });
 
 
+            // composite primary key for StudentSection
+            modelBuilder.Entity<StudentSection>()
+                .HasKey(ce => new { ce.StudentId, ce.SectionId });
 
-         
+            // one-to-many relationship between Customer and CustomerEvent
+            modelBuilder.Entity<StudentSection>()
+                .HasOne(ce => ce.Student)
+                .WithMany(c => c.StudentSections)
+                .HasForeignKey(ce => ce.StudentId);
+
+            // one-to-many relationship between Event and CustomerEvent
+            modelBuilder.Entity<StudentSection>()
+                .HasOne(ce => ce.Section)
+                .WithMany(g => g.StudentSections)
+                .HasForeignKey(ce => ce.SectionId);
+
+
 
             modelBuilder.ApplyConfiguration(new SeedProfessor());
             modelBuilder.ApplyConfiguration(new SeedSection());
