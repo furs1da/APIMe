@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using APIMe.Data;
 using Microsoft.Extensions.Options;
 using static System.Net.WebRequestMethods;
 using Microsoft.AspNetCore.Authorization;

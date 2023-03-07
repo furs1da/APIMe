@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace APIMe.Models
 {
     public partial class PersistedGrant
     {
+        [Key]
         public string Key { get; set; } = null!;
         public string Type { get; set; } = null!;
         public string? SubjectId { get; set; }
