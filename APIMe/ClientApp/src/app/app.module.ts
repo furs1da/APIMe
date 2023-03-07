@@ -21,9 +21,13 @@ import { RegisterComponent } from 'src/api-authorization/register/register.compo
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'login', component: LoginComponent },
-      { path: 'registration', component: RegisterComponent }
+      { path: 'home', component: HomeComponent },
+      { path: '', redirectTo: '/home', pathMatch: 'full' },
+      { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
+      /*{ path: 'login', component: LoginComponent },*/
+/*      { path: '404', component: NotFoundComponent },*/
+/*      { path: 'register', component: RegisterComponent }*/
+/*      { path: '**', redirectTo: '/404', pathMatch: 'full' }*/
     ])
   ],
   providers: [

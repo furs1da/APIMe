@@ -1,0 +1,90 @@
+ <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="blue-box">
+            <h3>Register</h3>
+          </div>
+          <div class="form-wrapper">
+            <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="registerUser(registerForm.value)">
+              <div class="form-group">
+                <label for="firstName" class="form-label">First Name:</label>
+                <input type="text" class="form-control" id="firstName" formControlName="firstName" placeholder="Enter First Name">
+                <p>
+                  <em *ngIf="validateControl('firstName') && hasError('firstName', 'required')">First Name is required</em>
+                </p>
+              </div>
+              <div class="form-group">
+                <label for="lastName" class="form-label">Last Name:</label>
+                <input type="text" class="form-control" id="lastName" formControlName="lastName" placeholder="Enter Last Name">
+                <p>
+                  <em *ngIf="validateControl('lastName') && hasError('lastName', 'required')">Last Name is required</em>
+                </p>
+              </div>
+
+
+              <div class="form-group">
+                <label for="studentNumber" class="form-label">Student Number:</label>
+                <input type="text" class="form-control" id="studentNumber" formControlName="studentNumber" placeholder="Enter Student Number">
+                <p>
+                  <em *ngIf="validateControl('studentNumber') && hasError('studentNumber', 'required')">Student Number is required</em>
+                </p>
+                <p>
+                  <em *ngIf="validateControl('studentNumber') && hasError('studentNumber', 'maxLength') && hasError('studentNumber', 'minLength')">Student Number must be 7 digits</em>
+                </p>
+              </div>
+
+
+              <div class="form-group">
+                <label for="studentSection" class="form-label">Section:</label>
+                <select formControlName="studentSection" id="studentSection" class="form-control">
+                  <option [ngValue]="null" disabled>Select Section</option>
+                  <option *ngFor="let section of sectionList" [ngValue]="section.id">{{ section.sectionName }}</option>
+                </select>
+                <p>
+                  <em *ngIf="validateControl('studentSection') && hasError('studentSection', 'required')">Section is required</em>
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="accessCode" class="form-label">Access Code:</label>
+                <input type="text" class="form-control" id="accessCode" formControlName="accessCode" placeholder="Enter Access Code">
+                <p>
+                  <em *ngIf="validateControl('accessCode') && hasError('accessCode', 'required')">Access Code is required</em>
+                </p>
+              </div>
+
+              <div class="form-group">
+                <label for="email" class="form-label">Email:</label>
+                <input type="email" id="email" formControlName="email" class="form-control" placeholder="Please enter email" />
+                <p>
+                  <em *ngIf="validateControl('email') && hasError('email', 'email')">Please provide a valid email</em>
+                </p>
+                <p>
+                  <em *ngIf="validateControl('email') && hasError('email', 'required')">Email is required</em>
+                </p>
+              </div>
+              <div class="form-group">
+                <label for="password" class="form-label">Password:</label>
+                <input type="password" class="form-control" id="password" formControlName="password" placeholder="Enter password">
+                <p><em *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</em></p>
+              </div>
+
+              <div class="form-group">
+                <label for="confirm" class="form-label">Confirm Password:</label>
+                <input type="password" class="form-control" id="confirm" formControlName="confirm" placeholder="Enter password">
+              </div>
+
+
+              <button type="submit" class="btn btn-info" [disabled]="!registerForm.valid">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <!-- Bootstrap JS -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>

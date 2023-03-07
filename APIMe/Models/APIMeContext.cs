@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace APIMe.Models
 {
-    public partial class APIMeContext : DbContext
+    public partial class APIMeContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
         public APIMeContext()
         {
@@ -51,6 +51,7 @@ namespace APIMe.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<IdentityRole>().ToTable("AspNetRoles");
             //OnModelCreatingPartial(modelBuilder);
 
             modelBuilder.Entity<AspNetRole>(entity =>
