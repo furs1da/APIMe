@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Section } from '../../interfaces/request/section';
 
 @Component({
   selector: 'app-register',
@@ -18,12 +19,6 @@ export class RegisterComponent {
         console.log(this.sectionList);
       });
   }
-
-
-  
 }
 
-interface Section {
-  id: number;
-  sectionName: string;
-}
+

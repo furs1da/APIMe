@@ -14,7 +14,7 @@ namespace APIMe.DataTransferObjects
         public string? StudentNumber { get; set; }
 
         [Required(ErrorMessage = "Student Section is required.")]
-        public string? StudentSection { get; set; }
+        public int? StudentSection { get; set; }
 
         [Required(ErrorMessage = "Access Code is required.")]
         public string? AccessCode { get; set; }
