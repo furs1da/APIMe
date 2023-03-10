@@ -10,5 +10,7 @@ namespace APIMe.Models
 
         public Section Section { get; set; } = null!;
         public Student Student { get; set; } = null!;
+
+     
     }
 }

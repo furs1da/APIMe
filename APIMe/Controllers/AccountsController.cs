@@ -20,7 +20,6 @@ namespace APIMe.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> signInManager;
-
         private APIMeContext _aPIMeContext;
         public AccountController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext)
         {
@@ -32,10 +31,18 @@ namespace APIMe.Controllers
         [HttpGet("sectionlist")]
         public async Task<IActionResult> RegisterUser()
         {
-            InformationForRegistration informationForRegistration = new InformationForRegistration();
-            informationForRegistration.SectionList = await _aPIMeContext.Sections.ToListAsync();
+            try
+            {
+                InformationForRegistration informationForRegistration = new InformationForRegistration();
+                informationForRegistration.SectionList = await _aPIMeContext.Sections.ToListAsync();
 
-            return Ok(informationForRegistration);
+                return Ok(informationForRegistration);
+            }
+            catch (Exception ex)
+            {
+                IEnumerable<string>? errors = new List<string> { ex.Message };
+                return BadRequest(new RegistrationResponseDto { Errors = errors });
+            }
         }
 
         [HttpPost("Registration")]
@@ -47,7 +54,7 @@ namespace APIMe.Controllers
                 if (userForRegistration == null || !ModelState.IsValid)
                     return BadRequest();
 
-                Section section = _aPIMeContext.Sections.FirstOrDefault(sec => sec.Id == userForRegistration.StudentSection);
+                Section section = await _aPIMeContext.Sections.FirstOrDefaultAsync(sec => sec.Id == userForRegistration.StudentSection);
 
                 if (section == null || section.AccessCode != userForRegistration.AccessCode)
                 {
@@ -55,11 +62,17 @@ namespace APIMe.Controllers
                     return BadRequest(new RegistrationResponseDto { Errors = errors });
                 }
 
-                Student emailStudentCheck = _aPIMeContext.Students.FirstOrDefault(st => st.Email == userForRegistration.Email);
+                Student emailStudentCheck = await _aPIMeContext.Students.FirstOrDefaultAsync(st => st.Email == userForRegistration.Email);
 
                 if (emailStudentCheck != null)
                 {
                     IEnumerable<string>? errors = new List<string> { "Email is already in use." };
+                    return BadRequest(new RegistrationResponseDto { Errors = errors });
+                }
+
+                if (!int.TryParse(userForRegistration.StudentNumber, out int stn))
+                {
+                    IEnumerable<string>? errors = new List<string> { "Student Number should be 7 digits." };
                     return BadRequest(new RegistrationResponseDto { Errors = errors });
                 }
 
@@ -84,10 +97,10 @@ namespace APIMe.Controllers
                     ApiKey = "."
                 };
 
-                _aPIMeContext.Students.Add(student);
-                _aPIMeContext.SaveChanges();
+                await _aPIMeContext.Students.AddAsync(student);
+                await _aPIMeContext.SaveChangesAsync();
 
-                student = _aPIMeContext.Students.FirstOrDefault(st => st.Email == student.Email);
+                student = await _aPIMeContext.Students.FirstOrDefaultAsync(st => st.Email == student.Email);
 
                 if (student == null)
                 {
@@ -95,14 +108,13 @@ namespace APIMe.Controllers
                     return BadRequest(new RegistrationResponseDto { Errors = errors });
                 }
 
-                StudentSection studentSection = new StudentSection
-                {
-                    StudentId = student.Id,
-                    SectionId = (int)userForRegistration.StudentSection
-                };
+                StudentSection studentSection = new StudentSection();
+                studentSection.StudentId = student.Id;
+                studentSection.SectionId = (int)userForRegistration.StudentSection;
 
-                _aPIMeContext.StudentSections.Add(studentSection);
-                _aPIMeContext.SaveChangesAsync();
+
+                await _aPIMeContext.StudentSections.AddAsync(studentSection);
+                await _aPIMeContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
