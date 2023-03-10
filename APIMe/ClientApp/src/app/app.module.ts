@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
-
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from 'src/api-authorization/login/login.component';
 import { RegisterComponent } from 'src/api-authorization/register/register.component';
+import { ErrorHandlerService } from './shared/services/error-handler.service';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,11 @@ import { RegisterComponent } from 'src/api-authorization/register/register.compo
     ])
   ],
   providers: [
-   
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandlerService,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

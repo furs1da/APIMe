@@ -73,10 +73,19 @@
               <div class="form-group">
                 <label for="confirm" class="form-label">Confirm Password:</label>
                 <input type="password" class="form-control" id="confirm" formControlName="confirm" placeholder="Enter password">
+                <p>
+                  <em *ngIf="validateControl('confirm') && hasError('confirm', 'required')">Confirmation is required</em>
+                  <em *ngIf="hasError('confirm', 'mustMatch')">Passwords must match</em>
+                </p>
               </div>
 
 
               <button type="submit" class="btn btn-info" [disabled]="!registerForm.valid">Register</button>
+
+
+              <div *ngIf="showError" class="alert alert-danger" role="alert">
+                <span [innerHTML]="errorMessage"></span>
+              </div>
             </form>
           </div>
         </div>

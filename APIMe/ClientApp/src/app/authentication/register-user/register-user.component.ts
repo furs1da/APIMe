@@ -4,6 +4,7 @@ import { AuthenticationService } from './../../shared/services/authentication.se
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserForRegistrationDto } from '../../../interfaces/user/userForRegistrationDTO';
 import { Section } from '../../../interfaces/request/section';
+import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
 
 @Component({
   selector: 'app-register-user',
@@ -14,8 +15,10 @@ export class RegisterUserComponent implements OnInit {
 
   registerForm: FormGroup = new FormGroup({});
   sectionList: Section[] = [];
+  errorMessage: string = '';
+  showError: boolean = false;
 
-  constructor(private authService: AuthenticationService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private authService: AuthenticationService, private passConfValidator: PasswordConfirmationValidatorService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
     this.http.get<{ sectionList: Section[] }>(baseUrl + 'account/sectionList')
       .subscribe(data => {
         this.sectionList = data.sectionList;
@@ -35,6 +38,15 @@ export class RegisterUserComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
       confirm: new FormControl('')
     });
+
+    const confirmControl = this.registerForm.get('confirm');
+    const passwordControl = this.registerForm.get('password');
+
+    if (passwordControl && confirmControl) {
+      confirmControl.setValidators([Validators.required,
+        this.passConfValidator.validateConfirmPassword(passwordControl)]);
+    }
+   
   }
 
 
@@ -50,6 +62,7 @@ export class RegisterUserComponent implements OnInit {
 
 
   public registerUser = (registerFormValue: any) => {
+    this.showError = false;
     const formValues = { ...registerFormValue };
     const user: UserForRegistrationDto = {
       firstName: formValues.firstName,
@@ -65,7 +78,10 @@ export class RegisterUserComponent implements OnInit {
     this.authService.registerUser("account/registration", user)
       .subscribe({
         next: (_) => console.log("Successful registration"),
-        error: (err: HttpErrorResponse) => console.log(err.error.errors)
+        error: (err: HttpErrorResponse) => {
+          this.errorMessage = err.message;
+          this.showError = true;
+        }
       })
   }
 }
