@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using APIMe.Data.SeedData;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -19,8 +20,6 @@ namespace APIMe.Models
         {
         }
 
-
-
         //public virtual DbSet<AspNetRole> AspNetRoles { get; set; } = null!;
         //public virtual DbSet<AspNetRoleClaim> AspNetRoleClaims { get; set; } = null!;
         //public virtual DbSet<AspNetUser> AspNetUsers { get; set; } = null!;
@@ -28,9 +27,11 @@ namespace APIMe.Models
         //public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } = null!;
         //public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; } = null!;
         public virtual DbSet<BugFeature> BugFeatures { get; set; } = null!;
+        public virtual DbSet<Customer> Customers { get; set; } = null!;
         public virtual DbSet<DeviceCode> DeviceCodes { get; set; } = null!;
         public virtual DbSet<Key> Keys { get; set; } = null!;
         public virtual DbSet<PersistedGrant> PersistedGrants { get; set; } = null!;
+        public virtual DbSet<Product> Products { get; set; } = null!;
         public virtual DbSet<Professor> Professors { get; set; } = null!;
         public virtual DbSet<Project> Projects { get; set; } = null!;
         public virtual DbSet<Route> Routes { get; set; } = null!;
@@ -44,6 +45,7 @@ namespace APIMe.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=localhost;Database=APIMe;Integrated Security=True;Trusted_Connection=True;MultipleActiveResultSets=True;");
             }
         }
@@ -51,16 +53,14 @@ namespace APIMe.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AspNetUserLogin>()
-               .HasKey(l => new { l.LoginProvider, l.ProviderKey });
-
-            modelBuilder.Entity<AspNetUserToken>()
-             .HasKey(l => new { l.Name, l.LoginProvider, l.UserId });
-
-            base.OnModelCreating(modelBuilder);
+             .HasKey(l => new { l.LoginProvider, l.ProviderKey });
+           
 
             modelBuilder.Entity<BugFeature>(entity =>
             {
                 entity.ToTable("BugFeature");
+
+                entity.HasIndex(e => e.ProjectId, "IX_BugFeature_projectId");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -105,8 +105,52 @@ namespace APIMe.Models
                     .HasConstraintName("FK_BugFeature_Project");
             });
 
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.ToTable("Customer");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(50)
+                    .HasColumnName("address");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(50)
+                    .HasColumnName("phone");
+            });
+
           
-         
+
+        
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(50)
+                    .HasColumnName("description");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Price)
+                    .HasMaxLength(50)
+                    .HasColumnName("price");
+
+                entity.Property(e => e.Quantity)
+                    .HasMaxLength(50)
+                    .HasColumnName("quantity");
+            });
 
             modelBuilder.Entity<Professor>(entity =>
             {
@@ -131,6 +175,8 @@ namespace APIMe.Models
             {
                 entity.ToTable("Project");
 
+                entity.HasIndex(e => e.UserId, "IX_Project_userId");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.DateCreated)
@@ -147,9 +193,7 @@ namespace APIMe.Models
                     .HasMaxLength(40)
                     .HasColumnName("name");
 
-                entity.Property(e => e.UserId)
-                    .HasMaxLength(450)
-                    .HasColumnName("userId");
+                entity.Property(e => e.UserId).HasColumnName("userId");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Projects)
@@ -161,6 +205,8 @@ namespace APIMe.Models
             modelBuilder.Entity<Route>(entity =>
             {
                 entity.ToTable("Route");
+
+                entity.HasIndex(e => e.RouteTypeId, "IX_Route_routeTypeId");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -192,6 +238,10 @@ namespace APIMe.Models
                 entity.HasNoKey();
 
                 entity.ToTable("RouteLog");
+
+                entity.HasIndex(e => e.RouteId, "IX_RouteLog_routeId");
+
+                entity.HasIndex(e => e.StudentId, "IX_RouteLog_studentId");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -239,6 +289,8 @@ namespace APIMe.Models
             modelBuilder.Entity<Section>(entity =>
             {
                 entity.ToTable("Section");
+
+                entity.HasIndex(e => e.ProfessorId, "IX_Section_professorId");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -290,6 +342,10 @@ namespace APIMe.Models
 
                 entity.ToTable("StudentSection");
 
+                entity.HasIndex(e => e.SectionId, "IX_StudentSection_sectionId");
+
+                entity.HasIndex(e => e.StudentId, "IX_StudentSection_studentId");
+
                 entity.Property(e => e.SectionId).HasColumnName("sectionId");
 
                 entity.Property(e => e.StudentId).HasColumnName("studentId");
@@ -306,7 +362,6 @@ namespace APIMe.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StudentSection_Student");
             });
-
 
             // composite primary key for StudentSection
             modelBuilder.Entity<StudentSection>()
@@ -329,6 +384,9 @@ namespace APIMe.Models
             modelBuilder.ApplyConfiguration(new SeedProfessor());
             modelBuilder.ApplyConfiguration(new SeedSection());
 
+            OnModelCreatingPartial(modelBuilder);
         }
+
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }

@@ -38,8 +38,21 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ClientApp\src\app\error-pages\" />
+    <None Remove="ClientApp\src\app\error-pages\not-found\not-found.component.css" />
+    <None Remove="ClientApp\src\app\error-pages\not-found\not-found.component.html" />
+    <None Remove="ClientApp\src\app\error-pages\not-found\not-found.component.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\error-pages\not-found\not-found.component.html">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+    <TypeScriptCompile Include="ClientApp\src\app\error-pages\not-found\not-found.component.css" />
+    <TypeScriptCompile Include="ClientApp\src\app\error-pages\not-found\not-found.component.ts" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
