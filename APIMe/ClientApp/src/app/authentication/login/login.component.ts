@@ -1,10 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from './../../shared/services/authentication.service';
-import { Component, OnInit } from '@angular/core';
+
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { UserForAuthenticationDto } from '../../../interfaces/user/userForAuthenticationDto';
 import { AuthResponseDto } from '../../../interfaces/response/authResponseDto';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-login',
