@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using APIMe.Data.SeedData;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -54,7 +53,11 @@ namespace APIMe.Models
         {
             modelBuilder.Entity<AspNetUserLogin>()
              .HasKey(l => new { l.LoginProvider, l.ProviderKey });
-           
+
+            modelBuilder.Entity<AspNetUserToken>()
+           .HasKey(l => new { l.Name, l.LoginProvider, l.UserId });
+
+            base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<BugFeature>(entity =>
             {
@@ -383,10 +386,6 @@ namespace APIMe.Models
 
             modelBuilder.ApplyConfiguration(new SeedProfessor());
             modelBuilder.ApplyConfiguration(new SeedSection());
-
-            OnModelCreatingPartial(modelBuilder);
         }
-
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
