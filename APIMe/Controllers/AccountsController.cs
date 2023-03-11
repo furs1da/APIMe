@@ -10,6 +10,8 @@ using AutoMapper;
 using APIMe.DataTransferObjects;
 using Microsoft.EntityFrameworkCore;
 using static Duende.IdentityServer.Models.IdentityResources;
+using APIMe.JwtFeatures;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace APIMe.Controllers
 {
@@ -20,16 +22,18 @@ namespace APIMe.Controllers
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> signInManager;
+        private readonly JwtHandler _jwtHandler;
         private APIMeContext _aPIMeContext;
-        public AccountController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext)
+
+        public AccountController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, JwtHandler jwtHandler)
         {
             _userManager = userManager;
-
+            _jwtHandler = jwtHandler;
             _aPIMeContext = aPIMeContext;
         }
 
         [HttpGet("sectionlist")]
-        public async Task<IActionResult> RegisterUser()
+        public async Task<IActionResult> SectionList()
         {
             try
             {
@@ -43,6 +47,30 @@ namespace APIMe.Controllers
                 IEnumerable<string>? errors = new List<string> { ex.Message };
                 return BadRequest(new RegistrationResponseDto { Errors = errors });
             }
+        }
+
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
+        {
+            try
+            {
+                var user = await _userManager.FindByNameAsync(userForAuthentication.Email);
+
+                if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
+                    return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
+
+                var signingCredentials = _jwtHandler.GetSigningCredentials();
+                var claims = _jwtHandler.GetClaims(user);
+                var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
+                var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+                return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token });
+            }
+            catch (Exception ex)
+            {
+                IEnumerable<string>? errors = new List<string> { ex.Message };
+                return BadRequest(new RegistrationResponseDto { Errors = errors });
+            }
+            
         }
 
         [HttpPost("Registration")]
@@ -62,13 +90,13 @@ namespace APIMe.Controllers
                     return BadRequest(new RegistrationResponseDto { Errors = errors });
                 }
 
-                Student emailStudentCheck = await _aPIMeContext.Students.FirstOrDefaultAsync(st => st.Email == userForRegistration.Email);
+                //Student emailStudentCheck = await _aPIMeContext.Students.FirstOrDefaultAsync(st => st.Email == userForRegistration.Email);
 
-                if (emailStudentCheck != null)
-                {
-                    IEnumerable<string>? errors = new List<string> { "Email is already in use." };
-                    return BadRequest(new RegistrationResponseDto { Errors = errors });
-                }
+                //if (emailStudentCheck != null)
+                //{
+                //    IEnumerable<string>? errors = new List<string> { "Email is already in use." };
+                //    return BadRequest(new RegistrationResponseDto { Errors = errors });
+                //}
 
                 if (!int.TryParse(userForRegistration.StudentNumber, out int stn))
                 {

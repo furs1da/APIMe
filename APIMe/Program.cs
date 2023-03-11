@@ -9,6 +9,10 @@ using APIMe.Services;
 using APIMe.Utilities.EmailSender;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using APIMe.JwtFeatures;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,12 +23,13 @@ builder.Services.Configure<MailSettings>(options =>
 });
 
 var connectionString = builder.Configuration.GetConnectionString("APIMeConnection") ?? throw new InvalidOperationException("Connection string 'APIMeConnection' not found.");
-
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 
+builder.Services.AddScoped<JwtHandler>();
 
 builder.Services.AddDbContext<APIMeContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -36,7 +41,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
     options.Password.RequireNonAlphanumeric = true;
     options.Password.RequireDigit = true;
     options.User.RequireUniqueEmail = true;
-    options.SignIn.RequireConfirmedEmail = true;
+    //options.SignIn.RequireConfirmedEmail = true;
 
     options.Lockout.AllowedForNewUsers = true;
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
@@ -44,6 +49,26 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
     .AddEntityFrameworkStores<APIMeContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.AddAuthentication(opt =>
+{
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["validIssuer"],
+        ValidAudience = jwtSettings["validAudience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+            .GetBytes(jwtSettings.GetSection("securityKey").Value))
+    };
+});
+
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

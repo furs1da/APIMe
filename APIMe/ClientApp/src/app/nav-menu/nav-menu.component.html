@@ -7,7 +7,7 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto mr-3">
+    <ul  class="navbar-nav ml-auto mr-3">
       <li class="nav-item active">
         <a class="nav-link text-white" href="#">Docs</a>
       </li>
@@ -19,13 +19,21 @@
       </li>
     </ul>
     <div class=" navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav mr-3 ml-auto">
-        <li class="nav-item">
-          <a class="nav-link text-white" href="login">Login</a>
+      <ul  *ngIf='!isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
+        <li class="nav-item">     
+          <a class="nav-link text-white" [routerLink]="['authentication/login']" routerLinkActive="active"
+             [routerLinkActiveOptions]="{exact: true}">Login</a>
         </li>
         <li class="nav-item" style="margin-right: 10px;">
           <a class="nav-link text-white" [routerLink]="['authentication/register']" routerLinkActive="active"
              [routerLinkActiveOptions]="{exact: true}">Register</a>
+        </li>
+      </ul>
+
+
+      <ul *ngIf='isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
+        <li class="nav-item">
+          <button class="btn btn-link text-white"  (click)="logout()">Logout</button>
         </li>
       </ul>
     </div>

@@ -5,6 +5,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserForRegistrationDto } from '../../../interfaces/user/userForRegistrationDTO';
 import { Section } from '../../../interfaces/request/section';
 import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-user',
@@ -18,7 +19,7 @@ export class RegisterUserComponent implements OnInit {
   errorMessage: string = '';
   showError: boolean = false;
 
-  constructor(private authService: AuthenticationService, private passConfValidator: PasswordConfirmationValidatorService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private authService: AuthenticationService, private passConfValidator: PasswordConfirmationValidatorService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private router: Router) {
     this.http.get<{ sectionList: Section[] }>(baseUrl + 'account/sectionList')
       .subscribe(data => {
         this.sectionList = data.sectionList;
@@ -77,7 +78,7 @@ export class RegisterUserComponent implements OnInit {
 
     this.authService.registerUser("account/registration", user)
       .subscribe({
-        next: (_) => console.log("Successful registration"),
+        next: (_) => this.router.navigate(["/authentication/login"]),
         error: (err: HttpErrorResponse) => {
           this.errorMessage = err.message;
           this.showError = true;
