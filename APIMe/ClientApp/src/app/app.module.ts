@@ -10,7 +10,6 @@ import { RegisterComponent } from 'src/api-authorization/register/register.compo
 import { ErrorHandlerService } from './shared/services/error-handler.service';
 import { NgModule } from '@angular/core';
 import { JwtModule } from "@auth0/angular-jwt";
-import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 export function tokenGetter() {
   return localStorage.getItem("token");
 }

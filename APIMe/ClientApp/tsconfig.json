@@ -14,9 +14,9 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2017",
-    "module": "es2020",
+    "module": "commonjs",
     "lib": [
-      "es2018",
+      "es2017",
       "dom"
     ]
   },
@@ -25,5 +25,10 @@
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
-  }
+  },
+  "exclude": [
+    "node_modules",
+    "dist",
+    "C:/Users/nmysh/Source/Repos/furs1da/Capstone-Project/APIMe/ClientApp/src/app/error-pages/not-found/not-found.component.css"
+  ]
 }
