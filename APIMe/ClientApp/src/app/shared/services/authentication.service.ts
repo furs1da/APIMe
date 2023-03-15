@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { UserForAuthenticationDto } from '../../../interfaces/user/userForAuthenticationDto';
 import { AuthResponseDto } from '../../../interfaces/response/authResponseDto';
 import { Subject } from 'rxjs';
-
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 
 @Injectable({
@@ -18,7 +18,7 @@ export class AuthenticationService {
   private authChangeSub = new Subject<boolean>()
   public authChanged = this.authChangeSub.asObservable();
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+  constructor(private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private jwtHelper: JwtHelperService) {
     this.baseUrl = baseUrl;
   }
 
@@ -36,6 +36,11 @@ export class AuthenticationService {
 
   public sendAuthStateChangeNotification = (isAuthenticated: boolean) => {
     this.authChangeSub.next(isAuthenticated);
+  }
+
+  public isUserAuthenticated = (): boolean => {
+    const token = localStorage.getItem("token");
+    return token != null && !this.jwtHelper.isTokenExpired(token);
   }
 
   public logout = () => {

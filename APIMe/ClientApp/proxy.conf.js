@@ -7,6 +7,9 @@ const PROXY_CONFIG = [
   {
     context: [
       "/account",
+      "/section",
+
+
       "/_configuration",
       "/.well-known",
       "/Identity",

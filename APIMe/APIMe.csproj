@@ -38,6 +38,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\.angular\" />
+    <Folder Include="ClientApp\src\app\error-pages\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
 
