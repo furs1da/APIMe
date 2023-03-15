@@ -12,7 +12,8 @@ using Microsoft.EntityFrameworkCore;
 using static Duende.IdentityServer.Models.IdentityResources;
 using APIMe.JwtFeatures;
 using System.IdentityModel.Tokens.Jwt;
-
+using APIMe.Entities.Models;
+using APIMe.Entities.DataTransferObjects;
 
 namespace APIMe.Controllers
 {

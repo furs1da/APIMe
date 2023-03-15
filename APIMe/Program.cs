@@ -1,4 +1,3 @@
-using APIMe.Models;
 using APIMe.Tokens;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -13,6 +12,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using APIMe.JwtFeatures;
+using APIMe.Entities.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,14 +38,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.Password.RequiredLength = 6;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireDigit = true;
+    options.Password.RequireDigit = false;
+
+
     options.User.RequireUniqueEmail = true;
     //options.SignIn.RequireConfirmedEmail = true;
 
-    options.Lockout.AllowedForNewUsers = true;
-    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(2);
-    options.Lockout.MaxFailedAccessAttempts = 3;
 })
     .AddEntityFrameworkStores<APIMeContext>()
     .AddDefaultTokenProviders();
@@ -74,6 +72,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddTransient<IMailService, MailService>();
+
 
 // Configure the app
 var app = builder.Build();
