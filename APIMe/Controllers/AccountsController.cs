@@ -60,7 +60,7 @@ namespace APIMe.Controllers
                     return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
 
                 var signingCredentials = _jwtHandler.GetSigningCredentials();
-                var claims = _jwtHandler.GetClaims(user);
+                var claims = await _jwtHandler.GetClaims(user);
                 var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
                 var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
                 return Ok(new AuthResponseDto { IsAuthSuccessful = true, Token = token });
@@ -142,6 +142,9 @@ namespace APIMe.Controllers
 
 
                 await _aPIMeContext.StudentSections.AddAsync(studentSection);
+
+                await _userManager.AddToRoleAsync(user, "Student");
+
                 await _aPIMeContext.SaveChangesAsync();
             }
             catch (Exception ex)

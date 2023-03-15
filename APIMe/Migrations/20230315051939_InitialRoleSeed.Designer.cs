@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace APIMe.Migrations
 {
     [DbContext(typeof(APIMeContext))]
-    [Migration("20230307074300_base")]
-    partial class @base
+    [Migration("20230315051939_InitialRoleSeed")]
+    partial class InitialRoleSeed
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace APIMe.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("APIMe.Models.AspNetRole", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetRole", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -43,7 +43,7 @@ namespace APIMe.Migrations
                     b.ToTable("AspNetRole");
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetRoleClaim", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetRoleClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,7 +68,7 @@ namespace APIMe.Migrations
                     b.ToTable("AspNetRoleClaim");
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetUser", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -120,7 +120,7 @@ namespace APIMe.Migrations
                     b.ToTable("AspNetUser");
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetUserClaim", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetUserClaim", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -145,7 +145,7 @@ namespace APIMe.Migrations
                     b.ToTable("AspNetUserClaim");
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetUserLogin", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
                         .HasColumnType("nvarchar(450)");
@@ -167,7 +167,7 @@ namespace APIMe.Migrations
                     b.ToTable("AspNetUserLogin");
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetUserToken", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetUserToken", b =>
                 {
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(450)");
@@ -188,7 +188,7 @@ namespace APIMe.Migrations
                     b.ToTable("AspNetUserToken");
                 });
 
-            modelBuilder.Entity("APIMe.Models.BugFeature", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.BugFeature", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -248,12 +248,50 @@ namespace APIMe.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId");
+                    b.HasIndex(new[] { "ProjectId" }, "IX_BugFeature_projectId");
 
                     b.ToTable("BugFeature", (string)null);
                 });
 
-            modelBuilder.Entity("APIMe.Models.DeviceCode", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Customer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("address");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("email");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("phone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customer", (string)null);
+                });
+
+            modelBuilder.Entity("APIMe.Entities.Models.DeviceCode", b =>
                 {
                     b.Property<string>("UserCode")
                         .HasColumnType("nvarchar(450)");
@@ -290,7 +328,7 @@ namespace APIMe.Migrations
                     b.ToTable("DeviceCodes");
                 });
 
-            modelBuilder.Entity("APIMe.Models.Key", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Key", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -323,7 +361,7 @@ namespace APIMe.Migrations
                     b.ToTable("Keys");
                 });
 
-            modelBuilder.Entity("APIMe.Models.PersistedGrant", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.PersistedGrant", b =>
                 {
                     b.Property<string>("Key")
                         .HasColumnType("nvarchar(450)");
@@ -363,7 +401,45 @@ namespace APIMe.Migrations
                     b.ToTable("PersistedGrants");
                 });
 
-            modelBuilder.Entity("APIMe.Models.Professor", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("description");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("name");
+
+                    b.Property<string>("Price")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("price");
+
+                    b.Property<string>("Quantity")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("quantity");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("APIMe.Entities.Models.Professor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -411,7 +487,7 @@ namespace APIMe.Migrations
                         });
                 });
 
-            modelBuilder.Entity("APIMe.Models.Project", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Project", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -442,18 +518,17 @@ namespace APIMe.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(450)
                         .HasColumnType("nvarchar(450)")
                         .HasColumnName("userId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex(new[] { "UserId" }, "IX_Project_userId");
 
                     b.ToTable("Project", (string)null);
                 });
 
-            modelBuilder.Entity("APIMe.Models.Route", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Route", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -490,12 +565,12 @@ namespace APIMe.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RouteTypeId");
+                    b.HasIndex(new[] { "RouteTypeId" }, "IX_Route_routeTypeId");
 
                     b.ToTable("Route", (string)null);
                 });
 
-            modelBuilder.Entity("APIMe.Models.RouteLog", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.RouteLog", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("int")
@@ -520,14 +595,14 @@ namespace APIMe.Migrations
                         .HasColumnType("rowversion")
                         .HasColumnName("timestamp");
 
-                    b.HasIndex("RouteId");
+                    b.HasIndex(new[] { "RouteId" }, "IX_RouteLog_routeId");
 
-                    b.HasIndex("StudentId");
+                    b.HasIndex(new[] { "StudentId" }, "IX_RouteLog_studentId");
 
                     b.ToTable("RouteLog", (string)null);
                 });
 
-            modelBuilder.Entity("APIMe.Models.RouteType", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.RouteType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -557,7 +632,7 @@ namespace APIMe.Migrations
                     b.ToTable("RouteType", (string)null);
                 });
 
-            modelBuilder.Entity("APIMe.Models.Section", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Section", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -584,7 +659,7 @@ namespace APIMe.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfessorId");
+                    b.HasIndex(new[] { "ProfessorId" }, "IX_Section_professorId");
 
                     b.ToTable("Section", (string)null);
 
@@ -612,7 +687,7 @@ namespace APIMe.Migrations
                         });
                 });
 
-            modelBuilder.Entity("APIMe.Models.Student", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Student", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -654,19 +729,21 @@ namespace APIMe.Migrations
                     b.ToTable("Student", (string)null);
                 });
 
-            modelBuilder.Entity("APIMe.Models.StudentSection", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.StudentSection", b =>
                 {
-                    b.Property<int>("SectionId")
-                        .HasColumnType("int")
-                        .HasColumnName("sectionId");
-
                     b.Property<int>("StudentId")
                         .HasColumnType("int")
                         .HasColumnName("studentId");
 
-                    b.HasIndex("SectionId");
+                    b.Property<int>("SectionId")
+                        .HasColumnType("int")
+                        .HasColumnName("sectionId");
 
-                    b.HasIndex("StudentId");
+                    b.HasKey("StudentId", "SectionId");
+
+                    b.HasIndex(new[] { "SectionId" }, "IX_StudentSection_sectionId");
+
+                    b.HasIndex(new[] { "StudentId" }, "IX_StudentSection_studentId");
 
                     b.ToTable("StudentSection", (string)null);
                 });
@@ -711,6 +788,22 @@ namespace APIMe.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "48376749-5c25-445e-83a1-ee1b121463ae",
+                            ConcurrencyStamp = "aec1ac1b-e59a-461a-8a4d-432c2462094a",
+                            Name = "Student",
+                            NormalizedName = "STUDENT"
+                        },
+                        new
+                        {
+                            Id = "6a7b014c-9123-4558-8ee1-92b389247451",
+                            ConcurrencyStamp = "865f3896-4715-41ca-9149-3d325d5bb014",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -899,9 +992,9 @@ namespace APIMe.Migrations
                     b.ToTable("SectionStudent");
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetRoleClaim", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetRoleClaim", b =>
                 {
-                    b.HasOne("APIMe.Models.AspNetRole", "Role")
+                    b.HasOne("APIMe.Entities.Models.AspNetRole", "Role")
                         .WithMany("AspNetRoleClaims")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -910,9 +1003,9 @@ namespace APIMe.Migrations
                     b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetUserClaim", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetUserClaim", b =>
                 {
-                    b.HasOne("APIMe.Models.AspNetUser", "User")
+                    b.HasOne("APIMe.Entities.Models.AspNetUser", "User")
                         .WithMany("AspNetUserClaims")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -921,9 +1014,9 @@ namespace APIMe.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetUserLogin", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetUserLogin", b =>
                 {
-                    b.HasOne("APIMe.Models.AspNetUser", "User")
+                    b.HasOne("APIMe.Entities.Models.AspNetUser", "User")
                         .WithMany("AspNetUserLogins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -932,9 +1025,9 @@ namespace APIMe.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetUserToken", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetUserToken", b =>
                 {
-                    b.HasOne("APIMe.Models.AspNetUser", "User")
+                    b.HasOne("APIMe.Entities.Models.AspNetUser", "User")
                         .WithMany("AspNetUserTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -943,9 +1036,9 @@ namespace APIMe.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("APIMe.Models.BugFeature", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.BugFeature", b =>
                 {
-                    b.HasOne("APIMe.Models.Project", "Project")
+                    b.HasOne("APIMe.Entities.Models.Project", "Project")
                         .WithMany("BugFeatures")
                         .HasForeignKey("ProjectId")
                         .IsRequired()
@@ -954,9 +1047,9 @@ namespace APIMe.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("APIMe.Models.Project", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Project", b =>
                 {
-                    b.HasOne("APIMe.Models.AspNetUser", "User")
+                    b.HasOne("APIMe.Entities.Models.AspNetUser", "User")
                         .WithMany("Projects")
                         .HasForeignKey("UserId")
                         .IsRequired()
@@ -965,9 +1058,9 @@ namespace APIMe.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("APIMe.Models.Route", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Route", b =>
                 {
-                    b.HasOne("APIMe.Models.RouteType", "RouteType")
+                    b.HasOne("APIMe.Entities.Models.RouteType", "RouteType")
                         .WithMany("Routes")
                         .HasForeignKey("RouteTypeId")
                         .IsRequired()
@@ -976,15 +1069,15 @@ namespace APIMe.Migrations
                     b.Navigation("RouteType");
                 });
 
-            modelBuilder.Entity("APIMe.Models.RouteLog", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.RouteLog", b =>
                 {
-                    b.HasOne("APIMe.Models.Route", "Route")
+                    b.HasOne("APIMe.Entities.Models.Route", "Route")
                         .WithMany()
                         .HasForeignKey("RouteId")
                         .IsRequired()
                         .HasConstraintName("FK_RouteLog_Route");
 
-                    b.HasOne("APIMe.Models.Student", "Student")
+                    b.HasOne("APIMe.Entities.Models.Student", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId")
                         .IsRequired()
@@ -995,9 +1088,9 @@ namespace APIMe.Migrations
                     b.Navigation("Student");
                 });
 
-            modelBuilder.Entity("APIMe.Models.Section", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Section", b =>
                 {
-                    b.HasOne("APIMe.Models.Professor", "Professor")
+                    b.HasOne("APIMe.Entities.Models.Professor", "Professor")
                         .WithMany("Sections")
                         .HasForeignKey("ProfessorId")
                         .IsRequired()
@@ -1006,16 +1099,16 @@ namespace APIMe.Migrations
                     b.Navigation("Professor");
                 });
 
-            modelBuilder.Entity("APIMe.Models.StudentSection", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.StudentSection", b =>
                 {
-                    b.HasOne("APIMe.Models.Section", "Section")
-                        .WithMany()
+                    b.HasOne("APIMe.Entities.Models.Section", "Section")
+                        .WithMany("StudentSections")
                         .HasForeignKey("SectionId")
                         .IsRequired()
                         .HasConstraintName("FK_StudentSection_Section");
 
-                    b.HasOne("APIMe.Models.Student", "Student")
-                        .WithMany()
+                    b.HasOne("APIMe.Entities.Models.Student", "Student")
+                        .WithMany("StudentSections")
                         .HasForeignKey("StudentId")
                         .IsRequired()
                         .HasConstraintName("FK_StudentSection_Student");
@@ -1027,13 +1120,13 @@ namespace APIMe.Migrations
 
             modelBuilder.Entity("AspNetRoleAspNetUser", b =>
                 {
-                    b.HasOne("APIMe.Models.AspNetRole", null)
+                    b.HasOne("APIMe.Entities.Models.AspNetRole", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APIMe.Models.AspNetUser", null)
+                    b.HasOne("APIMe.Entities.Models.AspNetUser", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1093,25 +1186,25 @@ namespace APIMe.Migrations
 
             modelBuilder.Entity("SectionStudent", b =>
                 {
-                    b.HasOne("APIMe.Models.Section", null)
+                    b.HasOne("APIMe.Entities.Models.Section", null)
                         .WithMany()
                         .HasForeignKey("SectionsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("APIMe.Models.Student", null)
+                    b.HasOne("APIMe.Entities.Models.Student", null)
                         .WithMany()
                         .HasForeignKey("StudentsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetRole", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetRole", b =>
                 {
                     b.Navigation("AspNetRoleClaims");
                 });
 
-            modelBuilder.Entity("APIMe.Models.AspNetUser", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.AspNetUser", b =>
                 {
                     b.Navigation("AspNetUserClaims");
 
@@ -1122,19 +1215,29 @@ namespace APIMe.Migrations
                     b.Navigation("Projects");
                 });
 
-            modelBuilder.Entity("APIMe.Models.Professor", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Professor", b =>
                 {
                     b.Navigation("Sections");
                 });
 
-            modelBuilder.Entity("APIMe.Models.Project", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.Project", b =>
                 {
                     b.Navigation("BugFeatures");
                 });
 
-            modelBuilder.Entity("APIMe.Models.RouteType", b =>
+            modelBuilder.Entity("APIMe.Entities.Models.RouteType", b =>
                 {
                     b.Navigation("Routes");
+                });
+
+            modelBuilder.Entity("APIMe.Entities.Models.Section", b =>
+                {
+                    b.Navigation("StudentSections");
+                });
+
+            modelBuilder.Entity("APIMe.Entities.Models.Student", b =>
+                {
+                    b.Navigation("StudentSections");
                 });
 #pragma warning restore 612, 618
         }
