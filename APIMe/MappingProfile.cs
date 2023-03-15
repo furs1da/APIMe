@@ -1,6 +1,4 @@
-﻿using APIMe.DataTransferObjects;
-using APIMe.Models;
-using AutoMapper;
+﻿using AutoMapper;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace APIMe
