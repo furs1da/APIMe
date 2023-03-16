@@ -25,7 +25,15 @@
                 <em *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</em>
               </p>
             </div>
-            <button type="submit" class="btn btn-info" [disabled]="!loginForm.valid">Login</button>
+            <div>
+              <a [routerLink]="['/authentication/forgotpassword']"> Forgot Password </a>
+            </div>
+            <br>
+            <div class="mb-3 row">
+              <div class="col-md-1">
+                <button type="submit" class="btn btn-info" [disabled]="!loginForm.valid">Login</button>
+              </div>
+            </div>
           </form>
         </div>
       </div>

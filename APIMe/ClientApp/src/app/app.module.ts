@@ -16,6 +16,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminGuard } from './shared/guards/admin.guard';
+import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
 
 
 export function tokenGetter() {
@@ -37,10 +38,9 @@ export function tokenGetter() {
     BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
-/*      { path: 'admin/section', loadChildren: () => import('./section/section.module').then(m => m.SectionModule) },*/
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: 'admin/sections', loadChildren: () => import('./section/section.module').then(m => m.SectionModule), canActivate: [AuthGuard] },
-
+     
 
       { path: 'privacy', component: PrivacyComponent, canActivate: [AuthGuard, AdminGuard] },
       { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },

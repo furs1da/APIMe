@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
   hasError = (controlName: string, errorName: string) => {
     const control = this.loginForm && this.loginForm.get(controlName);
     return control && control.hasError(errorName);
-
   }
 
 
