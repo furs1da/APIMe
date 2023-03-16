@@ -1,10 +1,8 @@
 using APIMe.Tokens;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Hosting;
 using APIMe.Interfaces;
-using APIMe.Services;
 using APIMe.Utilities.EmailSender;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
@@ -13,14 +11,13 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using APIMe.JwtFeatures;
 using APIMe.Entities.Models;
+using APIMe.Entities.Configuration;
+using APIMe.Services.Email;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure services
-builder.Services.Configure<MailSettings>(options =>
-{
-    builder.Configuration.GetSection("MailSettings").Bind(options);
-});
+
 
 var connectionString = builder.Configuration.GetConnectionString("APIMeConnection") ?? throw new InvalidOperationException("Connection string 'APIMeConnection' not found.");
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
@@ -30,6 +27,13 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 
 builder.Services.AddScoped<JwtHandler>();
+
+var emailConfig = builder.Configuration
+    .GetSection("EmailConfiguration")
+    .Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<IEmailSender, EmailSender>();
+
 
 builder.Services.AddDbContext<APIMeContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -47,6 +51,10 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
     .AddEntityFrameworkStores<APIMeContext>()
     .AddDefaultTokenProviders();
+
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
+    opt.TokenLifespan = TimeSpan.FromHours(2));
+
 
 builder.Services.AddAuthentication(opt =>
 {
@@ -70,9 +78,6 @@ builder.Services.AddAuthentication(opt =>
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-
-builder.Services.AddTransient<IMailService, MailService>();
-
 
 // Configure the app
 var app = builder.Build();

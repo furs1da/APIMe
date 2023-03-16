@@ -12,6 +12,8 @@ using APIMe.JwtFeatures;
 using System.IdentityModel.Tokens.Jwt;
 using APIMe.Entities.Models;
 using APIMe.Entities.DataTransferObjects;
+using APIMe.Services.Email;
+using Microsoft.AspNetCore.WebUtilities;
 
 namespace APIMe.Controllers
 {
@@ -25,12 +27,14 @@ namespace APIMe.Controllers
         private readonly SignInManager<IdentityUser> signInManager;
         private readonly JwtHandler _jwtHandler;
         private APIMeContext _aPIMeContext;
+        private readonly IEmailSender _emailSender;
 
-        public AccountController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, JwtHandler jwtHandler)
+        public AccountController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, JwtHandler jwtHandler, IEmailSender emailSender)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
             _aPIMeContext = aPIMeContext;
+            _emailSender = emailSender;
         }
 
         [HttpGet("sectionlist")]
@@ -72,6 +76,27 @@ namespace APIMe.Controllers
                 return BadRequest(new RegistrationResponseDto { Errors = errors });
             }
             
+        }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest();
+            var user = await _userManager.FindByEmailAsync(forgotPasswordDto.Email);
+            if (user == null)
+                return BadRequest("Invalid Request");
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var param = new Dictionary<string, string?>
+                {
+                    {"token", token },
+                    {"email", forgotPasswordDto.Email }
+                };
+            var callback = QueryHelpers.AddQueryString(forgotPasswordDto.ClientURI, param);
+            var message = new Message(new string[] { user.Email }, "Reset password token", callback, null);
+            await _emailSender.SendEmailAsync(message);
+
+            return Ok();
         }
 
         [HttpPost("registration")]
