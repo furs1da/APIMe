@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { RepositoryService } from '../shared/services/repository.service';
 
 @Component({
   selector: 'app-privacy',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PrivacyComponent implements OnInit {
 
-  constructor() { }
-
+  public claims: [] = [];
+  constructor(private _repository: RepositoryService) { }
   ngOnInit(): void {
+    this.getClaims();
+  }
+  public getClaims = () => {
+    this._repository.getClaims('section/privacy')
+      .subscribe(res => {
+        this.claims = res as [];
+      })
+
+    console.log(this.claims);
   }
 
 }

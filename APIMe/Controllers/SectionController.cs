@@ -49,5 +49,15 @@ namespace APIMe.Controllers
                 return BadRequest(new RegistrationResponseDto { Errors = errors });
             }
         }
+
+        [HttpGet("privacy")]
+        [Authorize(Roles = "Administrator")]
+        public IActionResult Privacy()
+        {
+            var claims = User.Claims
+                .Select(c => new { c.Type, c.Value })
+                .ToList();
+            return Ok(claims);
+        }
     }
 }

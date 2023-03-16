@@ -17,6 +17,7 @@ namespace APIMe.Controllers
 {
 
     [ApiController]
+    [AllowAnonymous]
     [Route("account")]
     public class AccountController : ControllerBase
     {
@@ -49,7 +50,7 @@ namespace APIMe.Controllers
             }
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserForAuthenticationDto userForAuthentication)
         {
             try
@@ -73,7 +74,7 @@ namespace APIMe.Controllers
             
         }
 
-        [HttpPost("Registration")]
+        [HttpPost("registration")]
         public async Task<IActionResult> RegisterUser([FromBody] UserForRegistrationDto userForRegistration)
         {
             try

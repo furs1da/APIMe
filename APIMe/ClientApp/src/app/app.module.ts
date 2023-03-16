@@ -38,10 +38,10 @@ export function tokenGetter() {
       { path: 'home', component: HomeComponent },
 /*      { path: 'admin/section', loadChildren: () => import('./section/section.module').then(m => m.SectionModule) },*/
       { path: '', redirectTo: '/home', pathMatch: 'full' },
-      { path: 'admin/section', loadChildren: () => import('./section/section.module').then(m => m.SectionModule), canActivate: [AuthGuard] },
+      { path: 'admin/sections', loadChildren: () => import('./section/section.module').then(m => m.SectionModule), canActivate: [AuthGuard] },
 
 
-
+      { path: 'privacy', component: PrivacyComponent},
       { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
       { path: '404', component: NotFoundComponent },
       { path: 'forbidden', component: ForbiddenComponent },
@@ -49,7 +49,7 @@ export function tokenGetter() {
       { path: '', redirectTo: '/home', pathMatch: 'full' },
       { path: '**', redirectTo: '/404', pathMatch: 'full' }
 
-      /* { path: 'privacy', component: PrivacyComponent, canActivate: [AuthGuard, AdminGuard] },*/
+    
     ]),
     JwtModule.forRoot({
       config: {
