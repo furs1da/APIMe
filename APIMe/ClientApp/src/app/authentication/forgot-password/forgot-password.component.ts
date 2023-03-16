@@ -39,7 +39,7 @@ export class ForgotPasswordComponent implements OnInit {
     const forgotPass = { ...forgotPasswordFormValue };
     const forgotPassDto: ForgotPasswordDto = {
       email: forgotPass.email,
-      clientURI: 'http://localhost:4200/authentication/resetpassword'
+      clientURI: 'http://localhost:' + window.location.port + '/authentication/resetpassword'
     }
     this._authService.forgotPassword('account/forgotpassword', forgotPassDto)
       .subscribe({
