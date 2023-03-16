@@ -15,6 +15,7 @@ import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AdminGuard } from './shared/guards/admin.guard';
 
 
 export function tokenGetter() {
@@ -41,7 +42,7 @@ export function tokenGetter() {
       { path: 'admin/sections', loadChildren: () => import('./section/section.module').then(m => m.SectionModule), canActivate: [AuthGuard] },
 
 
-      { path: 'privacy', component: PrivacyComponent},
+      { path: 'privacy', component: PrivacyComponent, canActivate: [AuthGuard, AdminGuard] },
       { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
       { path: '404', component: NotFoundComponent },
       { path: 'forbidden', component: ForbiddenComponent },

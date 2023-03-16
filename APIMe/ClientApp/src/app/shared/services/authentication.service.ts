@@ -44,8 +44,21 @@ export class AuthenticationService {
     return token != null && !this.jwtHelper.isTokenExpired(token);
   }
 
+  public isUserAdmin = (): boolean => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // handle case where token is null
+      return false;
+    }
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+    return role === 'Administrator';
+  }
+
   public logout = () => {
     localStorage.removeItem("token");
     this.sendAuthStateChangeNotification(false);
   }
+
+
 }

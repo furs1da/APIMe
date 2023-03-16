@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-forbidden',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./forbidden.component.css']
 })
 export class ForbiddenComponent implements OnInit {
-
-  constructor() { }
+  private returnUrl: string = "";
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
+  public navigateToLogin = () => {
+    this.router.navigate(['/authentication/login'], { queryParams: { returnUrl: this.returnUrl } });
+  }
 }
