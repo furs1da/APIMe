@@ -60,6 +60,11 @@ namespace APIMe.Controllers
             try
             {
                 var user = await _userManager.FindByNameAsync(userForAuthentication.Email);
+                if (user == null)
+                    return BadRequest("Invalid Request");
+
+                if (!await _userManager.IsEmailConfirmedAsync(user))
+                    return Unauthorized(new AuthResponseDto { ErrorMessage = "Email is not confirmed" });
 
                 if (user == null || !await _userManager.CheckPasswordAsync(user, userForAuthentication.Password))
                     return Unauthorized(new AuthResponseDto { ErrorMessage = "Invalid Authentication" });
@@ -116,14 +121,6 @@ namespace APIMe.Controllers
                     return BadRequest(new RegistrationResponseDto { Errors = errors });
                 }
 
-                //Student emailStudentCheck = await _aPIMeContext.Students.FirstOrDefaultAsync(st => st.Email == userForRegistration.Email);
-
-                //if (emailStudentCheck != null)
-                //{
-                //    IEnumerable<string>? errors = new List<string> { "Email is already in use." };
-                //    return BadRequest(new RegistrationResponseDto { Errors = errors });
-                //}
-
                 if (!int.TryParse(userForRegistration.StudentNumber, out int stn))
                 {
                     IEnumerable<string>? errors = new List<string> { "Student Number should be 7 digits." };
@@ -139,6 +136,16 @@ namespace APIMe.Controllers
 
                     return BadRequest(new RegistrationResponseDto { Errors = errors });
                 }
+
+                var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var param = new Dictionary<string, string?>
+                {
+                    {"token", token },
+                    {"email", user.Email }
+                };
+                var callback = QueryHelpers.AddQueryString(userForRegistration.ClientURI, param);
+                var message = new Message(new string[] { user.Email }, "Email Confirmation token", callback, null);
+                await _emailSender.SendEmailAsync(message);
 
                 int studentNumber = 0;
 
@@ -181,6 +188,20 @@ namespace APIMe.Controllers
 
             return StatusCode(201);
         }
+
+
+        [HttpGet("EmailConfirmation")]
+        public async Task<IActionResult> EmailConfirmation([FromQuery] string email, [FromQuery] string token)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return BadRequest("Invalid Email Confirmation Request");
+            var confirmResult = await _userManager.ConfirmEmailAsync(user, token);
+            if (!confirmResult.Succeeded)
+                return BadRequest("Invalid Email Confirmation Request");
+            return Ok();
+        }
+
 
         [HttpPost("ResetPassword")]
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)

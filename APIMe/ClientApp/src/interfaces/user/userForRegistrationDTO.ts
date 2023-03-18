@@ -7,4 +7,5 @@ export interface UserForRegistrationDto {
   accessCode: string;
   password: string;
   confirmPassword: string;
+  clientURI: string;
 }

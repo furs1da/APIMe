@@ -1,13 +1,14 @@
 import { Inject, Injectable } from '@angular/core';
 import { UserForRegistrationDto } from '../../../interfaces/user/userForRegistrationDTO';
 import { RegistrationResponseDto } from '../../../interfaces/response/registrationResponseDTO';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserForAuthenticationDto } from '../../../interfaces/user/userForAuthenticationDto';
 import { AuthResponseDto } from '../../../interfaces/response/authResponseDto';
 import { Subject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { ForgotPasswordDto } from '../../../interfaces/request/forgotPassword';
 import { ResetPasswordDto } from '../../../interfaces/request/resetPassword';
+import { CustomEncoder } from '../custom-encoders/custom-encoder';
 
 
 @Injectable({
@@ -55,6 +56,13 @@ export class AuthenticationService {
     const decodedToken = this.jwtHelper.decodeToken(token);
     const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
     return role === 'Administrator';
+  }
+
+  public confirmEmail = (route: string, token: string, email: string) => {
+    let params = new HttpParams({ encoder: new CustomEncoder() })
+    params = params.append('token', token);
+    params = params.append('email', email);
+    return this.http.get(this.createCompleteRoute(route, this.baseUrl), { params: params });
   }
 
   public resetPassword = (route: string, body: ResetPasswordDto) => {

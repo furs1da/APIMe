@@ -11,7 +11,6 @@ namespace APIMe.Entities.Models
         public int RouteTypeId { get; set; }
         public string DataTableName { get; set; } = null!;
         public bool IsVisible { get; set; }
-
         public virtual RouteType RouteType { get; set; } = null!;
     }
 }
