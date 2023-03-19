@@ -1,9 +1,9 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-primary" style="padding-top: 0; padding-bottom: 0; line-height: 50px; max-height: 50px">
-  <a class="navbar-brand text-white ml-3 align-middle" href="#" style="font-size: 20px;">
-    <img src="../../assets/APIMe-2.png" alt="Brand logo" class="mr-2" style="max-width: 100px; height: auto; max-height: 30px; margin-top: -5px">
+<nav class="navbar navbar-expand-sm navbar-light bg-primary navbar-custom">
+  <a class="navbar-brand text-white ml-3 align-middle navbar-brand-custom" href="#">
+    <img src="../../assets/APIMe-2.png" alt="Brand logo" class="mr-2 brand-logo">
     APIMe!
   </a>
-  <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="navbarNav" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse" id="navbarNav">
@@ -51,7 +51,7 @@
           <a class="nav-link text-white" [routerLink]="['authentication/login']" routerLinkActive="active"
              [routerLinkActiveOptions]="{exact: true}">Login</a>
         </li>
-        <li class="nav-item" style="margin-right: 10px;">
+        <li class="nav-item nav-item-margin-right">
           <a class="nav-link text-white" [routerLink]="['authentication/register']" routerLinkActive="active"
              [routerLinkActiveOptions]="{exact: true}">Register</a>
         </li>
