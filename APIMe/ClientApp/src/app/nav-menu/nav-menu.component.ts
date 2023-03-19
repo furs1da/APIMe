@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../shared/services/authentication.service';
+import { faBook, faMap, faThLarge, faUsers, faFileText, faHistory, faUser } from '@fortawesome/free-solid-svg-icons';
+
 
 @Component({
   selector: 'app-nav-menu',
@@ -11,6 +13,14 @@ export class NavMenuComponent implements OnInit {
   isExpanded: boolean = false;
   public isUserAuthenticated: boolean = false;
   isAdmin: boolean = false;
+  faBook = faBook;
+  faMap = faMap;
+  faThLarge = faThLarge;
+  faUsers = faUsers;
+  faFileText = faFileText;
+  faHistory = faHistory;
+  faUser = faUser;
+
 
   constructor(private authService: AuthenticationService, private router: Router) {
     this.authService.authChanged

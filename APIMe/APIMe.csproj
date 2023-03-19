@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <None Remove="ClientApp\src\interfaces\request\ForgotPassword.ts" />
     <None Remove="ClientApp\src\interfaces\request\resetPassword.ts" />
   </ItemGroup>
@@ -49,6 +50,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\forgotPassword.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\resetPassword.ts" />
   </ItemGroup>

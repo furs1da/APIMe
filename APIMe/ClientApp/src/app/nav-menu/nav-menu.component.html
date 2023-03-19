@@ -7,30 +7,47 @@
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto mr-3">
+    <ul class="navbar-nav ml-auto mr-3" *ngIf="isAdmin && isUserAuthenticated">
       <li class="nav-item active">
-        <a class="nav-link text-white" href="#">Routes</a>
+        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" href="#">Sections</a>
+        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faThLarge" class="icon-margin"></fa-icon>Sections</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" href="#">Students</a>
+        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faUsers" class="icon-margin"></fa-icon>Students</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" href="#">Reports</a>
+        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faFileText" class="icon-margin"></fa-icon>Reports</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link text-white" [routerLink]="['/privacy']" routerLinkActive="active"
-           [routerLinkActiveOptions]="{exact: true}"> Privacy </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white" href="#">Routes Log</a>
+        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faHistory" class="icon-margin"></fa-icon>Routes Log</a>
       </li>
     </ul>
+
+    <ul class="navbar-nav ml-auto mr-3" *ngIf="!isAdmin && isUserAuthenticated">
+      <li class="nav-item active">
+        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faFileText" class="icon-margin"></fa-icon>Reports</a>
+      </li>
+    </ul>
+
+
+    <ul class="navbar-nav ml-auto mr-3" *ngIf="!isAdmin && !isUserAuthenticated">
+      <li class="nav-item active">
+        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faBook" class="icon-margin"></fa-icon>Documentation</a>
+      </li>
+    </ul>
+
+
+
+
+
     <div class=" navbar-collapse justify-content-end" id="navbarNav">
-      <ul  *ngIf='!isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
-        <li class="nav-item">     
+      <ul *ngIf='!isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
+        <li class="nav-item">
           <a class="nav-link text-white" [routerLink]="['authentication/login']" routerLinkActive="active"
              [routerLinkActiveOptions]="{exact: true}">Login</a>
         </li>
@@ -43,13 +60,20 @@
 
       <ul *ngIf='isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
         <li class="nav-item">
-          <button class="btn btn-link text-white" [routerLink]="['account/profile']">Profile</button>
+          <a class="btn btn-link text-white nav-link nav-link-hover d-flex align-items-center" [routerLink]="['account/profile']">
+            <i class="fa fa-user mr-1"></i>Profile
+          </a>
         </li>
         <li class="nav-item">
           <button class="btn btn-link text-white" (click)="logout()">Logout</button>
         </li>
-
       </ul>
     </div>
+
+
+
+
+
+
   </div>
 </nav>

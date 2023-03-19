@@ -17,6 +17,10 @@ import { PrivacyComponent } from './privacy/privacy.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminGuard } from './shared/guards/admin.guard';
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+
 
 
 export function tokenGetter() {
@@ -34,6 +38,7 @@ export function tokenGetter() {
   ],
   imports: [
     BrowserModule,
+    FontAwesomeModule,
     HttpClientModule,
     BrowserAnimationsModule,
     RouterModule.forRoot([
@@ -69,4 +74,8 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor() {
+    library.add(fas);
+  }
+}
