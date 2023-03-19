@@ -3,10 +3,10 @@
     <img src="../../assets/APIMe-2.png" alt="Brand logo" class="mr-2" style="max-width: 100px; height: auto; max-height: 30px; margin-top: -5px">
     APIMe!
   </a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="navbarNav" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
+  <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav ml-auto mr-3" *ngIf="isAdmin && isUserAuthenticated">
       <li class="nav-item active">
         <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
@@ -69,11 +69,5 @@
         </li>
       </ul>
     </div>
-
-
-
-
-
-
   </div>
 </nav>

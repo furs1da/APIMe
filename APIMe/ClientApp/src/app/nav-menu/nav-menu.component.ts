@@ -20,7 +20,7 @@ export class NavMenuComponent implements OnInit {
   faFileText = faFileText;
   faHistory = faHistory;
   faUser = faUser;
-
+  isCollapsed = true;
 
   constructor(private authService: AuthenticationService, private router: Router) {
     this.authService.authChanged

@@ -20,8 +20,8 @@ import { ForgotPasswordComponent } from './authentication/forgot-password/forgot
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-
-
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -38,6 +38,8 @@ export function tokenGetter() {
   ],
   imports: [
     BrowserModule,
+    CollapseModule.forRoot(),
+    NgbModule,
     FontAwesomeModule,
     HttpClientModule,
     BrowserAnimationsModule,
