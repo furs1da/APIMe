@@ -10,12 +10,17 @@ import { AuthenticationService } from '../shared/services/authentication.service
 export class NavMenuComponent implements OnInit {
   isExpanded: boolean = false;
   public isUserAuthenticated: boolean = false;
+  isAdmin: boolean = false;
 
   constructor(private authService: AuthenticationService, private router: Router) {
     this.authService.authChanged
       .subscribe(res => {
         this.isUserAuthenticated = res;
       })
+
+    this.authService.authChanged.subscribe(() => {
+      this.isAdmin = this.authService.isUserAdmin();
+    });
   }
 
   ngOnInit(): void {
@@ -23,6 +28,11 @@ export class NavMenuComponent implements OnInit {
       .subscribe(res => {
         this.isUserAuthenticated = res;
       })
+
+    this.isAdmin = this.authService.isUserAdmin();
+    this.authService.authChanged.subscribe(() => {
+      this.isAdmin = this.authService.isUserAdmin();
+    });
   }
 
   public logout = () => {
