@@ -10,6 +10,39 @@ namespace APIMe.Entities.Models
 {
     public class APIMeContext : IdentityDbContext<IdentityUser>
     {
+
+        public static async Task CreateAdminUser(IServiceProvider serviceProvider)
+        {
+            using (var scope = serviceProvider.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+                string username = "apimeconestoga@gmail.com";
+                string password = "1OBb$^#0^u21!"; // #ruzziaIsTerroristState 
+                string roleName = "Administrator";
+
+                // if role doesn't exist, create it
+                if (await roleManager.FindByNameAsync(roleName) == null)
+                {
+                    await roleManager.CreateAsync(new IdentityRole(roleName));
+                }
+                // if username doesn't exist, create it and add it to role
+                if (await userManager.FindByNameAsync(username) == null)
+                {
+                    IdentityUser user = new IdentityUser();
+                    user.EmailConfirmed = true;
+                    user.Email = "apimeconestoga@gmail.com";
+                    user.UserName = username;
+
+                    var result = await userManager.CreateAsync(user, password);
+                    if (result.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(user, roleName);
+                    }
+                }
+            }
+        }
         public APIMeContext()
         {
         }

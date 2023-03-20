@@ -79,6 +79,8 @@ builder.Services.AddAuthentication(opt =>
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+
+
 // Configure the app
 var app = builder.Build();
 if (app.Environment.IsDevelopment())
@@ -103,6 +105,7 @@ app.MapControllerRoute(
     pattern: "{controller}/{action=Index}/{id?}");
 app.MapRazorPages();
 
+APIMeContext.CreateAdminUser(app.Services).Wait();
 
 app.MapFallbackToFile("index.html");
 
