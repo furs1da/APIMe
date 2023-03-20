@@ -1,73 +1,84 @@
-<nav class="navbar navbar-expand-sm navbar-light bg-primary navbar-custom">
-  <a class="navbar-brand text-white ml-3 align-middle navbar-brand-custom" href="#">
-    <img src="../../assets/APIMe-2.png" alt="Brand logo" class="mr-2 brand-logo">
-    APIMe!
-  </a>
-  <button class="navbar-toggler" type="button">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav ml-auto mr-3" *ngIf="isAdmin && isUserAuthenticated">
-      <li class="nav-item active">
-        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faThLarge" class="icon-margin"></fa-icon>Sections</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faUsers" class="icon-margin"></fa-icon>Students</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faFileText" class="icon-margin"></fa-icon>Reports</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faHistory" class="icon-margin"></fa-icon>Routes Log</a>
-      </li>
-    </ul>
+<header>
+  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light  bg-primary border-bottom box-shadow mb-3 text-white">
+    <div class="container">
+      <a class="navbar-brand text-white ml-3 align-middle navbar-brand-custom" href="#">
+        <img src="../../assets/APIMe-2.png" alt="Brand logo" class="mr-2 brand-logo">
+        APIMe!
+      </a>
+      <button class="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target=".navbar-collapse"
+              aria-label="Toggle navigation"
+              [attr.aria-expanded]="isExpanded"
+              (click)="toggle()">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <ul class="navbar-nav ml-auto mr-3" *ngIf="!isAdmin && isUserAuthenticated">
-      <li class="nav-item active">
-        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faFileText" class="icon-margin"></fa-icon>Reports</a>
-      </li>
-    </ul>
+      <div class="navbar-collapse collapse d-sm-inline-flex justify-content-start"
+           [ngClass]="{ show: isExpanded }">
+        <ul class="navbar-nav ml-3" *ngIf="isAdmin && isUserAuthenticated">
+          <li class="nav-item active">
+            <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faThLarge" class="icon-margin"></fa-icon>Sections</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faUsers" class="icon-margin"></fa-icon>Students</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faFileText" class="icon-margin"></fa-icon>Reports</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faHistory" class="icon-margin"></fa-icon>Routes Log</a>
+          </li>
+        </ul>
 
-
-    <ul class="navbar-nav ml-auto mr-3" *ngIf="!isAdmin && !isUserAuthenticated">
-      <li class="nav-item active">
-        <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faBook" class="icon-margin"></fa-icon>Documentation</a>
-      </li>
-    </ul>
-
-
-
-
-
-    <div class=" navbar-collapse justify-content-end" id="navbarNav">
-      <ul *ngIf='!isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
-        <li class="nav-item">
-          <a class="nav-link text-white" [routerLink]="['authentication/login']" routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}">Login</a>
-        </li>
-        <li class="nav-item nav-item-margin-right">
-          <a class="nav-link text-white" [routerLink]="['authentication/register']" routerLinkActive="active"
-             [routerLinkActiveOptions]="{exact: true}">Register</a>
-        </li>
-      </ul>
+        <ul class="navbar-nav ml-3" *ngIf="!isAdmin && isUserAuthenticated">
+          <li class="nav-item active">
+            <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faFileText" class="icon-margin"></fa-icon>Reports</a>
+          </li>
+        </ul>
 
 
-      <ul *ngIf='isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
-        <li class="nav-item">
-          <a class="btn btn-link text-white nav-link nav-link-hover d-flex align-items-center" [routerLink]="['account/profile']">
-            <i class="fa fa-user mr-1"></i>Profile
-          </a>
-        </li>
-        <li class="nav-item">
-          <button class="btn btn-link text-white" (click)="logout()">Logout</button>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
+        <ul class="navbar-nav ml-3" *ngIf="!isAdmin && !isUserAuthenticated">
+          <li class="nav-item active">
+            <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faBook" class="icon-margin"></fa-icon>Documentation</a>
+          </li>
+        </ul>
+
+
+
+
+
+      
+          <ul *ngIf='!isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
+            <li class="nav-item">
+              <a class="nav-link text-white" [routerLink]="['authentication/login']" routerLinkActive="active"
+                 [routerLinkActiveOptions]="{exact: true}">Login</a>
+            </li>
+            <li class="nav-item nav-item-margin-right">
+              <a class="nav-link text-white" [routerLink]="['authentication/register']" routerLinkActive="active"
+                 [routerLinkActiveOptions]="{exact: true}">Register</a>
+            </li>
+          </ul>
+
+
+          <ul *ngIf='isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
+            <li class="nav-item">
+              <a class="btn btn-link text-white nav-link nav-link-hover d-flex align-items-center" [routerLink]="['account/profile']">
+                <i class="fa fa-user mr-1"></i>Profile
+              </a>
+            </li>
+            <li class="nav-item">
+              <button class="btn btn-link text-white" (click)="logout()">Logout</button>
+            </li>
+          </ul>
+        </div>
+      </div>
+  </nav>
+</header>
