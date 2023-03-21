@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit {
       email: login.username,
       password: login.password
     }
-    console.log(userForAuth);
 
     this.authService.loginUser('account/login', userForAuth)
       .subscribe({

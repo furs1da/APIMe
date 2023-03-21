@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Section } from '../../../interfaces/request/section';
 import { AddEditSectionComponent } from '../add-edit-section/add-edit-section.component';
-import { MatDialog } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-sections',
