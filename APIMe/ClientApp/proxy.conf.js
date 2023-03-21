@@ -7,7 +7,7 @@ const PROXY_CONFIG = [
   {
     context: [
       "/account",
-      "/section",
+      "/sectionApi",
 
 
       "/_configuration",

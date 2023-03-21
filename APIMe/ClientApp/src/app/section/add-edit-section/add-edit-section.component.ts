@@ -14,17 +14,19 @@ export class AddEditSectionComponent implements OnInit {
   sectionForm: FormGroup;
 
   constructor(
-    public dialogRef: MatDialogRef<AddEditSectionComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { section: Section },
-    private fb: FormBuilder,
-  ) {
-    this.sectionForm = this.fb.group({
-      id: [data.section ? data.section.id : 0],
-      sectionName: [data.section ? data.section.sectionName : '', Validators.required],
-      professorName: [data.section ? data.section.professorName : '', Validators.required],
-      accessCode: [data.section ? data.section.accessCode : '', Validators.required]
-    });
-  }
+      public dialogRef: MatDialogRef<AddEditSectionComponent>,
+      @Inject(MAT_DIALOG_DATA) public data: { section?: Section },
+      private fb: FormBuilder,
+    ) {
+      const section = data?.section;
+      this.sectionForm = this.fb.group({
+        id: [section ? section.id : 0],
+        sectionName: [section ? section.sectionName : '', Validators.required],
+        professorName: [section ? section.professorName : '', Validators.required],
+        accessCode: [section ? section.accessCode : '', Validators.required]
+      });
+    }
+
 
   ngOnInit(): void {
    

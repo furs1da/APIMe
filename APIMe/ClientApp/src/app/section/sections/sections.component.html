@@ -2,24 +2,26 @@
   <div class="row">
     <div class="col-12 d-flex justify-content-between align-items-center my-3">
       <h1>Sections</h1>
-      <button class="btn btn-primary" (click)="addSection()">
-        <i class="bi bi-plus"></i> Add Section
+      <button mat-raised-button color="primary" (click)="addSection()">
+        <mat-icon>add</mat-icon> Add Section
       </button>
     </div>
   </div>
   <div class="row">
     <div class="col-md-4" *ngFor="let section of sections">
-      <div class="card mb-3">
-        <div class="card-body">
-          <h5 class="card-title">{{ section.sectionName }}</h5>
-          <p class="card-text">
+      <mat-card class="mb-3">
+        <mat-card-content>
+          <h5>{{ section.sectionName }}</h5>
+          <p>
             Professor: {{ section.professorName }}<br />
             Access Code: {{ section.accessCode }}
           </p>
-          <button class="btn btn-primary" (click)="editSection(section)">Edit</button>
-          <button class="btn btn-danger" (click)="deleteSection(section)">Delete</button>
-        </div>
-      </div>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="editSection(section)">Edit</button>
+          <button mat-raised-button color="warn" (click)="deleteSection(section)">Delete</button>
+        </mat-card-actions>
+      </mat-card>
     </div>
   </div>
 </div>

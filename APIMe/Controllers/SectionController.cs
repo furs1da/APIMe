@@ -18,7 +18,7 @@ using APIMe.Entities.DataTransferObjects;
 namespace APIMe.Controllers
 {
     [ApiController]
-    [Route("section")]
+    [Route("sectionApi")]
     public class SectionController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;

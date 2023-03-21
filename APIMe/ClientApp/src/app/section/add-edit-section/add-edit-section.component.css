@@ -1,0 +1,19 @@
+.mat-dialog-content {
+  max-height: 50vh;
+  overflow-y: auto;
+  margin-top: 1rem;
+  padding-top: 1rem; /* Add this line */
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.mat-dialog-content  {
+    padding-top:  1rem;
+}
+
+.mat-dialog-title {
+    margin-bottom: 1rem;
+}

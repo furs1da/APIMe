@@ -2,3 +2,12 @@
   display: block;
   padding: 1rem;
 }
+
+mat-card {
+  padding: 1rem;
+}
+
+mat-card-actions {
+  display: flex;
+  justify-content: space-between;
+}

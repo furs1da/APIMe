@@ -25,6 +25,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.FileProviders.Physical" Version="6.0.0" />
    
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
@@ -39,6 +40,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
+    <None Remove="ClientApp\src\classes\SectionClass.ts" />
     <None Remove="ClientApp\src\interfaces\request\ForgotPassword.ts" />
     <None Remove="ClientApp\src\interfaces\request\resetPassword.ts" />
   </ItemGroup>
@@ -51,6 +53,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
+    <TypeScriptCompile Include="ClientApp\src\classes\SectionClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\forgotPassword.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\resetPassword.ts" />
   </ItemGroup>

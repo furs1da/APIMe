@@ -1,21 +1,22 @@
+<!-- add-edit-section.component.html -->
 <form [formGroup]="sectionForm" (ngSubmit)="onSave()">
   <h1 mat-dialog-title>{{ sectionForm.controls.id.value ? 'Edit' : 'Add' }} Section</h1>
-  <div mat-dialog-content>
-    <div class="form-group">
-      <label for="sectionName">Section Name</label>
-      <input type="text" class="form-control" id="sectionName" formControlName="sectionName" />
-    </div>
-    <div class="form-group">
-      <label for="professorName">Professor Name</label>
-      <input type="text" class="form-control" id="professorName" formControlName="professorName" />
-    </div>
-    <div class="form-group">
-      <label for="accessCode">Access Code</label>
-      <input type="text" class="form-control" id="accessCode" formControlName="accessCode" />
-    </div>
-  </div>
-  <div mat-dialog-actions>
-    <button class="btn btn-primary" type="submit" [disabled]="!sectionForm.valid">Save</button>
-    <button class="btn btn-secondary" type="button" (click)="onCancel()">Cancel</button>
-  </div>
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Section Name</mat-label>
+      <input matInput type="text" formControlName="sectionName" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Professor Name</mat-label>
+      <input matInput type="text" formControlName="professorName" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Access Code</mat-label>
+      <input matInput type="text" formControlName="accessCode" />
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!sectionForm.valid">Save</button>
+    <button mat-raised-button color="secondary" type="button" (click)="onCancel()">Cancel</button>
+  </mat-dialog-actions>
 </form>

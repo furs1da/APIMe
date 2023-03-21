@@ -4,17 +4,30 @@ import { SectionsComponent } from './sections/sections.component';
 import { RouterModule } from '@angular/router';
 import { AddEditSectionComponent } from './add-edit-section/add-edit-section.component';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
-  declarations: [SectionsComponent, AddEditSectionComponent],
+  declarations: [SectionsComponent, AddEditSectionComponent, ConfirmDialogComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatCardModule,
     RouterModule.forChild([
       { path: 'list', component: SectionsComponent },
-      { path: 'section', component: AddEditSectionComponent }
+      { path: 'add', component: AddEditSectionComponent },
+      { path: 'edit/:id', component: AddEditSectionComponent }
     ])
   ]
 })

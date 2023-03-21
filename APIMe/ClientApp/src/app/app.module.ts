@@ -24,6 +24,13 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
 import { MatDialogModule } from '@angular/material/dialog';
 
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
+
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
@@ -42,6 +49,12 @@ export function tokenGetter() {
     FormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatCardModule,
     CollapseModule.forRoot(),
     NgbModule,
     FontAwesomeModule,
@@ -50,12 +63,9 @@ export function tokenGetter() {
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
       { path: '', redirectTo: '/home', pathMatch: 'full' },
-      { path: 'admin/sections', loadChildren: () => import('./section/section.module').then(m => m.SectionModule), canActivate: [AuthGuard] },
-     
-
       { path: 'privacy', component: PrivacyComponent, canActivate: [AuthGuard, AdminGuard] },
       { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
-      { path: 'section', loadChildren: () => import('./section/section.module').then(m => m.SectionModule) },
+      { path: 'section', loadChildren: () => import('./section/section.module').then(m => m.SectionModule), canActivate: [AuthGuard] },
       { path: '404', component: NotFoundComponent },
       { path: 'forbidden', component: ForbiddenComponent },
       
