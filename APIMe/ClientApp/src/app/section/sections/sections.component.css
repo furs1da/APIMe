@@ -1,13 +1,57 @@
-:host {
-  display: block;
-  padding: 1rem;
+.section-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  position: relative;
 }
 
-mat-card {
-  padding: 1rem;
+  .section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%; /* Updated width */
+    height: 2px;
+    background-color: #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+
+.add-section-btn {
+  font-size: 1rem;
+  background-color: #007bff !important;
+  color: #fff !important;
+  padding: 6px 12px;
+  border-radius: 4px;
 }
 
-mat-card-actions {
-  display: flex;
-  justify-content: space-between;
+.card-custom {
+  background-color: #f5f5f5;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  border-radius: 5px;
+  margin-top: 0.5rem;
+}
+
+  .card-custom mat-card-content h5 {
+    font-size: 1.3rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+
+  .card-custom mat-card-content p {
+    font-size: 0.9rem;
+    color: #666;
+  }
+
+  .card-custom mat-card-actions button {
+    font-size: 0.8rem;
+  }
+
+.edit-btn {
+  background-color: #007bff !important;
+  color: #fff !important;
+  padding: 6px 12px;
+  border-radius: 4px;
+  margin-right: 8px;
 }
