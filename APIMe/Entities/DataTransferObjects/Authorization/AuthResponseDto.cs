@@ -1,4 +1,4 @@
-﻿namespace APIMe.Entities.DataTransferObjects
+﻿namespace APIMe.Entities.DataTransferObjects.Authorization
 {
     public class AuthResponseDto
     {
