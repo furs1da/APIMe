@@ -34,10 +34,10 @@
 .blue-box {
   background-color: rgb(13, 110, 253);
   color: #fff;
-  padding: 5px;
   text-align: center;
   border-radius: 5px;
   margin-bottom: 20px;
+  font-size: 26px;
 }
 
 p {
@@ -46,4 +46,14 @@ p {
 
 .actions {
   margin-top: 20px;
+}
+
+@media screen and (max-width: 1000px) {
+  .container{
+    width: 100%;
+  }
+
+  #login_button{
+    margin-right: 30px;
+  }
 }

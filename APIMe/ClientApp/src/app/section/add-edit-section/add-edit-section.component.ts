@@ -21,8 +21,7 @@ export class AddEditSectionComponent implements OnInit {
       const section = data?.section;
       this.sectionForm = this.fb.group({
         id: [section ? section.id : 0],
-        sectionName: [section ? section.sectionName : '', Validators.required],
-        professorName: [section ? section.professorName : '', Validators.required],
+        sectionName: [section ? section.sectionName : '', Validators.required], 
         accessCode: [section ? section.accessCode : '', Validators.required]
       });
     }
