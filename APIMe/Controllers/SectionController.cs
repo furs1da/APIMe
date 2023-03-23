@@ -44,14 +44,15 @@ namespace APIMe.Controllers
                 {
                     Id = s.Id,
                     SectionName = s.SectionName,
-                    ProfessorName = s.Professor.FirstName + s.Professor.LastName,
+                    ProfessorName = s.Professor.FirstName + " " + s.Professor.LastName,
                     AccessCode = s.AccessCode,
-                    NumberOfStudents = s.Students.Count
+                    NumberOfStudents = s.StudentSections.Count
                 })
                 .ToListAsync();
 
             return sections;
         }
+
 
         [Authorize(Roles = "Administrator")]
         [HttpPost("add")]
@@ -132,7 +133,6 @@ namespace APIMe.Controllers
             return Ok();
         }
 
-
         [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteSection(int id)
         {
@@ -146,8 +146,19 @@ namespace APIMe.Controllers
             _aPIMeContext.Sections.Remove(section);
             await _aPIMeContext.SaveChangesAsync();
 
+            // Delete the corresponding users
+            foreach (var student in section.Students)
+            {
+                var user = await _userManager.FindByEmailAsync(student.Email);
+                if (user != null)
+                {
+                    await _userManager.DeleteAsync(user);
+                }
+            }
+
             return NoContent();
         }
+
 
 
 

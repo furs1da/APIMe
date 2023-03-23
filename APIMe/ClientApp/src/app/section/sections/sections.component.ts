@@ -4,6 +4,7 @@ import { SectionClass } from '../../../classes/SectionClass';
 import { AddEditSectionComponent } from '../add-edit-section/add-edit-section.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { RepositoryService } from '../../shared/services/repository.service';
 
 @Component({
   selector: 'app-sections',
@@ -14,30 +15,21 @@ export class SectionsComponent implements OnInit {
 
   sections: Section[] = [];
 
-  constructor(private dialog: MatDialog) { }
+  constructor(private repositoryService: RepositoryService, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.getSections();
   }
 
   getSections(): void {
-    // Replace with actual API call
-    // this.http.get<Section[]>('/section/list').subscribe((sections) => (this.sections = sections));
-
-    this.sections = [
-      {
-        id: 1,
-        sectionName: 'Section 1',
-        professorName: 'Prof. John Doe',
-        accessCode: 'ABC123'
+    this.repositoryService.getSections("sectionApi/sections").subscribe(
+      (sections) => {
+        this.sections = sections;
       },
-      {
-        id: 2,
-        sectionName: 'Section 2',
-        professorName: 'Prof. Jane Smith',
-        accessCode: 'XYZ789'
+      (error) => {
+        console.error(error);
       }
-    ];
+    );
   }
 
   addSection(): void {
