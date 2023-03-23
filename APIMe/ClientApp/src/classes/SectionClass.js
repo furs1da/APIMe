@@ -7,6 +7,7 @@ var SectionClass = /** @class */ (function () {
         this.sectionName = section.sectionName;
         this.professorName = section.professorName;
         this.accessCode = section.accessCode;
+        this.numberOfStudents = section.numberOfStudents;
     }
     return SectionClass;
 }());

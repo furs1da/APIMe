@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../shared/services/authentication.service';
-import { faBook, faMap, faThLarge, faUsers, faFileText, faHistory, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faBook, faMap, faThLarge, faUsers, faFileText, faHistory, faUser, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -20,6 +20,7 @@ export class NavMenuComponent implements OnInit {
   faFileText = faFileText;
   faHistory = faHistory;
   faUser = faUser;
+  faSignOutAlt = faSignOutAlt;
 
 
   constructor(private authService: AuthenticationService, private router: Router) {

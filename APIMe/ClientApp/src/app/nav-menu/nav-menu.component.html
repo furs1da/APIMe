@@ -52,11 +52,7 @@
           </li>
         </ul>
 
-
-
-
-
-      
+        <div id="auth_nav">
           <ul *ngIf='!isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
             <li class="nav-item">
               <a class="nav-link text-white" [routerLink]="['authentication/login']" routerLinkActive="active"
@@ -68,18 +64,23 @@
             </li>
           </ul>
 
-
           <ul *ngIf='isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
             <li class="nav-item">
               <a class="btn btn-link text-white nav-link nav-link-hover d-flex align-items-center" [routerLink]="['account/profile']">
-                <i class="fa fa-user mr-1"></i>Profile
+                <fa-icon [icon]="faUser" class="icon-margin"></fa-icon>Profile
               </a>
             </li>
             <li class="nav-item">
-              <button class="btn btn-link text-white" (click)="logout()">Logout</button>
+                
+              <button class="btn text-white" (click)="logout()">
+                <fa-icon [icon]="faSignOutAlt" class="icon-margin"></fa-icon>
+                Logout
+              </button>
             </li>
           </ul>
         </div>
+
       </div>
+    </div>
   </nav>
 </header>
