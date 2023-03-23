@@ -2,7 +2,7 @@
   max-height: 50vh;
   overflow-y: auto;
   margin-top: 1rem;
-  padding-top: 1rem; /* Add this line */
+  padding-top: 1rem;
 }
 
 .form-field {
@@ -10,10 +10,20 @@
   margin-bottom: 1rem;
 }
 
-.mat-dialog-content  {
-    padding-top:  1rem;
+
+
+/* Add custom styles for the Save and Cancel buttons */
+button.save-button {
+  background-color: #007bff; /* Change this to the desired color for the Save button */
+  color: white;
 }
 
-.mat-dialog-title {
-    margin-bottom: 1rem;
+button.cancel-button {
+  background-color: #f44336; /* Change this to the desired color for the Cancel button */
+  color: white;
+}
+
+.mdc-dialog__content {
+  padding-top: 1rem;
+  padding-bottom:0;
 }
