@@ -3,4 +3,5 @@ export interface Section {
   sectionName: string;
   professorName: string;
   accessCode: string;
+  numberOfStudents?: number;
 }

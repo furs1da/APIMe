@@ -18,6 +18,11 @@ export class RepositoryService {
     return this.http.get<Section[]>(this.createCompleteRoute(route, this.baseUrl));
   }
 
+  public async getSectionsAdmin(route: string): Promise<Section[]> {
+    const response = await this.http.get<Section[]>(this.createCompleteRoute(route, this.baseUrl)).toPromise();
+    return response ? response : [];
+  }
+
   public getClaims = (route: string) => {
     return this.http.get(this.createCompleteRoute(route, this.baseUrl));
   }

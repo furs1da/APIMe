@@ -11,9 +11,9 @@ using static Duende.IdentityServer.Models.IdentityResources;
 using APIMe.JwtFeatures;
 using System.IdentityModel.Tokens.Jwt;
 using APIMe.Entities.Models;
-using APIMe.Entities.DataTransferObjects;
 using APIMe.Services.Email;
 using Microsoft.AspNetCore.WebUtilities;
+using APIMe.Entities.DataTransferObjects.Authorization;
 
 namespace APIMe.Controllers
 {

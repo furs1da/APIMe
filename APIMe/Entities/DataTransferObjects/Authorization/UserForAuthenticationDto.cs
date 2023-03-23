@@ -1,7 +1,7 @@
 ﻿using Duende.IdentityServer.Models;
 using System.ComponentModel.DataAnnotations;
 
-namespace APIMe.Entities.DataTransferObjects
+namespace APIMe.Entities.DataTransferObjects.Authorization
 {
     public class UserForAuthenticationDto
     {

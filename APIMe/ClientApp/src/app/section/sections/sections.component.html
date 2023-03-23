@@ -1,27 +1,32 @@
 <div class="container">
   <div class="row">
-    <div class="col-12 d-flex justify-content-between align-items-center my-3">
-      <h1>Sections</h1>
-      <button mat-raised-button color="primary" (click)="addSection()">
+    <div class="col-12 d-flex justify-content-between align-items-end my-3">
+      <h1 class="mb-0">Sections</h1>
+      <button mat-raised-button color="primary" (click)="addSection()" class="add-section-btn">
         <mat-icon>add</mat-icon> Add Section
       </button>
+    </div>
+    </div>
+  <div class="row">
+    <div class="col-12">
+      <mat-divider></mat-divider>
     </div>
   </div>
   <div class="row">
     <div class="col-md-4" *ngFor="let section of sections">
-      <mat-card class="mb-3">
+      <mat-card class="mb-4 card-custom">
         <mat-card-content>
           <h5>{{ section.sectionName }}</h5>
           <p>
-            Professor: {{ section.professorName }}<br />
             Access Code: {{ section.accessCode }}
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary" (click)="editSection(section)">Edit</button>
+          <button mat-raised-button (click)="editSection(section)" class="edit-btn">Edit</button>
           <button mat-raised-button color="warn" (click)="deleteSection(section)">Delete</button>
         </mat-card-actions>
       </mat-card>
     </div>
   </div>
 </div>
+

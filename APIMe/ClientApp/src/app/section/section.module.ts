@@ -11,7 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
-
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [SectionsComponent, AddEditSectionComponent, ConfirmDialogComponent],
@@ -23,6 +23,7 @@ import { MatCardModule } from '@angular/material/card';
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    MatDividerModule,
     MatCardModule,
     RouterModule.forChild([
       { path: 'list', component: SectionsComponent },
