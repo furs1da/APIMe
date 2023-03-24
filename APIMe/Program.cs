@@ -13,6 +13,9 @@ using APIMe.JwtFeatures;
 using APIMe.Entities.Models;
 using APIMe.Entities.Configuration;
 using APIMe.Services.Email;
+using APIMe.Services.Route;
+using APIMe.Mapping;
+using AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +35,8 @@ var emailConfig = builder.Configuration
     .GetSection("EmailConfiguration")
     .Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
+builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddScoped<RouteService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 
