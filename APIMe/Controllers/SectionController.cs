@@ -16,6 +16,7 @@ using APIMe.Entities.Models;
 using APIMe.Entities.DataTransferObjects;
 using APIMe.Entities.DataTransferObjects.Authorization;
 using APIMe.Entities.DataTransferObjects.Admin.Section;
+using Duende.IdentityServer.Models;
 
 namespace APIMe.Controllers
 {
@@ -63,12 +64,12 @@ namespace APIMe.Controllers
 
             if (professor == null)
             {
-                return BadRequest("The professor does not exist.");
+                return BadRequest( "The professor does not exist." );
             }
 
             if (string.IsNullOrWhiteSpace(section.SectionName) || string.IsNullOrWhiteSpace(section.AccessCode))
             {
-                return BadRequest("The section name and access code must not be empty.");
+                return BadRequest("The section name and access code must not be empty." );
             }
 
             var existingSection = await _aPIMeContext.Sections
@@ -76,7 +77,7 @@ namespace APIMe.Controllers
 
             if (existingSection != null)
             {
-                return BadRequest("The section name must be unique.");
+                return BadRequest("The section name must be unique." );
             }
 
             var newSection = new Section
@@ -109,12 +110,12 @@ namespace APIMe.Controllers
 
             if (professor == null)
             {
-                return BadRequest("The professor does not exist.");
+                return BadRequest(new SectionResponseDTO { ErrorMessage = "The professor does not exist." });
             }
 
             if (string.IsNullOrWhiteSpace(section.SectionName) || string.IsNullOrWhiteSpace(section.AccessCode))
             {
-                return BadRequest("The section name and access code must not be empty.");
+                return BadRequest(new SectionResponseDTO { ErrorMessage = "The section name and access code must not be empty." });
             }
 
             var otherSection = await _aPIMeContext.Sections
@@ -122,7 +123,7 @@ namespace APIMe.Controllers
 
             if (otherSection != null)
             {
-                return BadRequest("The section name must be unique.");
+                return BadRequest(new SectionResponseDTO { ErrorMessage = "The section name must be unique." });
             }
 
             existingSection.SectionName = section.SectionName;

@@ -1,5 +1,4 @@
-<!-- add-edit-section.component.html -->
-<form [formGroup]="sectionForm" (ngSubmit)="onSave()">
+<form [formGroup]="sectionForm" (ngSubmit)="onSave(sectionForm.value)">
   <h1 mat-dialog-title>{{ sectionForm.controls.id.value ? 'Edit' : 'Add' }} Section</h1>
   <mat-dialog-content>
     <mat-form-field appearance="outline" class="form-field">
@@ -11,6 +10,9 @@
       <input matInput type="text" formControlName="accessCode" />
     </mat-form-field>
   </mat-dialog-content>
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
   <mat-dialog-actions>
     <button mat-raised-button class="save-button" type="submit" [disabled]="!sectionForm.valid">Save</button>
     <button mat-raised-button class="cancel-button" type="button" (click)="onCancel()">Cancel</button>

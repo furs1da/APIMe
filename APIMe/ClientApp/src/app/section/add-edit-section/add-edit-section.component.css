@@ -10,8 +10,6 @@
   margin-bottom: 1rem;
 }
 
-
-
 /* Add custom styles for the Save and Cancel buttons */
 button.save-button {
   background-color: #007bff; /* Change this to the desired color for the Save button */
@@ -26,4 +24,15 @@ button.cancel-button {
 .mdc-dialog__content {
   padding-top: 1rem;
   padding-bottom:0;
+}
+
+.error-message {
+  background-color: #f8d7da;
+  border-color: #f5c6cb;
+  color: #721c24;
+  padding: 0.75rem 1.25rem;
+  margin: 0 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
 }

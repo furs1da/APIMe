@@ -43,6 +43,7 @@
     <None Remove="ClientApp\src\classes\SectionClass.ts" />
     <None Remove="ClientApp\src\interfaces\request\ForgotPassword.ts" />
     <None Remove="ClientApp\src\interfaces\request\resetPassword.ts" />
+    <None Remove="ClientApp\src\interfaces\response\sectionResponseDTO.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -56,6 +57,7 @@
     <TypeScriptCompile Include="ClientApp\src\classes\SectionClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\forgotPassword.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\resetPassword.ts" />
+    <TypeScriptCompile Include="ClientApp\src\interfaces\response\sectionResponseDTO.ts" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
