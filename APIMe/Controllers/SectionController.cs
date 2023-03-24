@@ -47,7 +47,7 @@ namespace APIMe.Controllers
                     SectionName = s.SectionName,
                     ProfessorName = s.Professor.FirstName + " " + s.Professor.LastName,
                     AccessCode = s.AccessCode,
-                    NumberOfStudents = s.StudentSections.Count
+                    NumberOfStudents = s.StudentSections.Where(ss => ss.SectionId == s.Id).Count()
                 })
                 .ToListAsync();
 
@@ -110,12 +110,12 @@ namespace APIMe.Controllers
 
             if (professor == null)
             {
-                return BadRequest(new SectionResponseDTO { ErrorMessage = "The professor does not exist." });
+                return BadRequest("The professor does not exist.");
             }
 
             if (string.IsNullOrWhiteSpace(section.SectionName) || string.IsNullOrWhiteSpace(section.AccessCode))
             {
-                return BadRequest(new SectionResponseDTO { ErrorMessage = "The section name and access code must not be empty." });
+                return BadRequest("The section name and access code must not be empty.");
             }
 
             var otherSection = await _aPIMeContext.Sections
@@ -123,7 +123,7 @@ namespace APIMe.Controllers
 
             if (otherSection != null)
             {
-                return BadRequest(new SectionResponseDTO { ErrorMessage = "The section name must be unique." });
+                return BadRequest("The section name must be unique.");
             }
 
             existingSection.SectionName = section.SectionName;
