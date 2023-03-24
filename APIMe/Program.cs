@@ -13,7 +13,7 @@ using APIMe.JwtFeatures;
 using APIMe.Entities.Models;
 using APIMe.Entities.Configuration;
 using APIMe.Services.Email;
-using APIMe.Services.Route;
+using APIMe.Services.Routes;
 using APIMe.Mapping;
 using AutoMapper;
 
