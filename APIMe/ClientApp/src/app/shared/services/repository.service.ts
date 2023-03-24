@@ -34,6 +34,11 @@ export class RepositoryService {
   }
 
 
+  public deleteSection(id: number) {
+    return this.http.delete(this.createCompleteRoute(`sectionApi/delete/${id}`, this.baseUrl));
+  }
+
+
   public getClaims = (route: string) => {
     return this.http.get(this.createCompleteRoute(route, this.baseUrl));
   }

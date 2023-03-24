@@ -77,9 +77,9 @@ export class SectionsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        // Add actual API call to delete the section
-        // this.http.delete(`/section/list/${section.id}`).subscribe(() => this.getSections());
-        console.log('Section deleted');
+        this.repositoryService.deleteSection(section.id).subscribe(() => {
+          this.getSections();
+        });
       }
     });
   }

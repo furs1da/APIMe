@@ -141,19 +141,22 @@ namespace APIMe.Controllers
             if (section == null)
                 return NotFound();
 
-            var studentSections = _aPIMeContext.StudentSections.Where(ss => ss.SectionId == id);
+            var studentSections = _aPIMeContext.StudentSections.Where(ss => ss.SectionId == id).Include(i => i.Student);
             _aPIMeContext.StudentSections.RemoveRange(studentSections);
 
             _aPIMeContext.Sections.Remove(section);
             await _aPIMeContext.SaveChangesAsync();
 
-            // Delete the corresponding users
-            foreach (var student in section.Students)
+            if (section.Students != null)
             {
-                var user = await _userManager.FindByEmailAsync(student.Email);
-                if (user != null)
+                // Delete the corresponding users
+                foreach (var student in section.Students)
                 {
-                    await _userManager.DeleteAsync(user);
+                    var user = await _userManager.FindByEmailAsync(student.Email);
+                    if (user != null)
+                    {
+                        await _userManager.DeleteAsync(user);
+                    }
                 }
             }
 
