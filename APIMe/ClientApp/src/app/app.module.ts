@@ -31,6 +31,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -58,6 +60,7 @@ export function tokenGetter() {
     MatFormFieldModule,
     MatDividerModule,
     MatCardModule,
+    MatSlideToggleModule,
     CollapseModule.forRoot(),
     NgbModule,
     FontAwesomeModule,

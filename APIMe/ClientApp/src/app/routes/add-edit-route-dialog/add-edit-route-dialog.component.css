@@ -1,0 +1,28 @@
+:host ::ng-deep .mat-dialog-container {
+  max-width: 80vw;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.slide-toggle-container {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.toggle-label {
+  font-size: 16px;
+  margin-right: 1rem;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-dialog-actions {
+  justify-content: flex-end;
+}

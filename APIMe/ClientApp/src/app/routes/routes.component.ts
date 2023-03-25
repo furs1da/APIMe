@@ -27,7 +27,9 @@ export class RoutesComponent implements OnInit {
   }
 
   openAddRouteDialog(): void {
-    const dialogRef = this.dialog.open(AddEditRouteDialogComponent);
+    const dialogRef = this.dialog.open(AddEditRouteDialogComponent, {
+      width: '500px'
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
@@ -37,7 +39,10 @@ export class RoutesComponent implements OnInit {
   }
 
   openEditRouteDialog(route: RouteDto): void {
-    const dialogRef = this.dialog.open(AddEditRouteDialogComponent, { data: route });
+    const dialogRef = this.dialog.open(AddEditRouteDialogComponent, {
+      width: '500px', // Set the max-width to 80% of the viewport width
+      data: route,
+    });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {

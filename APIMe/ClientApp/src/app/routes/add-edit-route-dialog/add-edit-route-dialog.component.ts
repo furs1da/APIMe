@@ -30,8 +30,7 @@ export class AddEditRouteDialogComponent implements OnInit {
     this.routeForm = this.fb.group({
       name: [data ? data.name : '', Validators.required],
       description: [data ? data.description : '', Validators.required],
-      routeTypeId: [data ? data.routeTypeId : '', Validators.required
-      ],
+      routeTypeId: [data ? data.routeTypeId : '', Validators.required],
       dataTableName: [data ? data.dataTableName : '', Validators.required],
       isVisible: [data ? data.isVisible : false]
     });

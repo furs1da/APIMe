@@ -17,6 +17,8 @@ import { DeleteRouteDialogComponent } from './delete-route-dialog/delete-route-d
 import { RouteCardComponent } from './route-card/route-card.component';
 import { RoutesComponent } from './routes.component';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 
 @NgModule({
   declarations: [RouteCardComponent, AddEditRouteDialogComponent, DeleteRouteDialogComponent, RoutesComponent],
@@ -31,6 +33,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatDividerModule,
     MatCardModule,
+    MatSlideToggleModule,
     RouterModule.forChild([
       { path: 'list', component: RoutesComponent },
     ])

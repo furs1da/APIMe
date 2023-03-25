@@ -1,5 +1,5 @@
 <h1 mat-dialog-title>{{ data ? 'Edit' : 'Add' }} Route</h1>
-<mat-dialog-content [formGroup]="routeForm">
+<div class="container" [formGroup]="routeForm">
   <mat-form-field appearance="fill">
     <mat-label>Name</mat-label>
     <input matInput formControlName="name" required />
@@ -36,8 +36,12 @@
     </mat-error>
   </mat-form-field>
 
-  <mat-slide-toggle formControlName="isVisible">Visible</mat-slide-toggle>
-</mat-dialog-content>
+  <div class="slide-toggle-container">
+    <span class="toggle-label">Visible</span>
+    <mat-slide-toggle formControlName="isVisible"></mat-slide-toggle>
+  </div>
+</div>
+
 <mat-dialog-actions>
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-button color="primary" (click)="submitForm()">Save</button>
