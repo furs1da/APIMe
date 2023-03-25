@@ -93,6 +93,14 @@ namespace APIMe.Services.Routes
 
             return routeDtos;
         }
+
+        public async Task<IEnumerable<RouteTypeDto>> GetRouteTypesAsync()
+        {
+            var routes = await _context.RouteTypes.ToListAsync();
+            var routeDtos = _mapper.Map<IEnumerable<RouteTypeDto>>(routes);
+
+            return routeDtos;
+        }
         public async Task<IEnumerable<DataSourceDTO>> GetDataSourcesAsync()
         {
             return DataSourceTables.DataSources.ToList();

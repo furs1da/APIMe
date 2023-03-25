@@ -420,6 +420,7 @@ namespace APIMe.Entities.Models
             modelBuilder.ApplyConfiguration(new ProfessorConfiguration());
             modelBuilder.ApplyConfiguration(new SectionConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new RouteTypeConfiguration());
         }
     }
 }

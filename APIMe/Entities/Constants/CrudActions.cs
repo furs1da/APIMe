@@ -17,6 +17,7 @@ namespace APIMe.Entities.Constants
             new CrudAction { Id = 3, Action = "PUT" },
             new CrudAction { Id = 4, Action = "PATCH" },
             new CrudAction { Id = 5, Action = "DELETE" },
+            new CrudAction { Id = 6, Action = "ERROR" },
         };
     }
 
