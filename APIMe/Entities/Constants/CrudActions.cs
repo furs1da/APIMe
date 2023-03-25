@@ -1,4 +1,6 @@
-﻿namespace APIMe.Entities.Constants
+﻿using APIMe.Entities.DataTransferObjects.Admin.Route;
+
+namespace APIMe.Entities.Constants
 {
     public class CrudAction
     {
@@ -15,7 +17,15 @@
             new CrudAction { Id = 3, Action = "PUT" },
             new CrudAction { Id = 4, Action = "PATCH" },
             new CrudAction { Id = 5, Action = "DELETE" },
-            // Add more CRUD actions if needed
+        };
+    }
+
+    public static class DataSourceTables
+    {
+        public static IReadOnlyList<DataSourceDTO> DataSources { get; } = new List<DataSourceDTO>
+        {
+            new DataSourceDTO { Id = 1, Name = "Product" },
+            new DataSourceDTO { Id = 2, Name = "Customer" }
         };
     }
 }

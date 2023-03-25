@@ -40,13 +40,23 @@ namespace APIMe.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("routes")]
         public async Task<ActionResult<IEnumerable<RouteDto>>> GetRoutes()
         {      
                 var routes = await _routeService.GetRoutesAsync();
                 var routeDtos = _mapper.Map<IEnumerable<RouteDto>>(routes);
                 return Ok(routeDtos);
         }
+
+
+        [HttpGet("dataSources")]
+        public async Task<ActionResult<IEnumerable<RouteDto>>> GetDataSources()
+        {
+            var sources = await _routeService.GetDataSourcesAsync();
+         
+            return Ok(sources);
+        }
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<RouteDto>> GetRoute(int id)

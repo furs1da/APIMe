@@ -6,6 +6,6 @@
         public string Name { get; set; }
         public string ResponseCode { get; set; }
         public string? CrudActionName { get; set; }
-        public int? CrudActionId { get; set; }
+        public int? CrudId { get; set; }
     }
 }

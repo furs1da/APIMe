@@ -41,10 +41,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\routes\route.module.ts" />
     <None Remove="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <None Remove="ClientApp\src\classes\SectionClass.ts" />
     <None Remove="ClientApp\src\interfaces\request\ForgotPassword.ts" />
     <None Remove="ClientApp\src\interfaces\request\resetPassword.ts" />
+    <None Remove="ClientApp\src\interfaces\response\dataSourceDTO.ts" />
+    <None Remove="ClientApp\src\interfaces\response\routeDTO.ts" />
+    <None Remove="ClientApp\src\interfaces\response\routeTypeDTO.ts" />
     <None Remove="ClientApp\src\interfaces\response\sectionResponseDTO.ts" />
   </ItemGroup>
 
@@ -55,10 +59,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\routes\route.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <TypeScriptCompile Include="ClientApp\src\classes\SectionClass.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\forgotPassword.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\resetPassword.ts" />
+    <TypeScriptCompile Include="ClientApp\src\interfaces\response\dataSourceDTO.ts" />
+    <TypeScriptCompile Include="ClientApp\src\interfaces\response\routeDTO.ts" />
+    <TypeScriptCompile Include="ClientApp\src\interfaces\response\routeTypeDTO.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\response\sectionResponseDTO.ts" />
   </ItemGroup>
 

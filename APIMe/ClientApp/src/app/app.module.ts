@@ -30,6 +30,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -52,6 +53,7 @@ export function tokenGetter() {
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
+    MatSelectModule,
     MatInputModule,
     MatFormFieldModule,
     MatDividerModule,
@@ -67,6 +69,7 @@ export function tokenGetter() {
       { path: 'privacy', component: PrivacyComponent, canActivate: [AuthGuard, AdminGuard] },
       { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
       { path: 'section', loadChildren: () => import('./section/section.module').then(m => m.SectionModule), canActivate: [AuthGuard] },
+      { path: 'route', loadChildren: () => import('./routes/route.module').then(m => m.RouteModule), canActivate: [AuthGuard] },
       { path: '404', component: NotFoundComponent },
       { path: 'forbidden', component: ForbiddenComponent },
       

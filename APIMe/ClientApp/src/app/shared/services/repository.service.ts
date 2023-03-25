@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Section } from '../../../interfaces/request/section';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { RouteDto } from '../../../interfaces/response/routeDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,23 @@ export class RepositoryService {
 
   public deleteSection(id: number) {
     return this.http.delete(this.createCompleteRoute(`sectionApi/delete/${id}`, this.baseUrl));
+  }
+
+
+  public getRoutes = () => {
+    return this.http.get<RouteDto[]>(this.createCompleteRoute('routeApi/routes', this.baseUrl));
+  }
+
+  public createRoute(route: RouteDto) {
+    return this.http.post<RouteDto>(this.createCompleteRoute('routeApi/add', this.baseUrl), route);
+  }
+
+  public updateRoute(route: RouteDto) {
+    return this.http.put<RouteDto>(this.createCompleteRoute(`routeApi/update/${route.id}`, this.baseUrl), route);
+  }
+
+  public deleteRoute(id: number) {
+    return this.http.delete(this.createCompleteRoute(`routeApi/delete/${id}`, this.baseUrl));
   }
 
 

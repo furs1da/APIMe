@@ -1,0 +1,21 @@
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h1 class="mb-4 text-white">Routes</h1>
+      <button mat-raised-button color="primary" class="mb-4" (click)="openAddRouteDialog()">
+        <mat-icon>add</mat-icon> Add Route
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="card-deck">
+        <ng-container *ngFor="let route of routes">
+          <app-route-card [route]="route"
+                          (edit)="openEditRouteDialog($event)"
+                          (delete)="openDeleteRouteDialog($event)"></app-route-card>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

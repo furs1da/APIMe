@@ -1,4 +1,5 @@
-﻿using APIMe.Entities.DataTransferObjects.Admin.Route;
+﻿using APIMe.Entities.Constants;
+using APIMe.Entities.DataTransferObjects.Admin.Route;
 using APIMe.Entities.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
@@ -92,5 +93,10 @@ namespace APIMe.Services.Routes
 
             return routeDtos;
         }
+        public async Task<IEnumerable<DataSourceDTO>> GetDataSourcesAsync()
+        {
+            return DataSourceTables.DataSources.ToList();
+        }
+
     }
 }
