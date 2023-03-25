@@ -14,7 +14,7 @@ export class RouteTypesService {
   }
 
   getRouteTypes(): Observable<RouteTypeDto[]> {
-    return this.http.get<RouteTypeDto[]>(this.createCompleteRoute('routeTypeApi/routes', this.baseUrl));
+    return this.http.get<RouteTypeDto[]>(this.createCompleteRoute('routeTypeApi/routeTypes', this.baseUrl));
   }
 
   private createCompleteRoute = (route: string, baseUrl: string) => {

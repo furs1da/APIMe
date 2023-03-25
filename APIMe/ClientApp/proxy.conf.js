@@ -8,8 +8,8 @@ const PROXY_CONFIG = [
     context: [
       "/account",
       "/sectionApi", 
-      "/routeApi",
-
+      "/routeApi", 
+      "/routeTypeApi", 
       "/_configuration",
       "/.well-known",
       "/Identity",
