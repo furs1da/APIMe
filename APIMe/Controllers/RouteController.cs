@@ -79,7 +79,7 @@ namespace APIMe.Controllers
             return routeDto;
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<ActionResult<RouteDto>> CreateRoute(RouteDto routeDto)
         {
             var route = _mapper.Map<Entities.Models.Route>(routeDto);
@@ -88,7 +88,7 @@ namespace APIMe.Controllers
             return CreatedAtAction(nameof(GetRoute), new { id = createdRouteDto.Id }, createdRouteDto);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateRoute(int id, RouteDto routeDto)
         {
             if (id != routeDto.Id)
@@ -110,7 +110,7 @@ namespace APIMe.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteRoute(int id)
         {
             var result = await _routeService.DeleteRouteAsync(id);

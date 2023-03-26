@@ -1,0 +1,13 @@
+.no-routes-message {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  margin-top: 2rem;
+}
+
+.add-route-button {
+  margin-left: auto;
+  background-color: #007bff;
+  color: white;
+}
