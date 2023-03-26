@@ -1,3 +1,21 @@
+.routes-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+  .routes-title::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
 .no-routes-message {
   font-size: 1.5rem;
   font-weight: bold;
@@ -7,7 +25,22 @@
 }
 
 .add-route-button {
-  margin-left: auto;
-  background-color: #007bff;
-  color: white;
+  font-size: 1rem;
+  background-color: #007bff !important;
+  color: #fff !important;
+  padding: 6px 12px;
+  border-radius: 4px;
+}
+
+/* Add these new style rules */
+.card-deck-wrapper {
+  margin: 1rem -0.5rem;
+}
+
+.card-deck .app-route-card {
+  margin: 0 0.5rem 1rem 0.5rem;
+}
+
+.card-margin {
+  margin-top: 2rem;
 }

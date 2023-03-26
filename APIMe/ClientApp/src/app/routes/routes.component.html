@@ -1,27 +1,37 @@
 <div class="container">
   <div class="row">
-    <div class="col">
-      <h1 class="mb-4 text-white">Routes</h1>
-      <button mat-raised-button class="mb-4 add-route-button" (click)="openAddRouteDialog()">
+    <div class="col-12 d-flex justify-content-between align-items-end my-3">
+      <h1 class="mb-0">Routes</h1>
+      <button mat-raised-button color="primary" class="add-route-button" (click)="openAddRouteDialog()">
         <mat-icon>add</mat-icon> Add Route
       </button>
     </div>
   </div>
   <div class="row">
+    <div class="col-12">
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
     <div class="col">
-      <div class="card-deck">
-        <ng-container *ngIf="routes.length; else noRoutes">
-          <ng-container *ngFor="let route of routes">
-            <app-route-card [route]="route"
-                            (edit)="openEditRouteDialog($event)"
-                            (delete)="openDeleteRouteDialog($event)"></app-route-card>
+      <div class="card-deck-wrapper">
+        <!-- Add this wrapper div -->
+        <div class="card-deck">
+          <ng-container *ngIf="routes.length; else noRoutes">
+            <ng-container *ngFor="let route of routes">
+              <app-route-card [route]="route"
+                              (edit)="openEditRouteDialog($event)"
+                              (delete)="openDeleteRouteDialog($event)"></app-route-card>
+            </ng-container>
           </ng-container>
-        </ng-container>
-        <ng-template #noRoutes>
-          <div class="no-routes-message">
-            No routes to display.
-          </div>
-        </ng-template>
+          <ng-template #noRoutes>
+            <div class="no-routes-message">
+              No routes to display.
+            </div>
+          </ng-template>
+        </div>
       </div>
     </div>
   </div>
