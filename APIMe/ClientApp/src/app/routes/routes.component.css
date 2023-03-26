@@ -32,7 +32,6 @@
   border-radius: 4px;
 }
 
-/* Add these new style rules */
 .card-deck-wrapper {
   margin: 1rem -0.5rem;
 }
@@ -43,4 +42,18 @@
 
 .card-margin {
   margin-top: 2rem;
+}
+
+.filter-field {
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 1rem;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 767px) {
+  .filter-field {
+    flex: 1;
+    margin-right: 1rem;
+  }
 }
