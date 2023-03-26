@@ -1,48 +1,37 @@
-<h1 mat-dialog-title>{{ data ? 'Edit' : 'Add' }} Route</h1>
-<div class="container" [formGroup]="routeForm">
-  <mat-form-field appearance="fill">
-    <mat-label>Name</mat-label>
-    <input matInput formControlName="name" required />
-    <mat-error *ngIf="routeForm.get('name')?.hasError('required')">
-      Name is required
-    </mat-error>
-  </mat-form-field>
+<form [formGroup]="routeForm" (ngSubmit)="submitForm()">
+  <h1 mat-dialog-title>{{ data ? 'Edit' : 'Add' }} Route</h1>
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" required />
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Description</mat-label>
-    <textarea matInput formControlName="description" required></textarea>
-    <mat-error *ngIf="routeForm.get('description')?.hasError('required')">
-      Description is required
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" required></textarea>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Route Type</mat-label>
-    <mat-select formControlName="routeTypeId" required>
-      <mat-option *ngFor="let routeType of routeTypes" [value]="routeType.id">{{ routeType.name }}</mat-option>
-    </mat-select>
-    <mat-error *ngIf="routeForm.get('routeTypeId')?.hasError('required')">
-      Route type is required
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Route Type</mat-label>
+      <mat-select formControlName="routeTypeId" required>
+        <mat-option *ngFor="let routeType of routeTypes" [value]="routeType.id">{{ routeType.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <mat-form-field appearance="fill">
-    <mat-label>Data Table</mat-label>
-    <mat-select formControlName="dataTableName" required>
-      <mat-option *ngFor="let dataSource of dataSources" [value]="dataSource.name">{{ dataSource.name }}</mat-option>
-    </mat-select>
-    <mat-error *ngIf="routeForm.get('dataTableName')?.hasError('required')">
-      Data table is required
-    </mat-error>
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="form-field">
+      <mat-label>Data Table</mat-label>
+      <mat-select formControlName="dataTableName" required>
+        <mat-option *ngFor="let dataSource of dataSources" [value]="dataSource.name">{{ dataSource.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <div class="slide-toggle-container">
-    <span class="toggle-label">Visible</span>
-    <mat-slide-toggle formControlName="isVisible"></mat-slide-toggle>
-  </div>
-</div>
-
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button color="primary" (click)="submitForm()">Save</button>
-</mat-dialog-actions>
+    <div class="slide-toggle-container">
+      <label>Visible</label>
+      <mat-slide-toggle formControlName="isVisible"></mat-slide-toggle>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button class="save-button" type="submit" [disabled]="!routeForm.valid">Save</button>
+    <button mat-raised-button class="cancel-button" type="button" mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>
+</form>
