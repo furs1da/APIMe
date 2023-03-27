@@ -4,6 +4,8 @@ import { Section } from '../../../interfaces/request/section';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { RouteDto } from '../../../interfaces/response/routeDTO';
+import { Property } from '../../../interfaces/response/property';
+import { TestRouteResponse } from '../../../interfaces/response/TestRouteResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -54,6 +56,18 @@ export class RepositoryService {
 
   public deleteRoute(id: number) {
     return this.http.delete(this.createCompleteRoute(`routeApi/delete/${id}`, this.baseUrl));
+  }
+
+
+  public getPropertiesByRouteTypeId(routeTypeId: number): Observable<Property[]> {
+    return this.http.get<Property[]>(this.createCompleteRoute(`routeTypeApi/properties/${routeTypeId}`, this.baseUrl));
+  }
+
+  public testRoute(routeId: number, values: any): Observable<TestRouteResponse> {
+    return this.http.post<TestRouteResponse>(
+      this.createCompleteRoute(`routeApi/testRoute/${routeId}`, this.baseUrl),
+      values
+    );
   }
 
 

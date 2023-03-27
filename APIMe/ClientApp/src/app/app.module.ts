@@ -32,6 +32,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
 
 
 export function tokenGetter() {
@@ -60,6 +61,7 @@ export function tokenGetter() {
     MatFormFieldModule,
     MatDividerModule,
     MatCardModule,
+    MatTableModule,
     MatSlideToggleModule,
     CollapseModule.forRoot(),
     NgbModule,

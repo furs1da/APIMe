@@ -10,6 +10,7 @@ export class RouteCardComponent {
   @Input() route!: RouteDto;
   @Output() edit = new EventEmitter<RouteDto>();
   @Output() delete = new EventEmitter<RouteDto>();
+  @Output() test = new EventEmitter<RouteDto>(); 
 
   constructor() { }
 
@@ -19,5 +20,9 @@ export class RouteCardComponent {
 
   deleteRoute(): void {
     this.delete.emit(this.route);
+  }
+
+  onTest(): void {
+    this.test.emit(this.route); 
   }
 }

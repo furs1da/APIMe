@@ -18,7 +18,7 @@ import { RouteCardComponent } from './route-card/route-card.component';
 import { RoutesComponent } from './routes.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [RouteCardComponent, AddEditRouteDialogComponent, DeleteRouteDialogComponent, RoutesComponent],
@@ -32,6 +32,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatIconModule,
     MatInputModule,
     MatFormFieldModule,
+    MatTableModule,
     MatDividerModule,
     MatCardModule,
     MatSlideToggleModule,

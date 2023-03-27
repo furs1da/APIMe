@@ -19,7 +19,7 @@ namespace APIMe.Entities.Models
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
                 string username = "apimeconestoga@gmail.com";
-                string password = "1OBb$^#0^u21!"; // #ruzziaIsTerroristState 
+                string password = "1OBb$^#0^u21!"; 
                 string roleName = "Administrator";
 
                 // if role doesn't exist, create it

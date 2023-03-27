@@ -19,7 +19,7 @@ namespace APIMe.Services.Routes
 
         // Other methods for managing routes, e.g., GetRoutes, CreateRoute, etc.
 
-        public async Task<IList<object>> GetRecordsFromDataTableAsync(string tableName)
+        public async Task<IList<object>> GetRecordsFromDataTableAsync(string tableName, int numberOfRecords)
         {
             var dbContextType = _context.GetType();
             var tableProperty = dbContextType.GetProperty(tableName);
@@ -29,9 +29,10 @@ namespace APIMe.Services.Routes
             }
 
             var table = (IQueryable)tableProperty.GetValue(_context);
-            var records = await table.Cast<object>().ToListAsync();
+            var records = await table.Cast<object>().Take(numberOfRecords).ToListAsync();
             return records;
         }
+
 
         public async Task<Entities.Models.Route> CreateRouteAsync(Entities.Models.Route route)
         {
@@ -88,7 +89,7 @@ namespace APIMe.Services.Routes
             foreach (var routeDto in routeDtos)
             {
                 var route = routes.First(r => r.Id == routeDto.Id);
-                routeDto.Records = await GetRecordsFromDataTableAsync(route.DataTableName);
+                routeDto.Records = await GetRecordsFromDataTableAsync(route.DataTableName, 5);
             }
 
             return routeDtos;
@@ -105,6 +106,64 @@ namespace APIMe.Services.Routes
         {
             return DataSourceTables.DataSources.ToList();
         }
+
+
+        public async Task<TestRouteResponse> TestRouteAsync(int routeId)
+        {
+            var route = await _context.Routes.Include(r => r.RouteType).FirstOrDefaultAsync(r => r.Id == routeId);
+            if (route == null)
+            {
+                return new TestRouteResponse { StatusCode = 404, Message = "Route not found.", Records = null };
+            }
+
+            var routeType = route.RouteType.Name;
+            var statusCode = int.Parse(route.RouteType.ResponseCode);
+            var dataTable = route.DataTableName;
+
+            if (routeType.StartsWith("GET") && statusCode != 204 && statusCode != 400)
+            {
+                var records = await GetRecordsFromDataTableAsync(dataTable, 20);
+                return new TestRouteResponse { StatusCode = statusCode, Message = $"Successfully retrieved {records.Count} records.", Records = records };
+            }
+            else if (routeType.StartsWith("POST") || routeType.StartsWith("PUT"))
+            {
+                var record = await GetRecordsFromDataTableAsync(dataTable, 1);
+                return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully added/updated a record.", Records = record };
+            }
+            else if (routeType.StartsWith("DELETE"))
+            {
+                return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully deleted a record.", Records = null };
+            }
+            else
+            {
+                return new TestRouteResponse { StatusCode = statusCode, Message = "An error occurred.", Records = null };
+            }
+        }
+
+        public async Task<List<Property>> GetPropertiesByRouteIdAsync(int routeId)
+        {
+            var properties = new List<Property>();
+
+            var route = await _context.Routes.FirstOrDefaultAsync(rt => rt.Id == routeId);
+            if (route == null)
+            {
+                return properties;
+            }
+
+            var dataTable = route.DataTableName;
+            if (!string.IsNullOrEmpty(dataTable))
+            {
+                var entityType = _context.Model.FindEntityType(dataTable).ClrType;
+                foreach (var prop in entityType.GetProperties())
+                {
+                    properties.Add(new Property { Name = prop.Name, Type = prop.PropertyType.Name });
+                }
+            }
+
+            return properties;
+        }
+
+
 
     }
 }

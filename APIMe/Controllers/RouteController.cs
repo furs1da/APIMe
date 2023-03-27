@@ -58,6 +58,30 @@ namespace APIMe.Controllers
         }
 
 
+        [HttpPost("testRoute/{routeId}")]
+        public async Task<ActionResult<TestRouteResponse>> TestRoute(int routeId, [FromBody] object values)
+        {
+            try
+            {
+                var response = await _routeService.TestRouteAsync(routeId, values);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("routeTypeApi/properties/{routeId}")]
+        public async Task<ActionResult<IEnumerable<Property>>> GetPropertiesByRouteId(int routeId)
+        {
+            var properties = await _routeService.GetPropertiesByRouteIdAsync(routeId);
+            return Ok(properties);
+        }
+
+
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<RouteDto>> GetRoute(int id)
         {

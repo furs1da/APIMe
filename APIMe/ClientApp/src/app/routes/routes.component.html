@@ -44,7 +44,8 @@
             <ng-container *ngFor="let route of filteredRoutes">
               <app-route-card [route]="route"
                               (edit)="openEditRouteDialog($event)"
-                              (delete)="openDeleteRouteDialog($event)"></app-route-card>
+                              (delete)="openDeleteRouteDialog($event)"
+                              (test)="openTestRouteDialog($event)"></app-route-card>
             </ng-container>
           </ng-container>
           <ng-template #noRoutes>

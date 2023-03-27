@@ -1,0 +1,26 @@
+.response-status {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.response-message {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+table {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.mat-header-cell,
+.mat-cell {
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.response-section {
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+}

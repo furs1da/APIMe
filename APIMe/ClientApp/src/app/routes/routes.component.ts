@@ -5,7 +5,7 @@ import { RouteTypeDto } from '../../interfaces/response/routeTypeDTO';
 import { RepositoryService } from '../shared/services/repository.service';
 import { AddEditRouteDialogComponent } from './add-edit-route-dialog/add-edit-route-dialog.component';
 import { DeleteRouteDialogComponent } from './delete-route-dialog/delete-route-dialog.component';
-
+import { TestRouteComponent } from './test-route/test-route.component';
 
 @Component({
   selector: 'app-routes',
@@ -69,6 +69,20 @@ export class RoutesComponent implements OnInit {
   openEditRouteDialog(route: RouteDto): void {
     const dialogRef = this.dialog.open(AddEditRouteDialogComponent, {
       width: '500px', // Set the max-width to 80% of the viewport width
+      data: route,
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.loadRoutes();
+      }
+    });
+  }
+
+
+  openTestRouteDialog(route: RouteDto): void {
+    const dialogRef = this.dialog.open(TestRouteComponent, {
+      width: '80%', // Set the max
       data: route,
     });
 
