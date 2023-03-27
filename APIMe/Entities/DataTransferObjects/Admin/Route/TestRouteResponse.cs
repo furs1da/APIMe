@@ -4,6 +4,6 @@
     {
         public int StatusCode { get; set; }
         public string Message { get; set; }
-        public List<Object> Records { get; set; } = new List<Object>();
+        public IList<object> Records { get; set; } = new List<object>();
     }
 }
