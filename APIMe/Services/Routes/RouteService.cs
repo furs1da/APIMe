@@ -187,6 +187,30 @@ namespace APIMe.Services.Routes
                     return new TestRouteResponse { StatusCode = statusCode, Message = $"General error: {routeType}" };
                 }
             }
+            catch (DbUpdateConcurrencyException)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = "The record you tried to update or delete may have already been changed or deleted by another user." };
+            }
+            catch (DbUpdateException)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = "An error occurred while updating the database. Please check the data you provided and try again." };
+            }
+            catch (InvalidOperationException ex)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = $"An invalid operation occurred: {ex.Message}" };
+            }
+            catch (ArgumentNullException ex)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = $"A required argument was not provided: {ex.Message}" };
+            }
+            catch (ArgumentException ex)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = $"An argument error occurred: {ex.Message}" };
+            }
+            catch (Newtonsoft.Json.JsonException ex)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = $"An error occurred while processing JSON data: {ex.Message}" };
+            }
             catch (Exception ex)
             {
                 return new TestRouteResponse { StatusCode = 500, Message = $"An error occurred: {ex.Message}" };
