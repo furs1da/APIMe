@@ -1,5 +1,5 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, Inject, OnInit, ChangeDetectorRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RepositoryService } from 'src/app/shared/services/repository.service';
 import { RouteDto } from '../../../interfaces/response/routeDTO';
@@ -23,7 +23,8 @@ export class TestRouteComponent implements OnInit {
     private fb: FormBuilder,
     private repositoryService: RepositoryService,
     public dialogRef: MatDialogRef<TestRouteComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: RouteDto
+    @Inject(MAT_DIALOG_DATA) public data: RouteDto,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.route = data;
     this.form = this.fb.group({});
@@ -45,22 +46,47 @@ export class TestRouteComponent implements OnInit {
   }
 
   createFormControls(): void {
-
+    console.log('isDeleteRoute:', this.isDeleteRoute);
     if (this.isDeleteRoute) {
-      const idProperty = this.properties.find(p => p.name === 'id');
+      const idProperty = this.properties.find(p => p.name === 'Id');
+      console.log('idProperty:', idProperty);
       if (idProperty) {
-        this.form.addControl(idProperty.name, this.fb.control(''));
+        this.form.addControl('Id', this.fb.control('', Validators.required));
+
+        // Subscribe to value changes of the 'Id' form control
+        this.form.get('Id')?.valueChanges.subscribe(value => {
+          console.log('Id value changed:', value);
+        });
+
+        // Trigger change detection
+        this.changeDetectorRef.detectChanges();
       }
     } else {
       this.properties.forEach((property) => {
         this.form.addControl(property.name, this.fb.control(''));
       });
     }
+    this.form.valueChanges.subscribe(value => {
+      console.log('Form value changed:', value);
+    });
+    console.log('Form:', this.form);
+    console.log('Form errors:', this.form.errors);
   }
+
+
+  onIdInputChange(event: any): void {
+    this.form.get('Id')?.setValue(event.target.value);
+    console.log('Id input changed:', event.target.value);
+  }
+
+
 
   onSubmit() {
     if (this.form.valid) {
       const values = this.form.value;
+
+      console.log(values);
+
       this.repositoryService.testRoute(this.route.id, values).subscribe(response => {
         this.response = response;
         if (response.records && response.records.length > 0) {

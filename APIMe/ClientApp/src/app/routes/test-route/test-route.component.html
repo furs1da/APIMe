@@ -23,7 +23,7 @@
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
       <mat-form-field appearance="fill">
         <mat-label>id</mat-label>
-        <input matInput formControlName="id" />
+        <input matInput formControlName="Id" (change)="onIdInputChange($event)" />
       </mat-form-field>
       <div mat-dialog-actions>
         <button mat-button (click)="close()">Cancel</button>
@@ -31,6 +31,8 @@
       </div>
     </form>
   </ng-container>
+
+
 
   <ng-container *ngIf="!showForm">
     <button mat-raised-button color="primary" (click)="onSubmit()">Test</button>

@@ -3,6 +3,7 @@ using APIMe.Entities.DataTransferObjects.Admin.Route;
 using APIMe.Entities.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System.Text.Json;
 
 namespace APIMe.Services.Routes
@@ -242,20 +243,26 @@ namespace APIMe.Services.Routes
             }
 
             var table = (IQueryable)tableProperty.GetValue(_context);
+            var entityType = table.ElementType;
 
-            // Deserialize the JsonElement to the appropriate entity type
-            object record = JsonSerializer.Deserialize(recordJson.GetRawText(), table.ElementType);
-
-            // Find the primary key property and set its value from the JsonElement
-            var keyProperty = _context.Model.FindEntityType(table.ElementType).FindPrimaryKey().Properties.Single();
-            keyProperty.PropertyInfo.SetValue(record, recordJson.GetProperty(keyProperty.Name).GetInt32());
+            // Use Newtonsoft.Json for deserialization
+            var recordString = recordJson.GetRawText();
+            var record = JsonConvert.DeserializeObject(recordString, entityType);
 
             // Attach the entity to the DbContext and set its state to 'Deleted'
             _context.Attach(record);
-            _context.Entry(record).State = EntityState.Deleted;
+            var entityEntry = _context.Entry(record);
+
+            if (entityEntry.State != EntityState.Unchanged && entityEntry.State != EntityState.Detached)
+            {
+                throw new InvalidOperationException($"The entity is in an unexpected state: {entityEntry.State}.");
+            }
+
+            entityEntry.State = EntityState.Deleted;
 
             await _context.SaveChangesAsync();
         }
+
 
 
 
