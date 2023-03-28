@@ -12,7 +12,7 @@ namespace APIMe.Entities.Constants
     {
         public static IReadOnlyList<CrudAction> Actions { get; } = new List<CrudAction>
         {
-            new CrudAction { Id = 1, Action = "POST" },
+            new CrudAction { Id = 1, Action = "GET" },
             new CrudAction { Id = 2, Action = "POST" },
             new CrudAction { Id = 3, Action = "PUT" },
             new CrudAction { Id = 4, Action = "PATCH" },

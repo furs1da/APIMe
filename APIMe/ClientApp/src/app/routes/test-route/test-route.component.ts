@@ -28,11 +28,11 @@ export class TestRouteComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getProperties(this.route.routeTypeId);
+    this.getProperties(this.route.id);
   }
 
-  getProperties(routeTypeId: number): void {
-    this.repositoryService.getPropertiesByRouteTypeId(routeTypeId).subscribe((properties) => {
+  getProperties(routeId: number): void {
+    this.repositoryService.getPropertiesByRouteId(routeId).subscribe((properties) => {
       this.properties = properties;
       this.createFormControls();
     });

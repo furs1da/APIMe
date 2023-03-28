@@ -59,8 +59,8 @@ export class RepositoryService {
   }
 
 
-  public getPropertiesByRouteTypeId(routeTypeId: number): Observable<Property[]> {
-    return this.http.get<Property[]>(this.createCompleteRoute(`routeTypeApi/properties/${routeTypeId}`, this.baseUrl));
+  public getPropertiesByRouteId(routeId: number): Observable<Property[]> {
+    return this.http.get<Property[]>(this.createCompleteRoute(`properties/${routeId}`, this.baseUrl));
   }
 
   public testRoute(routeId: number, values: any): Observable<TestRouteResponse> {

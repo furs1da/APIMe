@@ -72,7 +72,7 @@ namespace APIMe.Controllers
             }
         }
 
-        [HttpGet("routeTypeApi/properties/{routeId}")]
+        [HttpGet("properties/{routeId}")]
         public async Task<ActionResult<IEnumerable<Property>>> GetPropertiesByRouteId(int routeId)
         {
             var properties = await _routeService.GetPropertiesByRouteIdAsync(routeId);
@@ -98,7 +98,7 @@ namespace APIMe.Controllers
             routeDto.RouteTypeCrudActionName = CrudActions.Actions.FirstOrDefault(r => r.Id == route.RouteType.CrudId) == null ? "" : CrudActions.Actions.FirstOrDefault(r => r.Id == route.RouteType.CrudId).Action;
             routeDto.RouteTypeCrudActionId = route.RouteType.CrudId;
 
-            routeDto.Records = await _routeService.GetRecordsFromDataTableAsync(route.DataTableName);
+            routeDto.Records = await _routeService.GetRecordsFromDataTableAsync(route.DataTableName, 10);
 
             return routeDto;
         }
