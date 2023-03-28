@@ -3,6 +3,7 @@ using APIMe.Entities.DataTransferObjects.Admin.Route;
 using APIMe.Entities.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 namespace APIMe.Services.Routes
 {
@@ -172,7 +173,7 @@ namespace APIMe.Services.Routes
                 {
                     if (statusCode >= 200 && statusCode < 300)
                     {
-                        await DeleteRecordFromDataTableAsync(route.DataTableName, data);
+                        await DeleteRecordFromDataTableAsync(route.DataTableName, (JsonElement)data);
                         return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully deleted a record." };
                     }
                     else
@@ -227,7 +228,11 @@ namespace APIMe.Services.Routes
             return record;
         }
 
-        public async Task DeleteRecordFromDataTableAsync(string tableName, object record)
+
+
+
+
+        public async Task DeleteRecordFromDataTableAsync(string tableName, JsonElement recordJson)
         {
             var dbContextType = _context.GetType();
             var tableProperty = dbContextType.GetProperty(tableName);
@@ -237,11 +242,25 @@ namespace APIMe.Services.Routes
             }
 
             var table = (IQueryable)tableProperty.GetValue(_context);
-            var removeMethod = dbContextType.GetMethod("Remove");
-            removeMethod.MakeGenericMethod(table.ElementType).Invoke(_context, new[] { record });
+
+            // Deserialize the JsonElement to the appropriate entity type
+            object record = JsonSerializer.Deserialize(recordJson.GetRawText(), table.ElementType);
+
+            // Find the primary key property and set its value from the JsonElement
+            var keyProperty = _context.Model.FindEntityType(table.ElementType).FindPrimaryKey().Properties.Single();
+            keyProperty.PropertyInfo.SetValue(record, recordJson.GetProperty(keyProperty.Name).GetInt32());
+
+            // Attach the entity to the DbContext and set its state to 'Deleted'
+            _context.Attach(record);
+            _context.Entry(record).State = EntityState.Deleted;
 
             await _context.SaveChangesAsync();
         }
+
+
+
+
+
 
 
 

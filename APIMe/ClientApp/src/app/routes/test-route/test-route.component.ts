@@ -17,6 +17,7 @@ export class TestRouteComponent implements OnInit {
   response: TestRouteResponse | undefined;
   columns: string[] = [];
   showForm: boolean;
+  isDeleteRoute: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -26,7 +27,9 @@ export class TestRouteComponent implements OnInit {
   ) {
     this.route = data;
     this.form = this.fb.group({});
-    this.showForm = !(this.route.routeTypeName.includes('GET') || this.route.routeTypeName.includes('DELETE'));
+    this.showForm = !(this.route.routeTypeName.includes('GET') || this.route.routeTypeName.includes('ERROR'));
+
+    this.isDeleteRoute = this.route.routeTypeName.includes('DELETE');
   }
 
   ngOnInit(): void {
@@ -42,9 +45,17 @@ export class TestRouteComponent implements OnInit {
   }
 
   createFormControls(): void {
-    this.properties.forEach((property) => {
-      this.form.addControl(property.name, this.fb.control(''));
-    });
+
+    if (this.isDeleteRoute) {
+      const idProperty = this.properties.find(p => p.name === 'id');
+      if (idProperty) {
+        this.form.addControl(idProperty.name, this.fb.control(''));
+      }
+    } else {
+      this.properties.forEach((property) => {
+        this.form.addControl(property.name, this.fb.control(''));
+      });
+    }
   }
 
   onSubmit() {

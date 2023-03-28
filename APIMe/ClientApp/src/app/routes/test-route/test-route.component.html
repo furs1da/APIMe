@@ -1,6 +1,7 @@
 <h2 mat-dialog-title>{{ route.name }} Test</h2>
 <mat-dialog-content>
-  <ng-container *ngIf="showForm">
+  <!-- Display the form only when it's not a DELETE route and showForm is true -->
+  <ng-container *ngIf="showForm && !isDeleteRoute">
     <h3 class="table-name">Table: {{ route.dataTableName }}</h3>
     <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
       <div *ngFor="let property of properties">
@@ -15,6 +16,22 @@
       </div>
     </form>
   </ng-container>
+
+  <!-- Display the form with the 'id' input only when it's a DELETE route and showForm is true -->
+  <ng-container *ngIf="showForm && isDeleteRoute">
+    <h3 class="table-name">Table: {{ route.dataTableName }}</h3>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+      <mat-form-field appearance="fill">
+        <mat-label>id</mat-label>
+        <input matInput formControlName="id" />
+      </mat-form-field>
+      <div mat-dialog-actions>
+        <button mat-button (click)="close()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">Test</button>
+      </div>
+    </form>
+  </ng-container>
+
   <ng-container *ngIf="!showForm">
     <button mat-raised-button color="primary" (click)="onSubmit()">Test</button>
   </ng-container>
