@@ -34,6 +34,7 @@ export class TestRouteComponent implements OnInit {
   getProperties(routeId: number): void {
     this.repositoryService.getPropertiesByRouteId(routeId).subscribe((properties) => {
       this.properties = properties;
+      console.log(this.properties);
       this.createFormControls();
     });
   }

@@ -263,7 +263,10 @@ namespace APIMe.Services.Routes
             var dataTable = route.DataTableName;
             if (!string.IsNullOrEmpty(dataTable))
             {
-                var entityType = _context.Model.FindEntityType(dataTable)?.ClrType;
+                // Find the entityType by comparing the name instead of using FindEntityType
+                var entityType = _context.Model.GetEntityTypes()
+                    .FirstOrDefault(et => et.ClrType.Name.Equals(dataTable))?.ClrType;
+
                 if (entityType == null)
                 {
                     return properties;
@@ -277,6 +280,7 @@ namespace APIMe.Services.Routes
 
             return properties;
         }
+
 
 
 

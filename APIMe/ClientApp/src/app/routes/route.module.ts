@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -19,9 +19,10 @@ import { RoutesComponent } from './routes.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
+import { TestRouteComponent } from './test-route/test-route.component';
 
 @NgModule({
-  declarations: [RouteCardComponent, AddEditRouteDialogComponent, DeleteRouteDialogComponent, RoutesComponent],
+  declarations: [RouteCardComponent, AddEditRouteDialogComponent, DeleteRouteDialogComponent, RoutesComponent, TestRouteComponent],
   imports: [
     CommonModule,
     FormsModule,

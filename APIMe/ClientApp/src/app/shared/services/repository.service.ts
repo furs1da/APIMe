@@ -60,7 +60,7 @@ export class RepositoryService {
 
 
   public getPropertiesByRouteId(routeId: number): Observable<Property[]> {
-    return this.http.get<Property[]>(this.createCompleteRoute(`properties/${routeId}`, this.baseUrl));
+    return this.http.get<Property[]>(this.createCompleteRoute(`routeApi/properties/${routeId}`, this.baseUrl));
   }
 
   public testRoute(routeId: number, values: any): Observable<TestRouteResponse> {
