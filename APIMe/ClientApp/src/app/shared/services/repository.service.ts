@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { RouteDto } from '../../../interfaces/response/routeDTO';
 import { Property } from '../../../interfaces/response/property';
-import { TestRouteResponse } from '../../../interfaces/response/TestRouteResponse';
+import { TestRouteResponse } from '../../../interfaces/response/testRouteResponse';
 
 @Injectable({
   providedIn: 'root'
