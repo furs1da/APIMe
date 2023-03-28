@@ -82,7 +82,7 @@ export class RoutesComponent implements OnInit {
 
   openTestRouteDialog(route: RouteDto): void {
     const dialogRef = this.dialog.open(TestRouteComponent, {
-      width: '80%', // Set the max
+      width: '500px', // Set the max
       data: route,
     });
 

@@ -280,10 +280,5 @@ namespace APIMe.Services.Routes
 
             return properties;
         }
-
-
-
-
-
     }
 }
