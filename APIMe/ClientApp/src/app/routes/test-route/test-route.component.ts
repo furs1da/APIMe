@@ -16,6 +16,7 @@ export class TestRouteComponent implements OnInit {
   properties: any[] = [];
   response: TestRouteResponse | undefined;
   columns: string[] = [];
+  showForm: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -25,6 +26,7 @@ export class TestRouteComponent implements OnInit {
   ) {
     this.route = data;
     this.form = this.fb.group({});
+    this.showForm = !(this.route.routeTypeName.includes('GET') || this.route.routeTypeName.includes('DELETE'));
   }
 
   ngOnInit(): void {

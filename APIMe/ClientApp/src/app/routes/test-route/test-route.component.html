@@ -1,41 +1,49 @@
 <h2 mat-dialog-title>{{ route.name }} Test</h2>
 <mat-dialog-content>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div *ngFor="let property of properties">
-      <mat-form-field appearance="fill">
-        <mat-label>{{ property.name }}</mat-label>
-        <input matInput [formControlName]="property.name" />
-      </mat-form-field>
-    </div>
+  <ng-container *ngIf="showForm">
+    <h3 class="table-name">Table: {{ route.dataTableName }}</h3>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+      <div *ngFor="let property of properties">
+        <mat-form-field appearance="fill">
+          <mat-label>{{ property.name }}</mat-label>
+          <input matInput [formControlName]="property.name" />
+        </mat-form-field>
+      </div>
+      <div mat-dialog-actions>
+        <button mat-button (click)="close()">Cancel</button>
+        <button mat-raised-button color="primary" type="submit">Test</button>
+      </div>
+    </form>
+  </ng-container>
+  <ng-container *ngIf="!showForm">
+    <button mat-raised-button color="primary" (click)="onSubmit()">Test</button>
+  </ng-container>
 
-    <!-- Add the dynamic response visualization -->
-    <ng-container *ngIf="response">
-      <div class="response-status">
-        <span>Status code:</span> {{ response.statusCode }}
-      </div>
-      <div class="response-message">
-        <span>Message:</span> {{ response.message }}
-      </div>
-      <ng-container *ngIf="response.records">
-        <h3>Records:</h3>
-        <table mat-table [dataSource]="response.records" class="mat-elevation-z8">
-          <!-- Generate columns dynamically -->
-          <ng-container *ngFor="let column of columns">
-            <ng-container matColumnDef="{{ column }}">
-              <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
-              <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
-            </ng-container>
+  <!-- Add the dynamic response visualization -->
+  <div *ngIf="response" class="response-section">
+    <div class="response-status">
+      <span>Status code:</span> {{ response.statusCode }}
+    </div>
+    <div class="response-message">
+      <span>Message:</span> {{ response.message }}
+    </div>
+    <ng-container *ngIf="response.records">
+      <h3>Records:</h3>
+      <table mat-table [dataSource]="response.records" class="mat-elevation-z8">
+        <!-- Generate columns dynamically -->
+        <ng-container *ngFor="let column of columns">
+          <ng-container matColumnDef="{{ column }}">
+            <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+            <td mat-cell *matCellDef="let element">{{ element[column] }}</td>
           </ng-container>
+        </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="columns"></tr>
-          <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-        </table>
-      </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+      </table>
     </ng-container>
-
-    <div mat-dialog-actions>
-      <button mat-button (click)="close()">Cancel</button>
-      <button mat-raised-button color="primary" type="submit">Test</button>
-    </div>
-  </form>
+  </div>
 </mat-dialog-content>
+<div mat-dialog-actions *ngIf="!showForm">
+  <button mat-button (click)="close()">Cancel</button>
+</div>
