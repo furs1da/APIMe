@@ -138,7 +138,7 @@ namespace APIMe.Services.Routes
                 {
                     if (statusCode >= 200 && statusCode < 300)
                     {
-                        var addedRecord = await AddRecordToDataTableAsync(route.DataTableName, data);
+                        var addedRecord = await AddRecordToDataTableAsync(route.DataTableName, (JsonElement)data);
                         return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully added a new record.", Records = new List<object> { addedRecord } };
                     }
                     else
@@ -150,7 +150,7 @@ namespace APIMe.Services.Routes
                 {
                     if (statusCode >= 200 && statusCode < 300)
                     {
-                        var updatedRecord = await UpdateRecordInDataTableAsync(route.DataTableName, data);
+                        var updatedRecord = await UpdateRecordInDataTableAsync(route.DataTableName, (JsonElement)data);
                         return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully updated a record.", Records = new List<object> { updatedRecord } };
                     }
                     else
@@ -162,7 +162,7 @@ namespace APIMe.Services.Routes
                 {
                     if (statusCode >= 200 && statusCode < 300)
                     {
-                        var patchedRecord = await UpdateRecordInDataTableAsync(route.DataTableName, data);
+                        var patchedRecord = await UpdateRecordInDataTableAsync(route.DataTableName, (JsonElement)data);
                         return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully patched a record.", Records = new List<object> { patchedRecord } };
                     }
                     else
@@ -187,11 +187,11 @@ namespace APIMe.Services.Routes
                     return new TestRouteResponse { StatusCode = statusCode, Message = $"General error: {routeType}" };
                 }
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 return new TestRouteResponse { StatusCode = 500, Message = "The record you tried to update or delete may have already been changed or deleted by another user." };
             }
-            catch (DbUpdateException)
+            catch (DbUpdateException ex)
             {
                 return new TestRouteResponse { StatusCode = 500, Message = "An error occurred while updating the database. Please check the data you provided and try again." };
             }
@@ -217,7 +217,7 @@ namespace APIMe.Services.Routes
             }
         }
 
-        public async Task<object> AddRecordToDataTableAsync(string tableName, object record)
+        public async Task<object> AddRecordToDataTableAsync(string tableName, JsonElement recordJson)
         {
             var dbContextType = _context.GetType();
             var tableProperty = dbContextType.GetProperty(tableName);
@@ -227,15 +227,54 @@ namespace APIMe.Services.Routes
             }
 
             var table = (IQueryable)tableProperty.GetValue(_context);
-            var addMethod = dbContextType.GetMethod("Add");
-            addMethod.MakeGenericMethod(table.ElementType).Invoke(_context, new[] { record });
+            var entityType = table.ElementType;
 
-            await _context.SaveChangesAsync();
+            // Use Newtonsoft.Json for deserialization
+            var recordString = recordJson.GetRawText();
+            var record = JsonConvert.DeserializeObject(recordString, entityType);
+
+            // Use the 'Add' method to add the entity to the DbContext
+            var addMethod = dbContextType.GetMethods()
+                .FirstOrDefault(m => m.Name == "Add" && m.IsGenericMethod && m.GetParameters().Length == 1);
+            if (addMethod == null)
+            {
+                throw new InvalidOperationException("The 'Add' method could not be found.");
+            }
+            addMethod = addMethod.MakeGenericMethod(table.ElementType);
+
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    // Enable IDENTITY_INSERT for the 'Products' table
+                    await _context.Database.ExecuteSqlRawAsync($"SET IDENTITY_INSERT {tableName} ON");
+
+                    // Add the record and save changes
+                    addMethod.Invoke(_context, new[] { record });
+                    await _context.SaveChangesAsync();
+
+                    // Disable IDENTITY_INSERT for the 'Products' table
+                    await _context.Database.ExecuteSqlRawAsync($"SET IDENTITY_INSERT {tableName} OFF");
+
+                    // Commit the transaction
+                    await transaction.CommitAsync();
+                }
+                catch
+                {
+                    // Rollback the transaction if an error occurs
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+
 
             return record;
         }
 
-        public async Task<object> UpdateRecordInDataTableAsync(string tableName, object record)
+
+
+        public async Task<object> UpdateRecordInDataTableAsync(string tableName, JsonElement recordJson)
         {
             var dbContextType = _context.GetType();
             var tableProperty = dbContextType.GetProperty(tableName);
@@ -245,14 +284,30 @@ namespace APIMe.Services.Routes
             }
 
             var table = (IQueryable)tableProperty.GetValue(_context);
-            var updateMethod = dbContextType.GetMethod("Update");
-            updateMethod.MakeGenericMethod(table.ElementType).Invoke(_context, new[] { record });
+            var entityType = table.ElementType;
+
+            // Use Newtonsoft.Json for deserialization
+            var recordString = recordJson.GetRawText();
+            var record = JsonConvert.DeserializeObject(recordString, entityType);
+
+            // Attach the entity to the DbContext if it's not already tracked
+            var entityEntry = _context.Entry(record);
+            if (entityEntry.State == EntityState.Detached)
+            {
+                _context.Attach(record);
+            }
+
+            if (entityEntry.State != EntityState.Unchanged)
+            {
+                throw new InvalidOperationException($"The entity is in an unexpected state: {entityEntry.State}.");
+            }
+
+            entityEntry.State = EntityState.Modified;
 
             await _context.SaveChangesAsync();
 
             return record;
         }
-
 
 
 
