@@ -9,6 +9,7 @@
       "APIMeTests/1.0.0": {
         "dependencies": {
           "APIMe": "1.0.0",
+          "AutoMapper": "11.0.0",
           "MSTest.TestAdapter": "2.2.10",
           "MSTest.TestFramework": "2.2.10",
           "Microsoft.EntityFrameworkCore.InMemory": "7.0.4",
