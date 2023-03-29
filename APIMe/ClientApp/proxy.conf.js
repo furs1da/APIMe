@@ -9,8 +9,8 @@ const PROXY_CONFIG = [
       "/account",
       "/sectionApi",
       "/profileApi",
-
-
+      "/routeApi",
+      "/routeTypeApi", 
       "/_configuration",
       "/.well-known",
       "/Identity",

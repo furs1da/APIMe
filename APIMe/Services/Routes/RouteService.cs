@@ -1,7 +1,10 @@
-﻿using APIMe.Entities.DataTransferObjects.Admin.Route;
+﻿using APIMe.Entities.Constants;
+using APIMe.Entities.DataTransferObjects.Admin.Route;
 using APIMe.Entities.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace APIMe.Services.Routes
 {
@@ -18,7 +21,7 @@ namespace APIMe.Services.Routes
 
         // Other methods for managing routes, e.g., GetRoutes, CreateRoute, etc.
 
-        public async Task<IList<object>> GetRecordsFromDataTableAsync(string tableName)
+        public async Task<IList<object>> GetRecordsFromDataTableAsync(string tableName, int numberOfRecords)
         {
             var dbContextType = _context.GetType();
             var tableProperty = dbContextType.GetProperty(tableName);
@@ -28,9 +31,10 @@ namespace APIMe.Services.Routes
             }
 
             var table = (IQueryable)tableProperty.GetValue(_context);
-            var records = await table.Cast<object>().ToListAsync();
+            var records = await table.Cast<object>().Take(numberOfRecords).ToListAsync();
             return records;
         }
+
 
         public async Task<Entities.Models.Route> CreateRouteAsync(Entities.Models.Route route)
         {
@@ -87,10 +91,244 @@ namespace APIMe.Services.Routes
             foreach (var routeDto in routeDtos)
             {
                 var route = routes.First(r => r.Id == routeDto.Id);
-                routeDto.Records = await GetRecordsFromDataTableAsync(route.DataTableName);
+                routeDto.Records = await GetRecordsFromDataTableAsync(route.DataTableName, 5);
             }
 
             return routeDtos;
+        }
+
+        public async Task<IEnumerable<RouteTypeDto>> GetRouteTypesAsync()
+        {
+            var routes = await _context.RouteTypes.ToListAsync();
+            var routeDtos = _mapper.Map<IEnumerable<RouteTypeDto>>(routes);
+
+            return routeDtos;
+        }
+        public async Task<IEnumerable<DataSourceDTO>> GetDataSourcesAsync()
+        {
+            return DataSourceTables.DataSources.ToList();
+        }
+
+        public async Task<TestRouteResponse> TestRouteAsync(int routeId, object data)
+        {
+            var route = await _context.Routes.Include(rt => rt.RouteType).FirstOrDefaultAsync(rt => rt.Id == routeId);
+            if (route == null)
+            {
+                return new TestRouteResponse { StatusCode = 404, Message = "Route not found." };
+            }
+
+            var routeType = route.RouteType.Name;
+            var statusCode = int.Parse(route.RouteType.ResponseCode);
+
+            try
+            {
+                if (routeType.StartsWith("GET"))
+                {
+                    if (statusCode >= 200 && statusCode < 300)
+                    {
+                        var records = await GetRecordsFromDataTableAsync(route.DataTableName, 20);
+                        return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully retrieved records.", Records = records };
+                    }
+                    else
+                    {
+                        return new TestRouteResponse { StatusCode = statusCode, Message = $"GET request error: {routeType}" };
+                    }
+                }
+                else if (routeType.StartsWith("POST"))
+                {
+                    if (statusCode >= 200 && statusCode < 300)
+                    {
+                        var addedRecord = await AddRecordToDataTableAsync(route.DataTableName, data);
+                        return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully added a new record.", Records = new List<object> { addedRecord } };
+                    }
+                    else
+                    {
+                        return new TestRouteResponse { StatusCode = statusCode, Message = $"POST request error: {routeType}" };
+                    }
+                }
+                else if (routeType.StartsWith("PUT"))
+                {
+                    if (statusCode >= 200 && statusCode < 300)
+                    {
+                        var updatedRecord = await UpdateRecordInDataTableAsync(route.DataTableName, data);
+                        return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully updated a record.", Records = new List<object> { updatedRecord } };
+                    }
+                    else
+                    {
+                        return new TestRouteResponse { StatusCode = statusCode, Message = $"PUT request error: {routeType}" };
+                    }
+                }
+                else if (routeType.StartsWith("PATCH"))
+                {
+                    if (statusCode >= 200 && statusCode < 300)
+                    {
+                        var patchedRecord = await UpdateRecordInDataTableAsync(route.DataTableName, data);
+                        return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully patched a record.", Records = new List<object> { patchedRecord } };
+                    }
+                    else
+                    {
+                        return new TestRouteResponse { StatusCode = statusCode, Message = $"PATCH request error: {routeType}" };
+                    }
+                }
+                else if (routeType.StartsWith("DELETE"))
+                {
+                    if (statusCode >= 200 && statusCode < 300)
+                    {
+                        await DeleteRecordFromDataTableAsync(route.DataTableName, (JsonElement)data);
+                        return new TestRouteResponse { StatusCode = statusCode, Message = "Successfully deleted a record." };
+                    }
+                    else
+                    {
+                        return new TestRouteResponse { StatusCode = statusCode, Message = $"DELETE request error: {routeType}" };
+                    }
+                }
+                else
+                {
+                    return new TestRouteResponse { StatusCode = statusCode, Message = $"General error: {routeType}" };
+                }
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = "The record you tried to update or delete may have already been changed or deleted by another user." };
+            }
+            catch (DbUpdateException)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = "An error occurred while updating the database. Please check the data you provided and try again." };
+            }
+            catch (InvalidOperationException ex)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = $"An invalid operation occurred: {ex.Message}" };
+            }
+            catch (ArgumentNullException ex)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = $"A required argument was not provided: {ex.Message}" };
+            }
+            catch (ArgumentException ex)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = $"An argument error occurred: {ex.Message}" };
+            }
+            catch (Newtonsoft.Json.JsonException ex)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = $"An error occurred while processing JSON data: {ex.Message}" };
+            }
+            catch (Exception ex)
+            {
+                return new TestRouteResponse { StatusCode = 500, Message = $"An error occurred: {ex.Message}" };
+            }
+        }
+
+        public async Task<object> AddRecordToDataTableAsync(string tableName, object record)
+        {
+            var dbContextType = _context.GetType();
+            var tableProperty = dbContextType.GetProperty(tableName);
+            if (tableProperty == null)
+            {
+                throw new InvalidOperationException($"The table '{tableName}' does not exist in the DbContext.");
+            }
+
+            var table = (IQueryable)tableProperty.GetValue(_context);
+            var addMethod = dbContextType.GetMethod("Add");
+            addMethod.MakeGenericMethod(table.ElementType).Invoke(_context, new[] { record });
+
+            await _context.SaveChangesAsync();
+
+            return record;
+        }
+
+        public async Task<object> UpdateRecordInDataTableAsync(string tableName, object record)
+        {
+            var dbContextType = _context.GetType();
+            var tableProperty = dbContextType.GetProperty(tableName);
+            if (tableProperty == null)
+            {
+                throw new InvalidOperationException($"The table '{tableName}' does not exist in the DbContext.");
+            }
+
+            var table = (IQueryable)tableProperty.GetValue(_context);
+            var updateMethod = dbContextType.GetMethod("Update");
+            updateMethod.MakeGenericMethod(table.ElementType).Invoke(_context, new[] { record });
+
+            await _context.SaveChangesAsync();
+
+            return record;
+        }
+
+
+
+
+
+        public async Task DeleteRecordFromDataTableAsync(string tableName, JsonElement recordJson)
+        {
+            var dbContextType = _context.GetType();
+            var tableProperty = dbContextType.GetProperty(tableName);
+            if (tableProperty == null)
+            {
+                throw new InvalidOperationException($"The table '{tableName}' does not exist in the DbContext.");
+            }
+
+            var table = (IQueryable)tableProperty.GetValue(_context);
+            var entityType = table.ElementType;
+
+            // Use Newtonsoft.Json for deserialization
+            var recordString = recordJson.GetRawText();
+            var record = JsonConvert.DeserializeObject(recordString, entityType);
+
+            // Attach the entity to the DbContext and set its state to 'Deleted'
+            _context.Attach(record);
+            var entityEntry = _context.Entry(record);
+
+            if (entityEntry.State != EntityState.Unchanged && entityEntry.State != EntityState.Detached)
+            {
+                throw new InvalidOperationException($"The entity is in an unexpected state: {entityEntry.State}.");
+            }
+
+            entityEntry.State = EntityState.Deleted;
+
+            await _context.SaveChangesAsync();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public async Task<List<Property>> GetPropertiesByRouteIdAsync(int routeId)
+        {
+            var properties = new List<Property>();
+
+            var route = await _context.Routes.FirstOrDefaultAsync(rt => rt.Id == routeId);
+            if (route == null)
+            {
+                return properties;
+            }
+
+            var dataTable = route.DataTableName;
+            if (!string.IsNullOrEmpty(dataTable))
+            {
+                // Find the entityType by comparing the name instead of using FindEntityType
+                var entityType = _context.Model.GetEntityTypes()
+                    .FirstOrDefault(et => et.ClrType.Name.Equals(dataTable))?.ClrType;
+
+                if (entityType == null)
+                {
+                    return properties;
+                }
+
+                foreach (var prop in entityType.GetProperties())
+                {
+                    properties.Add(new Property { Name = prop.Name, Type = prop.PropertyType.Name });
+                }
+            }
+
+            return properties;
         }
     }
 }

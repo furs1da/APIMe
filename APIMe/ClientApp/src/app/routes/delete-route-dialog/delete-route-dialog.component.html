@@ -1,0 +1,11 @@
+  <h2 mat-dialog-title>
+  <mat-icon>delete</mat-icon>
+  Delete Route
+</h2>
+  <mat-dialog-content>
+    <p>Are you sure you want to delete the route "{{ data.name }}"?</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button color="warn" (click)="deleteRoute()">Delete</button>
+    <button mat-button mat-dialog-close>Cancel</button>
+  </mat-dialog-actions>

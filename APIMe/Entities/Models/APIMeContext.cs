@@ -19,7 +19,7 @@ namespace APIMe.Entities.Models
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
                 string username = "apimeconestoga@gmail.com";
-                string password = "1OBb$^#0^u21!"; // #ruzziaIsTerroristState 
+                string password = "1OBb$^#0^u21!"; 
                 string roleName = "Administrator";
 
                 // if role doesn't exist, create it
@@ -59,11 +59,11 @@ namespace APIMe.Entities.Models
         //public virtual DbSet<AspNetUserLogin> AspNetUserLogins { get; set; } = null!;
         //public virtual DbSet<AspNetUserToken> AspNetUserTokens { get; set; } = null!;
         public virtual DbSet<BugFeature> BugFeatures { get; set; } = null!;
-        public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<Customers> Customers { get; set; } = null!;
         public virtual DbSet<DeviceCode> DeviceCodes { get; set; } = null!;
         public virtual DbSet<Key> Keys { get; set; } = null!;
         public virtual DbSet<PersistedGrant> PersistedGrants { get; set; } = null!;
-        public virtual DbSet<Product> Products { get; set; } = null!;
+        public virtual DbSet<Products> Products { get; set; } = null!;
         public virtual DbSet<Professor> Professors { get; set; } = null!;
         public virtual DbSet<Project> Projects { get; set; } = null!;
         public virtual DbSet<Route> Routes { get; set; } = null!;
@@ -141,7 +141,7 @@ namespace APIMe.Entities.Models
                     .HasConstraintName("FK_BugFeature_Project");
             });
 
-            modelBuilder.Entity<Customer>(entity =>
+            modelBuilder.Entity<Customers>(entity =>
             {
                 entity.ToTable("Customer");
 
@@ -167,7 +167,7 @@ namespace APIMe.Entities.Models
 
 
 
-            modelBuilder.Entity<Product>(entity =>
+            modelBuilder.Entity<Products>(entity =>
             {
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -420,6 +420,7 @@ namespace APIMe.Entities.Models
             modelBuilder.ApplyConfiguration(new ProfessorConfiguration());
             modelBuilder.ApplyConfiguration(new SectionConfiguration());
             modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration(new RouteTypeConfiguration());
         }
     }
 }

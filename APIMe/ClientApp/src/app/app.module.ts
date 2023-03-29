@@ -22,7 +22,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
@@ -30,6 +30,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTableModule } from '@angular/material/table';
+
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -52,10 +56,13 @@ export function tokenGetter() {
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
+    MatSelectModule,
     MatInputModule,
     MatFormFieldModule,
     MatDividerModule,
     MatCardModule,
+    MatTableModule,
+    MatSlideToggleModule,
     CollapseModule.forRoot(),
     NgbModule,
     FontAwesomeModule,
@@ -68,6 +75,7 @@ export function tokenGetter() {
       { path: 'authentication', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
       { path: 'section', loadChildren: () => import('./section/section.module').then(m => m.SectionModule), canActivate: [AuthGuard] },
       { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule), canActivate: [AuthGuard] },
+      { path: 'route', loadChildren: () => import('./routes/route.module').then(m => m.RouteModule), canActivate: [AuthGuard] },
       { path: '404', component: NotFoundComponent },
       { path: 'forbidden', component: ForbiddenComponent },
       

@@ -1,0 +1,60 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12 d-flex justify-content-between align-items-end my-3">
+      <h1 class="mb-0">Routes</h1>
+      <button mat-raised-button color="primary" class="add-route-button" (click)="openAddRouteDialog()">
+        <mat-icon>add</mat-icon> Add Route
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 d-flex justify-content-between align-items-end my-3">
+      <!-- Add a search input for name filtering -->
+      <!-- Add a search input for name filtering -->
+      <mat-form-field appearance="fill" class="filter-field">
+        <mat-label>Filter by Name</mat-label>
+        <input matInput [(ngModel)]="searchName" (input)="filterRoutes()" />
+      </mat-form-field>
+
+      <!-- Add a mat-select for route type filtering -->
+      <mat-form-field appearance="fill" class="filter-field">
+        <mat-label>Filter by Route Type</mat-label>
+        <mat-select [(value)]="selectedRouteType" (selectionChange)="filterRoutes()">
+          <mat-option value="">All</mat-option>
+          <mat-option *ngFor="let routeType of routeTypes" [value]="routeType">
+            {{ routeType }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <mat-divider></mat-divider>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="card-deck-wrapper">
+        <div class="card-deck">
+          <ng-container *ngIf="filteredRoutes.length; else noRoutes">
+            <ng-container *ngFor="let route of filteredRoutes">
+              <app-route-card [route]="route"
+                              (edit)="openEditRouteDialog($event)"
+                              (delete)="openDeleteRouteDialog($event)"
+                              (test)="openTestRouteDialog($event)"></app-route-card>
+            </ng-container>
+          </ng-container>
+          <ng-template #noRoutes>
+            <div class="no-routes-message">
+              No routes to display.
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

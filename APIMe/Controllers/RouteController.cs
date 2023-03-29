@@ -40,13 +40,47 @@ namespace APIMe.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet]
+        [HttpGet("routes")]
         public async Task<ActionResult<IEnumerable<RouteDto>>> GetRoutes()
         {      
                 var routes = await _routeService.GetRoutesAsync();
                 var routeDtos = _mapper.Map<IEnumerable<RouteDto>>(routes);
                 return Ok(routeDtos);
         }
+
+
+        [HttpGet("dataSources")]
+        public async Task<ActionResult<IEnumerable<RouteDto>>> GetDataSources()
+        {
+            var sources = await _routeService.GetDataSourcesAsync();
+         
+            return Ok(sources);
+        }
+
+
+        [HttpPost("testRoute/{routeId}")]
+        public async Task<ActionResult<TestRouteResponse>> TestRoute(int routeId, [FromBody] object values)
+        {
+            try
+            {
+                var response = await _routeService.TestRouteAsync(routeId, values);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("properties/{routeId}")]
+        public async Task<ActionResult<IEnumerable<Property>>> GetPropertiesByRouteId(int routeId)
+        {
+            var properties = await _routeService.GetPropertiesByRouteIdAsync(routeId);
+            return Ok(properties);
+        }
+
+
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<RouteDto>> GetRoute(int id)
@@ -64,12 +98,12 @@ namespace APIMe.Controllers
             routeDto.RouteTypeCrudActionName = CrudActions.Actions.FirstOrDefault(r => r.Id == route.RouteType.CrudId) == null ? "" : CrudActions.Actions.FirstOrDefault(r => r.Id == route.RouteType.CrudId).Action;
             routeDto.RouteTypeCrudActionId = route.RouteType.CrudId;
 
-            routeDto.Records = await _routeService.GetRecordsFromDataTableAsync(route.DataTableName);
+            routeDto.Records = await _routeService.GetRecordsFromDataTableAsync(route.DataTableName, 10);
 
             return routeDto;
         }
 
-        [HttpPost]
+        [HttpPost("add")]
         public async Task<ActionResult<RouteDto>> CreateRoute(RouteDto routeDto)
         {
             var route = _mapper.Map<Entities.Models.Route>(routeDto);
@@ -78,7 +112,7 @@ namespace APIMe.Controllers
             return CreatedAtAction(nameof(GetRoute), new { id = createdRouteDto.Id }, createdRouteDto);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> UpdateRoute(int id, RouteDto routeDto)
         {
             if (id != routeDto.Id)
@@ -100,7 +134,7 @@ namespace APIMe.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteRoute(int id)
         {
             var result = await _routeService.DeleteRouteAsync(id);

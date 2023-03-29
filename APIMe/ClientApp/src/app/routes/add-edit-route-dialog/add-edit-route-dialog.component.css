@@ -1,0 +1,53 @@
+.mat-dialog-content {
+  max-height: 70vh;
+  overflow-y: auto;
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+button.save-button {
+  background-color: #007bff;
+  color: white;
+}
+
+button.cancel-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.slide-toggle-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+  .slide-toggle-container label {
+    font-size: 1.1em;
+    margin-right: 1rem;
+  }
+
+
+::ng-deep .mat-mdc-slide-toggle.mat-mdc-slide-toggle-checked:not(.mat-disabled) .mdc-switch__shadow {
+  background-color: rgb(50, 170, 118);
+  /*replace with your color*/
+}
+
+::ng-deep .mat-mdc-slide-toggle.mat-mdc-slide-toggle-checked:not(.mat-disabled) .mdc-switch__track::after {
+  background-color: rgb(113, 226, 147) !important;
+  /*replace with your color*/
+}
+
+
+
+
+.mdc-dialog__content {
+  padding-top: 1rem;
+  padding-bottom: 0;
+}
+
+

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace APIMe.Entities.Models
 {
-    public partial class Customer
+    public partial class Customers
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

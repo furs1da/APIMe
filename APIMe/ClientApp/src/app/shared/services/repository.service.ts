@@ -4,6 +4,9 @@ import { Section } from '../../../interfaces/request/section';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { ProfessorProfile } from 'src/interfaces/profile/profile/professorProfile';
+import { RouteDto } from '../../../interfaces/response/routeDTO';
+import { Property } from '../../../interfaces/response/property';
+import { TestRouteResponse } from 'src/interfaces/response/TestRouteResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -37,6 +40,35 @@ export class RepositoryService {
 
   public deleteSection(id: number) {
     return this.http.delete(this.createCompleteRoute(`sectionApi/delete/${id}`, this.baseUrl));
+  }
+
+
+  public getRoutes = () => {
+    return this.http.get<RouteDto[]>(this.createCompleteRoute('routeApi/routes', this.baseUrl));
+  }
+
+  public createRoute(route: RouteDto) {
+    return this.http.post<RouteDto>(this.createCompleteRoute('routeApi/add', this.baseUrl), route);
+  }
+
+  public updateRoute(route: RouteDto) {
+    return this.http.put<RouteDto>(this.createCompleteRoute(`routeApi/update/${route.id}`, this.baseUrl), route);
+  }
+
+  public deleteRoute(id: number) {
+    return this.http.delete(this.createCompleteRoute(`routeApi/delete/${id}`, this.baseUrl));
+  }
+
+
+  public getPropertiesByRouteId(routeId: number): Observable<Property[]> {
+    return this.http.get<Property[]>(this.createCompleteRoute(`routeApi/properties/${routeId}`, this.baseUrl));
+  }
+
+  public testRoute(routeId: number, values: any): Observable<TestRouteResponse> {
+    return this.http.post<TestRouteResponse>(
+      this.createCompleteRoute(`routeApi/testRoute/${routeId}`, this.baseUrl),
+      values
+    );
   }
 
 
