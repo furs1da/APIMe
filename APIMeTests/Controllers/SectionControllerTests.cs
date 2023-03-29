@@ -42,13 +42,23 @@ namespace APIMe.Controllers.Tests
     [TestClass()]
     public class SectionControllerTests
     {
-        public APIMeContext? ContextDataAccess { get; set; }
+        private SectionController controller;
 
-        [SetUp]
-        public void TestMethodSetup()
+        public SectionControllerTests()
         {
-            this.ContextDataAccess = Substitute.For<APIMeContext>();
-            this.ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
+            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            IConfiguration configuration = configurationBuilder.Build();
+            var mockStore = new Mock<IUserStore<IdentityUser>>();
+            var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
+            JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
+            APIMeContext ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
+
+            controller = new SectionController(userManager, ContextDataAccess, jwtHandler);
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, "testingmockup"),
+            }, "mock"));
+            controller.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
         }
 
         [TestMethod()]
@@ -59,7 +69,7 @@ namespace APIMe.Controllers.Tests
             var mockStore = new Mock<IUserStore<IdentityUser>>();
             var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
             JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
-            this.ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
+            APIMeContext ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
             SectionController sectionController = new SectionController(userManager, ContextDataAccess, jwtHandler);
             Assert.IsNotNull(sectionController);
         }
@@ -67,93 +77,56 @@ namespace APIMe.Controllers.Tests
         [TestMethod()]
             public async Task GetSectionsTest()
         {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            IConfiguration configuration = configurationBuilder.Build();
-            var mockStore = new Mock<IUserStore<IdentityUser>>();
-            var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[] {
-                                        new Claim(ClaimTypes.NameIdentifier, "TestingUser"),
-                                        new Claim(ClaimTypes.Name, "test@test.com")
-                                   }, "TestAuthentication"));
-            JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
-            this.ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-            SectionController sectionController = new SectionController(userManager, ContextDataAccess, jwtHandler);
-            ActionResult<List<SectionDTO>> result = await sectionController.GetSections();
+            ActionResult<List<SectionDTO>> result = await controller.GetSections();
             Assert.IsNotNull(result);
         }
         [TestMethod()]
             public async Task AddSectionTest()
-        {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            IConfiguration configuration = configurationBuilder.Build();
-            var mockStore = new Mock<IUserStore<IdentityUser>>();
-            var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
-            JwtHandler jwtHandler = new JwtHandler(configuration, userManager);         
-            this.ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-            SectionController sectionController = new SectionController(userManager, ContextDataAccess, jwtHandler);
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            { 
-                new Claim(ClaimTypes.Name, "testingmockup"),
-            }, "mock"));
-            sectionController.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
+        { 
             SectionDTO section=new SectionDTO();
-            section.Id = 1;
+            section.Id = -1;
             section.SectionName = "Test";
             section.NumberOfStudents = 1;
             section.ProfessorName = "Test";
             section.AccessCode = "Test";
-            ActionResult<SectionDTO> result = await sectionController.AddSection(section);
-            Assert.IsNotNull(result);
+            ActionResult<SectionDTO> result = await controller.AddSection(section);
+            Assert.IsNotNull(result);            
+            Assert.AreEqual(201, actual: ((CreatedAtActionResult)result.Result).StatusCode);
         }
 
         [TestMethod()]
             public async Task EditSectionTest()
         {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            IConfiguration configuration = configurationBuilder.Build();
-            var mockStore = new Mock<IUserStore<IdentityUser>>();
-            var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
-            JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
-            this.ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-            SectionController sectionController = new SectionController(userManager, ContextDataAccess, jwtHandler);
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, "testingmockup"),
-            }, "mock"));
-            sectionController.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
             SectionDTO section = new SectionDTO();
             section.Id = 4;
             section.SectionName = "Test";
             section.NumberOfStudents = 1;
             section.ProfessorName = "Test";
             section.AccessCode = "Test";
-            ActionResult<SectionDTO> result = await sectionController.EditSection(4,section);
+            ActionResult<SectionDTO> result = await controller.EditSection(4,section);
             Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((OkResult)result.Result).StatusCode);
         }
 
         [TestMethod()]
             public async Task DeleteSectionTest()
-        {
-            NoContentResult expected=new();
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            IConfiguration configuration = configurationBuilder.Build();
-            var mockStore = new Mock<IUserStore<IdentityUser>>();
-            var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);          
-            JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
-            this.ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-
-            SectionController sectionController = new SectionController(userManager, ContextDataAccess, jwtHandler); 
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {              
-                new Claim(ClaimTypes.Name, "testingmockup"),
-            }, "mock"));
-            sectionController.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
-            IActionResult result = await sectionController.DeleteSection(4);
+        {       
+            IActionResult result = await controller.DeleteSection(4);
             Assert.IsNotNull(result);
+            Assert.AreEqual(204, actual: ((NoContentResult)result).StatusCode);
         }
 
         [TestMethod()]
             public void PrivacyTest()
+        {
+            
+            IActionResult result = controller.Privacy();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((OkObjectResult)result).StatusCode);
+        }
+
+
+/*        private void testSetup()
         {
             IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
             IConfiguration configuration = configurationBuilder.Build();
@@ -161,14 +134,13 @@ namespace APIMe.Controllers.Tests
             var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
             JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
             this.ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-            SectionController sectionController = new SectionController(userManager, ContextDataAccess, jwtHandler);
+
+            controller = new SectionController(userManager, ContextDataAccess, jwtHandler);
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, "testingmockup"),
             }, "mock"));
-            sectionController.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
-            IActionResult result = sectionController.Privacy();
-            Assert.IsNotNull(result);
-        }
+            controller.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
+        }*/
     }
 }
