@@ -62,19 +62,6 @@ namespace APIMe.Controllers.Tests
         }
 
         [TestMethod()]
-            public void SectionControllerTest()
-        {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            IConfiguration configuration = configurationBuilder.Build();
-            var mockStore = new Mock<IUserStore<IdentityUser>>();
-            var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
-            JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
-            APIMeContext ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-            SectionController sectionController = new SectionController(userManager, ContextDataAccess, jwtHandler);
-            Assert.IsNotNull(sectionController);
-        }
-
-        [TestMethod()]
             public async Task GetSectionsTest()
         {
             ActionResult<List<SectionDTO>> result = await controller.GetSections();
