@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { RepositoryService } from 'src/app/shared/services/repository.service';
 import { RouteDto } from '../../../interfaces/response/routeDTO';
-import { TestRouteResponse } from '../../../interfaces/response/TestRouteResponse';
+import { TestRouteResponse } from '../../../interfaces/response/testRouteResponse';
 
 @Component({
   selector: 'app-test-route',
