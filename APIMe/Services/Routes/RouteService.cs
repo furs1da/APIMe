@@ -290,23 +290,28 @@ namespace APIMe.Services.Routes
             var recordString = recordJson.GetRawText();
             var record = JsonConvert.DeserializeObject(recordString, entityType);
 
-            // Attach the entity to the DbContext if it's not already tracked
-            var entityEntry = _context.Entry(record);
-            if (entityEntry.State == EntityState.Detached)
+            // Find and load the existing entity from the database
+            var keyValues = _context.Model.FindEntityType(entityType).FindPrimaryKey().Properties
+                .Select(p => p.PropertyInfo.GetValue(record)).ToArray();
+            var existingEntity = await _context.FindAsync(entityType, keyValues);
+
+            if (existingEntity == null)
             {
-                _context.Attach(record);
+                throw new InvalidOperationException($"The entity with the specified key values could not be found.");
             }
 
-            if (entityEntry.State != EntityState.Unchanged)
+            // Copy the properties from the updated record to the existing entity
+            var entityProperties = entityType.GetProperties();
+            foreach (var property in entityProperties)
             {
-                throw new InvalidOperationException($"The entity is in an unexpected state: {entityEntry.State}.");
+                var newValue = property.GetValue(record);
+                property.SetValue(existingEntity, newValue);
             }
 
-            entityEntry.State = EntityState.Modified;
-
+            // Save the changes
             await _context.SaveChangesAsync();
 
-            return record;
+            return existingEntity;
         }
 
 
