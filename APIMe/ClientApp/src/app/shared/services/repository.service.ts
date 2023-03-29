@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Section } from '../../../interfaces/request/section';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
+import { ProfessorProfile } from 'src/interfaces/profile/profile/professorProfile';
 import { RouteDto } from '../../../interfaces/response/routeDTO';
 import { Property } from '../../../interfaces/response/property';
 import { TestRouteResponse } from '../../../interfaces/response/testRouteResponse';
@@ -74,7 +75,15 @@ export class RepositoryService {
   public getClaims = (route: string) => {
     return this.http.get(this.createCompleteRoute(route, this.baseUrl));
   }
+  
+  public getProfessorProfile = (route: string) => {
+    return this.http.get<ProfessorProfile>(this.createCompleteRoute(route, this.baseUrl));
+  }
 
+  public updateProfessorProfile = (professorProfile: ProfessorProfile) => {
+    return this.http.put<Section>(this.createCompleteRoute('profileApi/edit/' + professorProfile.id, this.baseUrl), professorProfile);
+  }
+  
   private createCompleteRoute = (route: string, baseUrl: string) => {
     console.log(`${baseUrl}${route}`);
     return `${baseUrl}${route}`;
