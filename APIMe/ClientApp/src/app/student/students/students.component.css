@@ -1,0 +1,26 @@
+mat-card {
+  max-width: 100%;
+  margin: 1rem 0;
+}
+
+mat-card-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+table {
+  width: 100%;
+}
+
+mat-header-cell,
+mat-cell {
+  padding: 0.5rem;
+}

@@ -8,8 +8,8 @@ namespace APIMe.Entities.DataTransferObjects.Admin.Section
         public string SectionName { get; set; }
         public string ProfessorName { get; set; }
         public string AccessCode { get; set; }
-        public int NumberOfStudents { get; set; }
+        public int? NumberOfStudents { get; set; }
 
-        public List<StudentDTO>? Students { get; set; }
+        public List<StudentDto>? Students { get; set; }
     }
 }

@@ -1,3 +1,5 @@
+import { Section } from "./section";
+
 export interface Student {
   id: number;
   email: string;

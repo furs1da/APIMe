@@ -43,22 +43,77 @@ namespace APIMe.Controllers
         [HttpGet("students")]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
-            var students = await _aPIMeContext.Students.Include(s => s.Sections).ToListAsync();
-            return Ok(_mapper.Map<List<StudentDto>>(students));
+            return await _aPIMeContext.Students
+                 .Include(s => s.StudentSections)
+                 .ThenInclude(ss => ss.Section)
+                 .Select(s => new StudentDto
+                 {
+                     Id = s.Id,
+                     Email = s.Email,
+                     FirstName = s.FirstName,
+                     LastName = s.LastName,
+                     StudentId = s.StudentId,
+                     ApiKey = s.ApiKey,
+                     Sections = s.StudentSections.Select(ss => new SectionDTO
+                     {
+                         Id = ss.Section.Id,
+                         SectionName = ss.Section.SectionName,
+                         ProfessorName = ss.Section.Professor.FirstName + " " + ss.Section.Professor.LastName,
+                         AccessCode = ss.Section.AccessCode
+                     }).ToList()
+                 })
+                 .ToListAsync();
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("sections")]
+        public async Task<ActionResult<List<SectionDTO>>> GetSections()
+        {
+            var sections = await _aPIMeContext.Sections
+                .Select(s => new SectionDTO
+                {
+                    Id = s.Id,
+                    SectionName = s.SectionName,
+                    ProfessorName = s.Professor.FirstName + " " + s.Professor.LastName,
+                    AccessCode = s.AccessCode,
+                    NumberOfStudents = s.StudentSections.Where(ss => ss.SectionId == s.Id).Count()
+                })
+                .ToListAsync();
+
+            return sections;
         }
 
         // GET: api/Students/5
         [HttpGet("student/{id}")]
         public async Task<ActionResult<StudentDto>> GetStudent(int id)
         {
-            var student = await _aPIMeContext.Students.Include(s => s.Sections).FirstOrDefaultAsync(s => s.Id == id);
+            var student = await _aPIMeContext.Students
+               .Include(s => s.StudentSections)
+               .ThenInclude(ss => ss.Section)
+               .Select(s => new StudentDto
+               {
+                   Id = s.Id,
+                   Email = s.Email,
+                   FirstName = s.FirstName,
+                   LastName = s.LastName,
+                   StudentId = s.StudentId,
+                   ApiKey = s.ApiKey,
+                   Sections = s.StudentSections.Select(ss => new SectionDTO
+                   {
+                       Id = ss.Section.Id,
+                       SectionName = ss.Section.SectionName,
+                       ProfessorName = ss.Section.Professor.FirstName + " " + ss.Section.Professor.LastName,
+                       AccessCode = ss.Section.AccessCode
+                   }).ToList()
+               })
+               .FirstOrDefaultAsync(s => s.Id == id);
 
             if (student == null)
             {
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<StudentDto>(student));
+            return Ok(student);
         }
 
         // PUT: api/Students/5

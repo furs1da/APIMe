@@ -1,0 +1,20 @@
+<h2 mat-dialog-title>Student Information</h2>
+<mat-dialog-content>
+  <div>
+    <strong>First Name:</strong> {{ data.student.firstName }}
+  </div>
+  <div>
+    <strong>Last Name:</strong> {{ data.student.lastName }}
+  </div>
+  <div>
+    <strong>Email:</strong> {{ data.student.email }}
+  </div>
+  <!--<div *ngIf="data.student.sections && data.student.sections.length > 0">
+    <p>Sections: {{ data.student.sections.map(section : Section => section.sectionName).join(', ') }}</p>
+  </div>-->
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>
