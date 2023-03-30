@@ -8,7 +8,7 @@ namespace APIMe.Entities.Models
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         public string Description { get; set; } = null!;
-        public string Price { get; set; } = null!;
-        public string Quantity { get; set; } = null!;
+        public decimal Price { get; set; } 
+        public int Quantity { get; set; }
     }
 }

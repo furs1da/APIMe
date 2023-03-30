@@ -6,7 +6,8 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ProfessorProfile } from 'src/interfaces/profile/profile/professorProfile';
 import { RouteDto } from '../../../interfaces/response/routeDTO';
 import { Property } from '../../../interfaces/response/property';
-import { TestRouteResponse } from '../../../interfaces/response/testRouteResponse';
+import { TestRouteResponse } from 'src/interfaces/response/testRouteResponse';
+import { Student } from '../../../interfaces/request/student';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,51 @@ export class RepositoryService {
   public deleteSection(id: number) {
     return this.http.delete(this.createCompleteRoute(`sectionApi/delete/${id}`, this.baseUrl));
   }
+
+
+
+  getStudents(): Observable<Student[]> {
+    return this.http.get<Student[]>(this.createCompleteRoute(`studentApi/students`, this.baseUrl))
+      .pipe(catchError(this.handleError<Student[]>('getStudents', [])));
+  }
+
+  createStudent(student: Student): Observable<Student> {
+    return this.http.post<Student>(this.createCompleteRoute(`studentApi/add`, this.baseUrl), student);
+  }
+
+  updateStudent(student: Student): Observable<Student> {
+    return this.http.put<Student>(this.createCompleteRoute(`studentApi/edit`, this.baseUrl), student);
+  }
+
+  getStudent(id: number): Observable<Student> {
+    return this.http.get<Student>(this.createCompleteRoute(`studentApi/student/` + id, this.baseUrl))
+      ;
+  }
+
+  deleteStudent(id: number): Observable<unknown> {
+    return this.http
+      .delete(this.createCompleteRoute(`studentApi/delete/` + id, this.baseUrl))
+      .pipe(catchError(this.handleError('deleteStudent')));
+  }
+
+
+  getSectionsStudent(): Observable<Section[]> {
+    return this.http
+      .get<Section[]>(this.createCompleteRoute(`studentApi/sections`, this.baseUrl))
+      .pipe(catchError(this.handleError<Section[]>('getSectionsStudent', [])));;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   public getRoutes = () => {
@@ -87,5 +133,13 @@ export class RepositoryService {
   private createCompleteRoute = (route: string, baseUrl: string) => {
     console.log(`${baseUrl}${route}`);
     return `${baseUrl}${route}`;
+  }
+
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 }

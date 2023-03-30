@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>
+  <mat-icon>delete</mat-icon>
+  Delete Student
+</h2>
+<mat-dialog-content>
+  <p>
+    Are you sure you want to delete "{{ data.student.firstName }} {{data.student.lastName}}"?
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button class="delete-button" (click)="dialogRef.close(true)">
+    Delete
+  </button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>
