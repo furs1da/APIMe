@@ -15,6 +15,7 @@ using Moq;
 using System.Security.Claims;
 using APIMe.Services.Routes;
 using AutoMapper;
+using APIMe.Migrations;
 
 namespace APIMe.Controllers.Tests
 {
@@ -26,22 +27,23 @@ namespace APIMe.Controllers.Tests
 
         public RouteControllerTests()
         {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            IConfiguration configuration = configurationBuilder.Build();
             var mockStore = new Mock<IUserStore<IdentityUser>>();
-            var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
-            JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
+
+            var userManager = new Mock<UserManager<IdentityUser>>(mockStore.Object, null, null, null, null, null, null, null, null);
+
+            JwtHandler jwtHandler = MockJwt.GetJwtHandler();
             APIMeContext ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-            SectionController controller = new SectionController(userManager, ContextDataAccess, jwtHandler);
+
+
+            var mapper = new Mock<IMapper>();
+            RouteService routeService = new RouteService(ContextDataAccess, mapper.Object);
+
+            route = new RouteController(userManager.Object, ContextDataAccess, routeService, mapper.Object);
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, "testingmockup"),
             }, "mock"));
-            controller.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
- 
-            IMapper mapper;
-/*            RouteService routeService = new RouteService(ContextDataAccess, mapper);
-            route = new RouteController(userManager, ContextDataAccess, routeService, mapper);*/
+            route.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
         }
 
         [TestMethod()]

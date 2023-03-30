@@ -17,6 +17,7 @@ using System.Security.Claims;
 using APIMe.Services.Routes;
 using Microsoft.AspNetCore.Mvc;
 using APIMe.Entities.DataTransferObjects.Admin.Route;
+using APIMe.Mapping;
 
 namespace APIMe.Controllers.Tests
 {
@@ -31,21 +32,15 @@ namespace APIMe.Controllers.Tests
             var mockStore = new Mock<IUserStore<IdentityUser>>();
 
             var userManager = new Mock<UserManager<IdentityUser>>(mockStore.Object, null, null, null, null, null, null, null, null);
-/*            userManager.Setup(p => p.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(new IdentityUser { Email = "test", EmailConfirmed = true, Id = "4", UserName = "test" });
-            userManager.Setup(p => p.IsEmailConfirmedAsync(It.IsAny<IdentityUser>())).ReturnsAsync(true);
-            userManager.Setup(p => p.CheckPasswordAsync(It.IsAny<IdentityUser>(), It.IsAny<string>())).ReturnsAsync(true);
-            userManager.Setup(p => p.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync(new IdentityUser { Email = "test", EmailConfirmed = true, Id = "4", UserName = "test" });
-            userManager.Setup(p => p.CreateAsync(It.IsAny<IdentityUser>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
-            userManager.Setup(p => p.ConfirmEmailAsync(It.IsAny<IdentityUser>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
-            userManager.Setup(p => p.ResetPasswordAsync(It.IsAny<IdentityUser>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);*/
 
             JwtHandler jwtHandler = MockJwt.GetJwtHandler();
             APIMeContext ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
 
-            var route = new Mock<RouteService>();
-            var mapper=new Mock<Mapper>();
 
-            routeType = new RouteTypeController(userManager.Object, ContextDataAccess, route.Object, mapper.Object);
+            var mapper=new Mock<IMapper>();
+            RouteService route = new RouteService(ContextDataAccess,mapper.Object);
+
+            routeType = new RouteTypeController(userManager.Object, ContextDataAccess, route, mapper.Object);
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, "testingmockup"),
