@@ -1,4 +1,6 @@
-﻿namespace APIMe.Entities.DataTransferObjects.Admin.Section
+﻿using APIMe.Entities.DataTransferObjects.Admin.Student;
+
+namespace APIMe.Entities.DataTransferObjects.Admin.Section
 {
     public class SectionDTO
     {
@@ -7,5 +9,7 @@
         public string ProfessorName { get; set; }
         public string AccessCode { get; set; }
         public int NumberOfStudents { get; set; }
+
+        public List<StudentDTO>? Students { get; set; }
     }
 }
