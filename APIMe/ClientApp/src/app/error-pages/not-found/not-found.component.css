@@ -1,0 +1,24 @@
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+}
+
+.not-found-icon {
+  font-size: 5rem;
+  color: #bdbdbd;
+}
+
+.not-found-text {
+  font-size: 2rem;
+  color: #bdbdbd;
+  margin-top: 1rem;
+}
+
+.not-found-description {
+  font-size: 1.5rem;
+  color: #bdbdbd;
+  margin-top: 1rem;
+}

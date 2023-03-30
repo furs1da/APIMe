@@ -1,1 +1,6 @@
-<p> {{notFoundText}} </p>
+<div class="not-found-container">
+  <mat-icon class="not-found-icon">error_outline</mat-icon>
+  <h1 class="not-found-text">{{notFoundText}}</h1>
+  <p class="not-found-description">The page you are looking for could not be found.</p>
+  <button mat-raised-button color="primary" routerLink="/">Go to Home</button>
+</div>
