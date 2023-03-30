@@ -13,7 +13,7 @@
     "experimentalDecorators": true,
     "moduleResolution": "node",
     "importHelpers": true,
-    "target": "ES2022",
+    "target": "ES2021",
     "module": "commonjs",
     "lib": [
       "es2017",

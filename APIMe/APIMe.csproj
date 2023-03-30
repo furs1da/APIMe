@@ -54,6 +54,7 @@
     <None Remove="ClientApp\src\interfaces\response\routeTypeDTO.ts" />
     <None Remove="ClientApp\src\interfaces\response\sectionResponseDTO.ts" />
     <None Remove="ClientApp\src\interfaces\response\TestRouteResponse.ts" />
+    <None Remove="ClientApp\tsconfig.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -76,6 +77,7 @@
     <TypeScriptCompile Include="ClientApp\src\interfaces\response\routeTypeDTO.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\response\sectionResponseDTO.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\response\testRouteResponse.ts" />
+    <TypeScriptCompile Include="ClientApp\tsconfig.json" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

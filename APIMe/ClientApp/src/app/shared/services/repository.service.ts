@@ -6,7 +6,7 @@ import { catchError, map, tap } from 'rxjs/operators';
 import { ProfessorProfile } from 'src/interfaces/profile/profile/professorProfile';
 import { RouteDto } from '../../../interfaces/response/routeDTO';
 import { Property } from '../../../interfaces/response/property';
-import { TestRouteResponse } from 'src/interfaces/response/TestRouteResponse';
+import { TestRouteResponse } from 'src/interfaces/response/testRouteResponse';
 import { Student } from '../../../interfaces/request/student';
 
 @Injectable({

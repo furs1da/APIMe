@@ -1,0 +1,8 @@
+{
+"SpaProxyServer": {
+"ServerUrl": "https://localhost:44433",
+"LaunchCommand": "npm start",
+"WorkingDirectory": "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMe\\ClientApp\\",
+"MaxTimeoutInSeconds": "120"
+}
+}
