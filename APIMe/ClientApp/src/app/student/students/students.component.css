@@ -1,11 +1,12 @@
 mat-card {
   max-width: 100%;
   margin: 1rem 0;
+  padding: 1rem;
+  box-sizing: border-box;
 }
 
 mat-card-title {
   font-size: 24px;
-  font-weight: bold;
   margin-bottom: 1rem;
 }
 
@@ -14,6 +15,11 @@ mat-card-title {
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
+  align-items: center;
+}
+
+mat-form-field {
+  width: 100%;
 }
 
 table {

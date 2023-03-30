@@ -35,8 +35,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatOptionModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
-
 export function tokenGetter() {
   return localStorage.getItem("token");
 }

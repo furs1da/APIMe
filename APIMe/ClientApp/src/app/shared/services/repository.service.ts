@@ -46,7 +46,8 @@ export class RepositoryService {
 
 
   getStudents(): Observable<Student[]> {
-    return this.http.get<Student[]>(this.createCompleteRoute(`studentApi/students`, this.baseUrl));
+    return this.http.get<Student[]>(this.createCompleteRoute(`studentApi/students`, this.baseUrl))
+      .pipe(catchError(this.handleError<Student[]>('getStudents', [])));
   }
 
   createStudent(student: Student): Observable<Student> {
@@ -58,15 +59,21 @@ export class RepositoryService {
   }
 
   getStudent(id: number): Observable<Student> {
-    return this.http.get<Student>(this.createCompleteRoute(`studentApi/student/` + id, this.baseUrl));
+    return this.http.get<Student>(this.createCompleteRoute(`studentApi/student/` + id, this.baseUrl))
+      ;
   }
 
-  deleteStudent(id: number): Observable<{}> {
-    return this.http.delete(this.createCompleteRoute(`studentApi/delete` + id, this.baseUrl));
+  deleteStudent(id: number): Observable<unknown> {
+    return this.http
+      .delete(this.createCompleteRoute(`studentApi/delete/` + id, this.baseUrl))
+      .pipe(catchError(this.handleError('deleteStudent')));
   }
+
 
   getSectionsStudent(): Observable<Section[]> {
-    return this.http.get<Section[]>(this.createCompleteRoute(`studentApi/sections`, this.baseUrl));
+    return this.http
+      .get<Section[]>(this.createCompleteRoute(`studentApi/sections`, this.baseUrl))
+      .pipe(catchError(this.handleError<Section[]>('getSectionsStudent', [])));;
   }
 
 
@@ -126,5 +133,13 @@ export class RepositoryService {
   private createCompleteRoute = (route: string, baseUrl: string) => {
     console.log(`${baseUrl}${route}`);
     return `${baseUrl}${route}`;
+  }
+
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
   }
 }

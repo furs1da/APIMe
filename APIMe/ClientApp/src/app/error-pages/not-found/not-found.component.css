@@ -22,3 +22,7 @@
   color: #bdbdbd;
   margin-top: 1rem;
 }
+
+.mat-mdc-raised-button.mat-primary, .mat-mdc-unelevated-button.mat-primary {
+  background-color: #007bff !important;
+}

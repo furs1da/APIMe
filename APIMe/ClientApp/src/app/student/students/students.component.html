@@ -1,21 +1,22 @@
 <mat-card>
   <mat-card-title>Students</mat-card-title>
   <mat-card-content>
-    <div class="filters">
+    <form [formGroup]="filterForm" class="filters">
       <mat-form-field appearance="outline">
         <mat-label>Search by Name</mat-label>
-        <input matInput [(ngModel)]="searchText" (input)="filterStudents()" placeholder="Enter first or last name" />
+        <input matInput formControlName="searchText" placeholder="Enter first or last name" />
       </mat-form-field>
       <mat-form-field appearance="outline">
         <mat-label>Filter by Section</mat-label>
-        <mat-select [(ngModel)]="selectedSection" (selectionChange)="filterStudents()">
-          <mat-option>None</mat-option>
+        <mat-select formControlName="selectedSection">
+          <mat-option [value]="null">None</mat-option>
           <mat-option *ngFor="let section of sections" [value]="section.sectionName">
             {{ section.sectionName }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
+    </form>
+
     <table mat-table [dataSource]="filteredStudents" class="mat-elevation-z8">
       <ng-container matColumnDef="firstName">
         <th mat-header-cell *matHeaderCellDef>First Name</th>
