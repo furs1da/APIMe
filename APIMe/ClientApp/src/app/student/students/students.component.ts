@@ -34,9 +34,11 @@ export class StudentListComponent implements OnInit {
   }
 
   getSections(): void {
-    this.repository.getSections('studentApi/sections').subscribe((sections) => {
+    this.repository.getSectionsStudent().subscribe((sections) => {
       this.sections = sections;
     });
+
+    console.log(this.sections);
   }
 
   filterStudents(): void {

@@ -43,7 +43,7 @@ namespace APIMe.Controllers
         [HttpGet("students")]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetStudents()
         {
-            return await _aPIMeContext.Students
+            List<StudentDto> studentList = await _aPIMeContext.Students
                  .Include(s => s.StudentSections)
                  .ThenInclude(ss => ss.Section)
                  .Select(s => new StudentDto
@@ -63,6 +63,8 @@ namespace APIMe.Controllers
                      }).ToList()
                  })
                  .ToListAsync();
+
+            return studentList;
         }
 
         [Authorize(Roles = "Administrator")]

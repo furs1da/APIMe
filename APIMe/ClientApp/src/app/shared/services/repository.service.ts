@@ -65,6 +65,10 @@ export class RepositoryService {
     return this.http.delete(this.createCompleteRoute(`studentApi/delete` + id, this.baseUrl));
   }
 
+  getSectionsStudent(): Observable<Section[]> {
+    return this.http.get<Section[]>(this.createCompleteRoute(`studentApi/sections`, this.baseUrl));
+  }
+
 
 
 
