@@ -8,10 +8,9 @@
     <p>Data Table: {{ route.dataTableName }}</p>
     <p>Visible: {{ route.isVisible ? 'Yes' : 'No' }}</p>
   </mat-card-content>
-
   <mat-card-actions>
-    <button mat-stroked-button color="primary" (click)="editRoute()" class="card-btn">Edit</button> <!-- Change the button type -->
-    <button mat-stroked-button color="warn" (click)="deleteRoute()" class="card-btn">Delete</button> <!-- Change the button type -->
-    <button mat-button (click)="onTest()">Test</button>
+    <button mat-stroked-button color="primary" (click)="editRoute()" class="card-btn">Edit</button>
+    <button mat-stroked-button color="warn" (click)="deleteRoute()" class="card-btn">Delete</button>
+    <button mat-raised-button color="primary" (click)="onTest()">Test</button>
   </mat-card-actions>
 </mat-card>

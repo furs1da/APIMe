@@ -180,11 +180,9 @@ namespace APIMe.Entities.Models
                     .HasColumnName("name");
 
                 entity.Property(e => e.Price)
-                    .HasMaxLength(50)
                     .HasColumnName("price");
 
                 entity.Property(e => e.Quantity)
-                    .HasMaxLength(50)
                     .HasColumnName("quantity");
             });
 

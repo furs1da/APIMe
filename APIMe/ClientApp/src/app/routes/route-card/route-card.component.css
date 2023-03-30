@@ -1,38 +1,39 @@
 .route-card {
   margin-top: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add a subtle shadow to the card */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .mat-card-header {
-  padding-bottom: 1rem; /* Reduce padding between header and content */
+  padding-bottom: 1rem;
 }
 
 .mat-card-title {
-  font-size: 1.5rem; /* Increase the font size of the title */
-  font-weight: bold; /* Make the title bold */
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
 .card-title {
-    font-size:1.5rem !important;
-    margin-bottom: 0.2rem;
+  font-size: 1.5rem !important;
+  margin-bottom: 0.2rem;
 }
+
 .card-subtitle {
-    margin-bottom: 0.7rem;
+  margin-bottom: 0.7rem;
 }
 
 .mat-card-content {
   margin-top: 1rem;
-  padding-bottom: 1rem; /* Add padding to the bottom of the content */
+  padding-bottom: 1rem;
 }
 
 .mat-card-actions {
-  padding-top: 0.5rem; /* Add padding to the top of the actions */
-  padding-bottom: 0.5rem; /* Add padding to the bottom of the actions */
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 }
 
 .card-btn {
-  font-weight: bold !important; /* Make the button text bold */
-  text-transform: uppercase !important; /* Make the button text uppercase */
-  margin-right: 0.4rem !important; /* Add margin between buttons */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow to the buttons */
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  margin-right: 0.4rem !important;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
