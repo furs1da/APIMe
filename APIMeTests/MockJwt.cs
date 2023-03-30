@@ -27,11 +27,11 @@ namespace APIMeTests
             var mockStore = new Mock<IUserStore<IdentityUser>>();
 
             var userManager = new Mock<UserManager<IdentityUser>>(mockStore.Object, null, null, null, null, null, null, null, null);
-/*            userManager.Setup(p => p.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(new IdentityUser { Email = "test", EmailConfirmed = true, Id = "4", UserName = "test" });
-            userManager.Setup(p => p.IsEmailConfirmedAsync(It.IsAny<IdentityUser>())).ReturnsAsync(true);
-            userManager.Setup(p => p.CheckPasswordAsync(It.IsAny<IdentityUser>(), It.IsAny<string>())).ReturnsAsync(true);*/
-            var list = new List<string>();
-            list.Add("test");
+
+            var list = new List<string>
+            {
+                "test"
+            };
             userManager.Setup(p => p.GetRolesAsync(It.IsAny<IdentityUser>())).ReturnsAsync(list);
 
 

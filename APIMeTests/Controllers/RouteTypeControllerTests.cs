@@ -52,7 +52,7 @@ namespace APIMe.Controllers.Tests
         {
             ActionResult<IEnumerable<RouteDto>> result = await routeType.GetRouteTypes();
             Assert.IsNotNull(result);
-            //Assert.AreEqual(200, actual: ((ActionResult)result).StatusCode);
+            Assert.AreEqual(200, actual: ((OkObjectResult)result.Result).StatusCode);
         }
     }
 }

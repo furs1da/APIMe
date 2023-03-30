@@ -16,6 +16,8 @@ using System.Security.Claims;
 using APIMe.Services.Routes;
 using AutoMapper;
 using APIMe.Migrations;
+using APIMe.Entities.DataTransferObjects.Admin.Route;
+using Microsoft.AspNetCore.Mvc;
 
 namespace APIMe.Controllers.Tests
 {
@@ -36,6 +38,10 @@ namespace APIMe.Controllers.Tests
 
 
             var mapper = new Mock<IMapper>();
+            mapper.Setup(p => p.Map<RouteDto>(It.IsAny<Route>())).Returns(new RouteDto() { Id = 1, DataTableName = "", Description = "", IsVisible = true, Name = "test", RouteTypeId = 1 });
+            mapper.Setup(p => p.Map<Route>(It.IsAny<RouteDto>())).Returns(new Route() { DataTableName = "Products", IsVisible = true, Id = 7, Description = "NewRoute", Name = "New", RouteTypeId = 1 });
+
+
             RouteService routeService = new RouteService(ContextDataAccess, mapper.Object);
 
             route = new RouteController(userManager.Object, ContextDataAccess, routeService, mapper.Object);
@@ -47,57 +53,79 @@ namespace APIMe.Controllers.Tests
         }
 
         [TestMethod()]
-        public void GetRoutesTest()
+        public async Task GetRoutesTest()
         {
-            Assert.Fail();
+            ActionResult<IEnumerable<RouteDto>> result = await route.GetRoutes();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((OkObjectResult)result.Result).StatusCode);
         }
 
         [TestMethod()]
-        public void GetDataSourcesTest()
+        public async Task GetDataSourcesTest()
         {
-            Assert.Fail();
+            ActionResult<IEnumerable<RouteDto>> result = await route.GetDataSources();
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((OkObjectResult)result.Result).StatusCode);
         }
 
         [TestMethod()]
-        public void TestRouteTest()
+        public async Task TestRouteTest()
         {
-            Assert.Fail();
+            Route details= new Route() { DataTableName = "Products", IsVisible = true, Id = 1, Description = "NewRoute", Name = "New", RouteTypeId = 1 };
+            ActionResult<TestRouteResponse> result = await route.TestRoute(1,details);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((OkObjectResult)result.Result).StatusCode);
         }
 
         [TestMethod()]
-        public void GetPropertiesByRouteIdTest()
+        public async Task GetPropertiesByRouteIdTest()
         {
-            Assert.Fail();
+            ActionResult<IEnumerable<Property>> result = await route.GetPropertiesByRouteId(1);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((OkObjectResult)result.Result).StatusCode);
         }
 
         [TestMethod()]
-        public void GetRouteTest()
+        public async Task GetRouteTest()
         {
-            Assert.Fail();
+            ActionResult<RouteDto> result = await route.GetRoute(1);
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Value);
         }
 
         [TestMethod()]
-        public void CreateRouteTest()
+        public async Task CreateRouteTest()
         {
-            Assert.Fail();
+            RouteDto dto = new RouteDto() { DataTableName="Products", IsVisible=true, Id=7, Description="NewRoute", Name="New", RouteTypeId=1};
+            ActionResult<RouteDto> result = await route.CreateRoute(dto);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(201, actual: ((CreatedAtActionResult)result.Result).StatusCode);
         }
 
         [TestMethod()]
-        public void UpdateRouteTest()
+        public async Task UpdateRouteTest()
         {
-            Assert.Fail();
+            RouteDto dto = new RouteDto() { DataTableName = "Products", IsVisible = true, Id = 7, Description = "NewRoute", Name = "New", RouteTypeId = 1 };
+            await route.CreateRoute(dto);
+            ActionResult result = (ActionResult)await route.UpdateRoute(7,dto);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(204, actual: ((NoContentResult)result).StatusCode);
         }
 
         [TestMethod()]
-        public void DeleteRouteTest()
+        public async Task DeleteRouteTest()
         {
-            Assert.Fail();
+            ActionResult result = (ActionResult)await route.DeleteRoute(1);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(204, actual: ((NoContentResult)result).StatusCode);
         }
 
         [TestMethod()]
-        public void ToggleVisibilityTest()
+        public async Task ToggleVisibilityTest()
         {
-            Assert.Fail();
+            ActionResult result = (ActionResult)await route.ToggleVisibility(1);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(204, actual: ((NoContentResult)result).StatusCode);
         }
     }
 }
