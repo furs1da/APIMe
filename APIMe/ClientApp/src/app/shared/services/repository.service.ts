@@ -7,6 +7,7 @@ import { ProfessorProfile } from 'src/interfaces/profile/profile/professorProfil
 import { RouteDto } from '../../../interfaces/response/routeDTO';
 import { Property } from '../../../interfaces/response/property';
 import { TestRouteResponse } from 'src/interfaces/response/TestRouteResponse';
+import { Student } from '../../../interfaces/request/student';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,40 @@ export class RepositoryService {
   public deleteSection(id: number) {
     return this.http.delete(this.createCompleteRoute(`sectionApi/delete/${id}`, this.baseUrl));
   }
+
+
+
+  getStudents(): Observable<Student[]> {
+    return this.http.get<Student[]>(this.createCompleteRoute(`studentApi/students`, this.baseUrl));
+  }
+
+  createStudent(student: Student): Observable<Student> {
+    return this.http.post<Student>(this.createCompleteRoute(`studentApi/add`, this.baseUrl), student);
+  }
+
+  updateStudent(student: Student): Observable<Student> {
+    return this.http.put<Student>(this.createCompleteRoute(`studentApi/edit`, this.baseUrl), student);
+  }
+
+  getStudent(id: number): Observable<Student> {
+    return this.http.get<Student>(this.createCompleteRoute(`studentApi/student/` + id, this.baseUrl));
+  }
+
+  deleteStudent(id: number): Observable<{}> {
+    return this.http.delete(this.createCompleteRoute(`studentApi/delete` + id, this.baseUrl));
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   public getRoutes = () => {
