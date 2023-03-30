@@ -15,6 +15,8 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using System.Security.Claims;
 using APIMe.Services.Routes;
+using Microsoft.AspNetCore.Mvc;
+using APIMe.Entities.DataTransferObjects.Admin.Route;
 
 namespace APIMe.Controllers.Tests
 {
@@ -26,27 +28,36 @@ namespace APIMe.Controllers.Tests
 
         public RouteTypeControllerTests()
         {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            IConfiguration configuration = configurationBuilder.Build();
             var mockStore = new Mock<IUserStore<IdentityUser>>();
-            var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
-            JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
+
+            var userManager = new Mock<UserManager<IdentityUser>>(mockStore.Object, null, null, null, null, null, null, null, null);
+/*            userManager.Setup(p => p.FindByNameAsync(It.IsAny<string>())).ReturnsAsync(new IdentityUser { Email = "test", EmailConfirmed = true, Id = "4", UserName = "test" });
+            userManager.Setup(p => p.IsEmailConfirmedAsync(It.IsAny<IdentityUser>())).ReturnsAsync(true);
+            userManager.Setup(p => p.CheckPasswordAsync(It.IsAny<IdentityUser>(), It.IsAny<string>())).ReturnsAsync(true);
+            userManager.Setup(p => p.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync(new IdentityUser { Email = "test", EmailConfirmed = true, Id = "4", UserName = "test" });
+            userManager.Setup(p => p.CreateAsync(It.IsAny<IdentityUser>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
+            userManager.Setup(p => p.ConfirmEmailAsync(It.IsAny<IdentityUser>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
+            userManager.Setup(p => p.ResetPasswordAsync(It.IsAny<IdentityUser>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);*/
+
+            JwtHandler jwtHandler = MockJwt.GetJwtHandler();
             APIMeContext ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-            SectionController controller = new SectionController(userManager, ContextDataAccess, jwtHandler);
+
+            var route = new Mock<RouteService>();
+            var mapper=new Mock<Mapper>();
+
+            routeType = new RouteTypeController(userManager.Object, ContextDataAccess, route.Object, mapper.Object);
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, "testingmockup"),
             }, "mock"));
-            controller.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
-
-            IMapper mapper;
-/*            RouteService routeService = new RouteService(ContextDataAccess, mapper);
-            routeType = new RouteTypeController(userManager, ContextDataAccess, routeService, mapper);*/
+            routeType.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
         }
         [TestMethod()]
-        public void GetRouteTypesTest()
+        public async Task GetRouteTypesTest()
         {
-            Assert.Fail();
+            ActionResult<IEnumerable<RouteDto>> result = await routeType.GetRouteTypes();
+            Assert.IsNotNull(result);
+            //Assert.AreEqual(200, actual: ((ActionResult)result).StatusCode);
         }
     }
 }

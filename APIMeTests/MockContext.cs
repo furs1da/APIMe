@@ -9,10 +9,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace APIMeTests
 {
-        /// <summary>
-        /// Context Entity Mock
-        /// </summary>
-        /// <typeparam name="T">Fake entity context</typeparam>
         public class MockContext<T>
         {
             /// <summary>
@@ -31,6 +27,8 @@ namespace APIMeTests
                 context.UserClaims.Add(new IdentityUserClaim<string> { ClaimType="", ClaimValue="", Id=0, UserId="0"});
                 context.Professors.Add(new Professor { Id = 0, Email = "testingmockup", FirstName = "first", LastName = "last" });
                 context.Users.Add(new IdentityUser { Email ="test", EmailConfirmed= true, Id="0"  });
+                context.Students.Add(new Student { Id = 7, FirstName = "test", LastName = "test", StudentId = 1234567, Email = "test", ApiKey = "t" });
+                context.StudentSections.Add(new StudentSection { SectionId = 4, StudentId = 7 });
 
                 context.SaveChanges();
                 return context;

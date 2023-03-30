@@ -46,11 +46,9 @@ namespace APIMe.Controllers.Tests
 
         public SectionControllerTests()
         {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            IConfiguration configuration = configurationBuilder.Build();
             var mockStore = new Mock<IUserStore<IdentityUser>>();
             var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
-            JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
+            JwtHandler jwtHandler = MockJwt.GetJwtHandler();
             APIMeContext ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
 
             controller = new SectionController(userManager, ContextDataAccess, jwtHandler);
@@ -69,8 +67,8 @@ namespace APIMe.Controllers.Tests
         }
         [TestMethod()]
             public async Task AddSectionTest()
-        { 
-            SectionDTO section=new SectionDTO();
+        {
+            SectionDTO section = new SectionDTO();
             section.Id = -1;
             section.SectionName = "Test";
             section.NumberOfStudents = 1;
