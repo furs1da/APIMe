@@ -170,8 +170,19 @@ namespace APIMe.Controllers
                 return NotFound();
             }
 
+            var studentSections = _aPIMeContext.StudentSections.Where(ss => ss.SectionId == id).Include(i => i.Student);
+            _aPIMeContext.StudentSections.RemoveRange(studentSections);
+
+
             _aPIMeContext.Students.Remove(student);
             await _aPIMeContext.SaveChangesAsync();
+
+
+            var user = await _userManager.FindByEmailAsync(student.Email);
+            if (user != null)
+            {
+                await _userManager.DeleteAsync(user);
+            }
 
             return NoContent();
         }
