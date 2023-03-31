@@ -433,7 +433,39 @@ namespace APIMe.Services.Routes
             await _context.SaveChangesAsync();
         }
 
+        public async Task DeleteRecordFromDataTableAsync(string tableName, int id)
+        {
+            var dbContextType = _context.GetType();
+            var tableProperty = dbContextType.GetProperty(tableName);
+            if (tableProperty == null)
+            {
+                throw new InvalidOperationException($"The table '{tableName}' does not exist in the DbContext.");
+            }
 
+            var table = (IQueryable)tableProperty.GetValue(_context);
+            var entityType = table.ElementType;
+
+            // Find and load the existing entity from the database
+            var existingEntity = await _context.FindAsync(entityType, id);
+
+            if (existingEntity == null)
+            {
+                throw new InvalidOperationException($"The entity with the specified ID could not be found.");
+            }
+
+            // Attach the entity to the DbContext and set its state to 'Deleted'
+            _context.Attach(existingEntity);
+            var entityEntry = _context.Entry(existingEntity);
+
+            if (entityEntry.State != EntityState.Unchanged && entityEntry.State != EntityState.Detached)
+            {
+                throw new InvalidOperationException($"The entity is in an unexpected state: {entityEntry.State}.");
+            }
+
+            entityEntry.State = EntityState.Deleted;
+
+            await _context.SaveChangesAsync();
+        }
 
 
 

@@ -22,6 +22,8 @@ using APIMe.Entities.Constants;
 using System.Text.Json;
 using System.Security;
 using Microsoft.AspNetCore.JsonPatch;
+using Newtonsoft.Json.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace APIMe.Controllers
 {
@@ -366,6 +368,48 @@ namespace APIMe.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
             }
         }
+
+        [HttpDelete("records/{tableName}/{id}")]
+        public async Task<ActionResult> DeleteRecordFromTable(string tableName, int id)
+        {
+            tableName = tableName.ToLower();
+            tableName = char.ToUpper(tableName[0]) + tableName.Substring(1);
+
+            try
+            {
+                if (string.IsNullOrEmpty(tableName))
+                {
+                    return BadRequest("Table name is required.");
+                }
+
+                if (DataSourceTables.DataSources.FirstOrDefault(item => item.Name == tableName) == null)
+                {
+                    throw new SecurityException();
+                }
+
+                await _routeService.DeleteRecordFromDataTableAsync(tableName, id);
+
+                return NoContent();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "Unauthorized access.");
+            }
+            catch (SecurityException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Access to the requested resource is forbidden.");
+            }
+            catch (InvalidOperationException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, "The record with the specified key values could not be found.");
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+            }
+        }
+
+
 
 
 
