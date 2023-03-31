@@ -111,6 +111,7 @@ export class RepositoryService {
   }
 
   public testRoute(routeId: number, values: any): Observable<TestRouteResponse> {
+    console.log(values);
     return this.http.post<TestRouteResponse>(
       this.createCompleteRoute(`routeApi/testRoute/${routeId}`, this.baseUrl),
       values

@@ -78,7 +78,7 @@ export function tokenGetter() {
       { path: 'section', loadChildren: () => import('./section/section.module').then(m => m.SectionModule), canActivate: [AuthGuard] },
       { path: 'student', loadChildren: () => import('./student/student.module').then(m => m.StudentModule), canActivate: [AuthGuard] },
       { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule), canActivate: [AuthGuard] },
-      { path: 'route', loadChildren: () => import('./routes/route.module').then(m => m.RouteModule), canActivate: [AuthGuard] },
+      { path: 'route', loadChildren: () => import('./routes/route.module').then(m => m.RouteModule) },
       { path: '404', component: NotFoundComponent },
       { path: 'forbidden', component: ForbiddenComponent },
       

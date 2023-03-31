@@ -9,8 +9,8 @@
     <p>Visible: {{ route.isVisible ? 'Yes' : 'No' }}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-stroked-button *ngIf="!isAdmin && !isUserAuthenticated" color="primary" (click)="editRoute()" class="card-btn">Edit</button>
-    <button mat-stroked-button *ngIf="!isAdmin && !isUserAuthenticated" color="warn" (click)="deleteRoute()" class="card-btn">Delete</button>
+    <button mat-stroked-button *ngIf="!isAdmin && isUserAuthenticated" color="primary" (click)="editRoute()" class="card-btn">Edit</button>
+    <button mat-stroked-button *ngIf="!isAdmin && isUserAuthenticated" color="warn" (click)="deleteRoute()" class="card-btn">Delete</button>
     <button mat-raised-button color="primary" (click)="onTest()">Test</button>
   </mat-card-actions>
 </mat-card>

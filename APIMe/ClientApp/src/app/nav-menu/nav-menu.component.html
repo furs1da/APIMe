@@ -38,7 +38,7 @@
 
         <ul class="navbar-nav ml-3" *ngIf="!isAdmin && isUserAuthenticated">
           <li class="nav-item active">
-            <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
+            <a class="nav-link text-white d-flex align-items-center" [routerLink]="['route/list']"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faFileText" class="icon-margin"></fa-icon>Reports</a>

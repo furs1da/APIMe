@@ -255,6 +255,49 @@ namespace APIMe.Controllers
             }
         }
 
+        [HttpPost("records/{tableName}")]
+        public async Task<ActionResult<object>> AddRecordToTable(string tableName, [FromBody] object recordJson)
+        {
+            tableName = tableName.ToLower();
+            tableName = char.ToUpper(tableName[0]) + tableName.Substring(1);
+
+            try
+            {
+                if (string.IsNullOrEmpty(tableName))
+                {
+                    return BadRequest("Table name is required.");
+                }
+
+                if (DataSourceTables.DataSources.FirstOrDefault(item => item.Name == tableName) == null)
+                {
+                    throw new UnauthorizedAccessException();
+                }
+
+                var record = await _routeService.AddRecordToDataTableAsync(tableName, (JsonElement)recordJson);
+
+                if (record == null)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+                }
+
+                return CreatedAtAction(nameof(AddRecordToTable), new { tableName = tableName, id = record.GetType().GetProperty("Id").GetValue(record) }, record);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "Unauthorized access.");
+            }
+            catch (SecurityException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Access to the requested resource is forbidden.");
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+            }
+        }
+
+
+
 
 
 
