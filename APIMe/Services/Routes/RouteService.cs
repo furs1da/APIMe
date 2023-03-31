@@ -476,8 +476,6 @@ namespace APIMe.Services.Routes
 
 
 
-
-
         public async Task<List<Property>> GetPropertiesByRouteIdAsync(int routeId)
         {
             var properties = new List<Property>();

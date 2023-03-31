@@ -172,7 +172,7 @@ namespace APIMe.Entities.Models
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Description)
-                    .HasMaxLength(50)
+                    .HasMaxLength(100)
                     .HasColumnName("description");
 
                 entity.Property(e => e.Name)
