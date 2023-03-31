@@ -88,11 +88,11 @@ The instructor will deploy the application on an IIS server on the Conestoga Col
 ### Example JSON header of Content-Type: application/json
 ```
 {
-    "id": {id},
-    "orderNumber": "{order_number}",
-    "customerName": "{customer_name}",
-    "totalAmount": "{total_amount}",
-    "orderDate": "{date}"
+    "id": 2,
+    "orderNumber": "ORD0063",
+    "customerName": "Sid Thompson",
+    "totalAmount": 131.50,
+    "orderDate": "2023-03-20 16:10:00.000"
 } 
 ```
 
