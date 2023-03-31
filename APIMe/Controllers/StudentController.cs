@@ -118,47 +118,7 @@ namespace APIMe.Controllers
             return Ok(student);
         }
 
-        // PUT: api/Students/5
-        [HttpPut("edit/{id}")]
-        public async Task<IActionResult> UpdateStudent(int id, StudentDto studentDTO)
-        {
-            var student = _mapper.Map<Student>(studentDTO);
-            if (id != student.Id)
-            {
-                return BadRequest();
-            }
-
-            _aPIMeContext.Entry(student).State = EntityState.Modified;
-
-            try
-            {
-                await _aPIMeContext.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StudentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Students
-        [HttpPost("add")]
-        public async Task<ActionResult<StudentDto>> CreateStudent(StudentDto studentDTO)
-        {
-            var student = _mapper.Map<Student>(studentDTO);
-            _aPIMeContext.Students.Add(student);
-            await _aPIMeContext.SaveChangesAsync();
-
-            return CreatedAtAction(nameof(GetStudent), new { id = student.Id }, _mapper.Map<StudentDto>(student));
-        }
+    
 
         // DELETE: api/Students/5
         [HttpDelete("delete/{id}")]
