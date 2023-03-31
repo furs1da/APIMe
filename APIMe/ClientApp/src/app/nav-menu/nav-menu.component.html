@@ -43,7 +43,7 @@
 
         <ul class="navbar-nav ml-3" *ngIf="!isAdmin && !isUserAuthenticated">
           <li class="nav-item active">
-            <a class="nav-link text-white d-flex align-items-center" href="#"><fa-icon [icon]="faBook" class="icon-margin"></fa-icon>Documentation</a>
+            <a class="nav-link text-white d-flex align-items-center" [routerLink]="['home']"><fa-icon [icon]="faBook" class="icon-margin"></fa-icon>Documentation</a>
           </li>
         </ul>
 

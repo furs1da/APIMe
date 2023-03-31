@@ -1,1 +1,189 @@
-<h1>APIMe!</h1>
+<h1>
+    APIMe Capstone Project
+</h1>
+
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Welcome to the APIMe Capstone Project!</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>APIMe can be deployed on an IIS server and accessed by multiple users at the same time. Using an API client such as Postman, users can make requests and examine responses with their codes for different routes. Users can also download and deploy the software on their own laptops, giving them more flexibility for testing and experimenting. The project was built with Angular on front-end and .NET 6 on back-end.</p>
+    </mat-card-content>
+</mat-card>
+  
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Project Overview</mat-card-title>
+    </mat-card-header>
+<mat-card-content>
+    <ul>
+        <li>Easy to install and deploy on IIS server</li>
+        <li>Application is self-contained within itself and consists of a front-end UI, business logic and database.</li>
+        <li><a href="https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-7.0&tabs=visual-studio">ASP.NET Core Identity Authentication</a></li>
+        <li>Supports the following route codes:</li>
+            <ul>
+            <li>200 (OK)</li>
+            <li>201 (Created)</li>
+            <li>400 (Bad Request)</li>
+            <li>401 (Unauthorized)</li>
+            <li>403 (Forbidden)</li>
+            <li>404 (Not Found)</li>
+            <li>500 (Internal Server Error)</li>
+            </ul>
+        <li>Developed with <a href="https://angular.io/docs">Angular</a>, <a href="https://learn.microsoft.com/en-us/dotnet/fundamentals/">.NET 6</a>, and <a href="https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16">SQL Server</a></li>
+        <li>Designed according to <a href="https://aoda.ca/">AODA</a> standards</li>
+        <li>The database features 8 different tables with more than 1,000 records in total</li>
+        <li>Built with Object-Oriented Programming standards in mind</li>
+    </ul>
+</mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Purpose</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>The purpose of the APIMe Capstone Project is to provide a user-friendly application that enables users to learn and test APIs in a simple and efficient manner.</p>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Installation</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>To install the application, follow these steps:</p>
+        <ol>
+            <li>Clone the repository to your local machine.</li>
+            <li>Install the necessary dependencies using 'npm install' inside ClientApp folder.</li>
+            <li>Run 'ng build' command to generate needed packages for application to work.</li>
+            <li>Run application from Visual Studio.</li>
+            <li>Browser window will pop up, prompting you to login.</li>
+        </ol>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Deployment</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>The instructor will deploy the application on an IIS server on the Conestoga College network. Students can then access the application using an API client such as Postman to test the APIMe solution.</p>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Getting Started Guide</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>The instructor will deploy the application on an IIS server on the Conestoga College network. Students can then access the application using an API client such as Postman to test the APIMe solution.</p>
+        
+        <p class="matcard-subtitle">Authorization:</p>
+        <ol>
+            <li>Clone the repository to your local machine.</li>
+            <li>Install the necessary dependencies using 'npm install' inside ClientApp folder.</li>
+            <li>Run 'ng build' command to generate needed packages for application to work.</li>
+            <li>Run application from Visual Studio.</li>
+            <li>Browser window will pop up, prompting you to login.</li>
+        </ol>
+
+        <p class="matcard-subtitle">Test the routes using APIMe</p>
+        <ol>
+            <li>Go to the routes page.</li>
+            <li>Observe the various routes offered by APIMe.</li>
+            <li>Click 'Test' on any of the routes.</li>
+            <li>Dialog window will pop up with the response details retrieved from the server.</li>
+        </ol>
+
+        <p class="matcard-subtitle">Test the routes using Postman</p>
+        <ol>
+            <li>Go to the routes page.</li>
+            <li>Observe the various routes offered by APIMe.</li>
+            <li>Retrieve the route details from the description of the route.</li>
+            <li>If the route is POST/PUT/PATCH, the header of Content-Type: application/json will be required.</li>
+            <li>Fill out the JSON header based on the routes requirements that can be found in the route's dialog window.</li>
+        </ol>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Available routes for testing in Postman</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <ul class="request-list">
+            <li class="request-item">
+              <span class="request-type get">GET</span> 
+              <span class="request-url">https://localhost:44433/routeApi/records/(tableName)</span>
+            </li>
+            <li class="request-item">
+              <span class="request-type get">GET</span> 
+              <span class="request-url">https://localhost:44433/routeApi/records/(tableName)/(id)</span>
+            </li>
+            <li class="request-item">
+              <span class="request-type post">POST</span> 
+              <span class="request-url">https://localhost:44433/routeApi/records/(tableName)</span>
+            </li>
+            <li class="request-item">
+              <span class="request-type put">PUT</span> 
+              <span class="request-url">https://localhost:44433/routeApi/records/(tableName)</span>
+            </li>
+            <li class="request-item">
+              <span class="request-type patch">PATCH</span> 
+              <span class="request-url">https://localhost:44433/routeApi/records/(tableName)/(id)</span>
+            </li>
+            <li class="request-item">
+              <span class="request-type delete">DELETE</span> 
+              <span class="request-url">https://localhost:44433/routeApi/records/(tableName)/(id)</span>
+            </li>
+        </ul>             
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Tables to use in Postman routes</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <ul>
+            <li>Products</li>
+            <li>Customers</li>
+            <li>Suppliers</li>
+            <li>Payments</li>
+            <li>Employees</li>
+            <li>Inventories</li>
+            <li>Categories</li>
+            <li>Orders</li>
+        </ul>    
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        Example JSON header of Content-Type: application/json
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+    <pre>
+{{ '{' }}
+    "id": 2,
+    "orderNumber": "ORD0063",
+    "customerName": "Sid Thompson",
+    "totalAmount": 131.50,
+    "orderDate": "2023-03-20 16:10:00.000"
+{{ '}' }}
+</pre>
+    </mat-card-content>
+</mat-card>
+  
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>License
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <p>This project is licensed under the MIT License. See the GitHub LICENSE file for more information.</p>
+    </mat-card-content>
+</mat-card>
