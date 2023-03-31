@@ -4,7 +4,12 @@ using APIMe.Entities.Models;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Linq.Expressions;
 using System.Text.Json;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using System.Linq;
+
 
 namespace APIMe.Services.Routes
 {
@@ -34,6 +39,35 @@ namespace APIMe.Services.Routes
             var records = await table.Cast<object>().Take(numberOfRecords).ToListAsync();
             return records;
         }
+        public async Task<object> GetRecordByIdFromDataTableAsync(string tableName, int id)
+        {
+            var dbContextType = _context.GetType();
+            var tableProperty = dbContextType.GetProperty(tableName);
+            if (tableProperty == null)
+            {
+                throw new InvalidOperationException($"The table '{tableName}' does not exist in the DbContext.");
+            }
+
+            var table = (IQueryable)tableProperty.GetValue(_context);
+            var records = await table.Cast<object>().ToListAsync();
+            var record = records.FirstOrDefault(r => (int)r.GetType().GetProperty("Id").GetValue(r) == id);
+            return record;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         public async Task<Entities.Models.Route> CreateRouteAsync(Entities.Models.Route route)

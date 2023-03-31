@@ -214,6 +214,51 @@ namespace APIMe.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
             }
         }
+        [HttpGet("records/{tableName}/{id}")]
+        public async Task<ActionResult<object>> GetRecordByIdFromTable(string tableName, int id)
+        {
+            tableName = tableName.ToLower();
+            tableName = char.ToUpper(tableName[0]) + tableName.Substring(1);
+
+            try
+            {
+                if (string.IsNullOrEmpty(tableName))
+                {
+                    return BadRequest("Table name is required.");
+                }
+
+                if (DataSourceTables.DataSources.FirstOrDefault(item => item.Name == tableName) == null)
+                {
+                    throw new UnauthorizedAccessException();
+                }
+
+                var record = await _routeService.GetRecordByIdFromDataTableAsync(tableName, id);
+
+                if (record == null)
+                {
+                    return NotFound("No record found for the specified ID in the given table.");
+                }
+
+                return Ok(record);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "Unauthorized access.");
+            }
+            catch (SecurityException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Access to the requested resource is forbidden.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+            }
+        }
+
+
+
+
+
 
 
 
