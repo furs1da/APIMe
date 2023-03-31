@@ -73,13 +73,13 @@ namespace APIMe.Entities.Models
         public virtual DbSet<Student> Students { get; set; } = null!;
         public virtual DbSet<StudentSection> StudentSections { get; set; } = null!;
 
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Employee> Employees { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Supplier> Suppliers { get; set; }
-        public DbSet<Inventory> Inventories { get; set; }
-        public DbSet<Invoice> Invoices { get; set; }
+        public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
+        public virtual DbSet<Payment> Payments { get; set; } = null!;
+        public virtual DbSet<Employee> Employees { get; set; } = null!;
+        public virtual DbSet<Inventory> Inventories { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
 
+        public virtual DbSet<Order> Orders { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -404,6 +404,130 @@ namespace APIMe.Entities.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_StudentSection_Student");
             });
+
+            modelBuilder.Entity<Supplier>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Address)
+                    .HasMaxLength(100)
+                    .HasColumnName("address");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(50)
+                    .HasColumnName("phone");
+            });
+
+
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Description)
+                    .HasMaxLength(250)
+                    .HasColumnName("description");
+
+                entity.Property(e => e.Name)
+                    .HasMaxLength(50)
+                    .HasColumnName("name");
+            });
+
+
+            modelBuilder.Entity<Employee>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Email)
+                    .HasMaxLength(50)
+                    .HasColumnName("email");
+
+                entity.Property(e => e.FirstName)
+                    .HasMaxLength(50)
+                    .HasColumnName("first_name");
+
+                entity.Property(e => e.HireDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("hire_date");
+
+                entity.Property(e => e.LastName)
+                    .HasMaxLength(50)
+                    .HasColumnName("last_name");
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(50)
+                    .HasColumnName("phone");
+            });
+            modelBuilder.Entity<Inventory>(entity =>
+            {
+                entity.ToTable("Inventory");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.ProductName)
+                    .HasMaxLength(50)
+                    .HasColumnName("product_name");
+
+                entity.Property(e => e.Quantity).HasColumnName("quantity");
+
+                entity.Property(e => e.ReorderLevel).HasColumnName("reorder_level");
+
+                entity.Property(e => e.UnitCost)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasColumnName("unit_cost");
+            });
+
+            modelBuilder.Entity<Order>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.CustomerName)
+                    .HasMaxLength(50)
+                    .HasColumnName("customer_name");
+
+                entity.Property(e => e.OrderDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("order_date");
+
+                entity.Property(e => e.OrderNumber)
+                    .HasMaxLength(50)
+                    .HasColumnName("order_number");
+
+                entity.Property(e => e.TotalAmount)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasColumnName("total_amount");
+            });
+
+            modelBuilder.Entity<Payment>(entity =>
+            {
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Amount)
+                    .HasColumnType("decimal(18, 2)")
+                    .HasColumnName("amount");
+
+                entity.Property(e => e.CustomerName)
+                    .HasMaxLength(50)
+                    .HasColumnName("customer_name");
+
+                entity.Property(e => e.PaymentDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("payment_date");
+
+                entity.Property(e => e.PaymentMethod)
+                    .HasMaxLength(50)
+                    .HasColumnName("payment_method");
+            });
+
+
+
 
             // composite primary key for StudentSection
             modelBuilder.Entity<StudentSection>()

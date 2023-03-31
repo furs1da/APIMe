@@ -26,7 +26,13 @@ namespace APIMe.Entities.Constants
         public static IReadOnlyList<DataSourceDTO> DataSources { get; } = new List<DataSourceDTO>
         {
             new DataSourceDTO { Id = 1, Name = "Products" },
-            new DataSourceDTO { Id = 2, Name = "Customers" }
+            new DataSourceDTO { Id = 2, Name = "Customers" },
+            new DataSourceDTO { Id = 3, Name = "Suppliers" },
+            new DataSourceDTO { Id = 4, Name = "Payments" },
+            new DataSourceDTO { Id = 5, Name = "Employees" },
+            new DataSourceDTO { Id = 6, Name = "Inventories" },
+            new DataSourceDTO { Id = 7, Name = "Categories" },
+            new DataSourceDTO { Id = 8, Name = "Orders" }
         };
     }
 }

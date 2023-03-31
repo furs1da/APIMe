@@ -179,3 +179,12 @@ C:\Users\alex_\Documents\GitHub\Capstone-Project\APIMeTests\obj\Debug\net6.0\ref
 C:\Users\alex_\Documents\GitHub\Capstone-Project\APIMeTests\obj\Debug\net6.0\APIMeTests.pdb
 C:\Users\alex_\Documents\GitHub\Capstone-Project\APIMeTests\obj\Debug\net6.0\APIMeTests.genruntimeconfig.cache
 C:\Users\alex_\Documents\GitHub\Capstone-Project\APIMeTests\obj\Debug\net6.0\ref\APIMeTests.dll
+D:\College\Capstone Project\Capstone-Project\APIMeTests\bin\Debug\net6.0\CoverletSourceRootsMapping
+D:\College\Capstone Project\Capstone-Project\APIMeTests\obj\Debug\net6.0\APIMeTests.csproj.AssemblyReference.cache
+D:\College\Capstone Project\Capstone-Project\APIMeTests\obj\Debug\net6.0\APIMeTests.GeneratedMSBuildEditorConfig.editorconfig
+D:\College\Capstone Project\Capstone-Project\APIMeTests\obj\Debug\net6.0\APIMeTests.AssemblyInfoInputs.cache
+D:\College\Capstone Project\Capstone-Project\APIMeTests\obj\Debug\net6.0\APIMeTests.AssemblyInfo.cs
+D:\College\Capstone Project\Capstone-Project\APIMeTests\obj\Debug\net6.0\APIMeTests.csproj.CoreCompileInputs.cache
+D:\College\Capstone Project\Capstone-Project\APIMeTests\obj\Debug\net6.0\APIMeTests.dll
+D:\College\Capstone Project\Capstone-Project\APIMeTests\obj\Debug\net6.0\refint\APIMeTests.dll
+D:\College\Capstone Project\Capstone-Project\APIMeTests\obj\Debug\net6.0\APIMeTests.pdb

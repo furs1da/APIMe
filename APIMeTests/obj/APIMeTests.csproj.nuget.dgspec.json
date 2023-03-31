@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMeTests\\APIMeTests.csproj": {}
+    "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\APIMeTests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMeTests\\APIMeTests.csproj": {
+    "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\APIMeTests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
+        "projectUniqueName": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
         "projectName": "APIMeTests",
-        "projectPath": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
-        "packagesPath": "C:\\Users\\nmysh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMeTests\\obj\\",
+        "projectPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nmysh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -28,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMe\\APIMe.csproj": {
-                "projectPath": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMe\\APIMe.csproj"
+              "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj": {
+                "projectPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj"
               }
             }
           }
@@ -93,21 +93,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMe\\APIMe.csproj": {
+    "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMe\\APIMe.csproj",
+        "projectUniqueName": "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj",
         "projectName": "APIMe",
-        "projectPath": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMe\\APIMe.csproj",
-        "packagesPath": "C:\\Users\\nmysh\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMe\\obj\\",
+        "projectPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\nmysh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -164,6 +164,10 @@
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
               "version": "[6.0.13, )"
+            },
+            "Microsoft.AspNetCore.JsonPatch": {
+              "target": "Package",
+              "version": "[7.0.4, )"
             },
             "Microsoft.AspNetCore.SpaProxy": {
               "target": "Package",
@@ -229,7 +233,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
         }
       }
     }

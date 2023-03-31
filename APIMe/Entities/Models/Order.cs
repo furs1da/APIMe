@@ -1,11 +1,12 @@
 ﻿namespace APIMe.Entities.Models
 {
-    public class Order
+    public partial class Order
     {
         public int Id { get; set; }
-        public int CustomerId { get; set; }
+        public string OrderNumber { get; set; } = null!;
+        public string CustomerName { get; set; } = null!;
+        public decimal TotalAmount { get; set; }
         public DateTime OrderDate { get; set; }
-        public decimal TotalPrice { get; set; }
     }
 
 }
