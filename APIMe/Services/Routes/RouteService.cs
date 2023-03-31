@@ -253,7 +253,7 @@ namespace APIMe.Services.Routes
             }
         }
 
-        public async Task<object> AddRecordToDataTableAsync(string tableName, JsonElement recordJson)
+        public virtual async Task<object> AddRecordToDataTableAsync(string tableName, JsonElement recordJson)
         {
             var dbContextType = _context.GetType();
             var tableProperty = dbContextType.GetProperty(tableName);
