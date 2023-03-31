@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 
 using APIMe.Interfaces;
 using AutoMapper;
-
+using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore;
 using static Duende.IdentityServer.Models.IdentityResources;
 using APIMe.JwtFeatures;
@@ -19,6 +19,8 @@ using APIMe.Entities.DataTransferObjects.Admin.Section;
 using APIMe.Entities.DataTransferObjects.Admin.Route;
 using APIMe.Services.Routes;
 using APIMe.Entities.Constants;
+using System.Text.Json;
+using System.Security;
 
 namespace APIMe.Controllers
 {
@@ -146,6 +148,80 @@ namespace APIMe.Controllers
 
             return NoContent();
         }
+
+
+
+        //[HttpDelete("delete/{tableName}/{id}")]
+        //public async Task<IActionResult> DeleteRecord(int id, string tableName, [FromBody] object values)
+        //{
+        //    await _routeService.DeleteRecordFromDataTableAsync(tableName, (JsonElement)values);
+
+
+        //    if (!result)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return NoContent();
+        //}
+
+
+
+
+
+
+        [HttpGet("records/{tableName}")]
+        public async Task<ActionResult<IEnumerable<object>>> GetRecordsFromTable(string tableName, [FromQuery] int numberOfRecords = 10)
+        {
+            tableName = tableName.ToLower();
+            tableName = char.ToUpper(tableName[0]) + tableName.Substring(1);
+            try
+            {
+                if (string.IsNullOrEmpty(tableName))
+                {
+                    return BadRequest("Table name is required.");
+                }
+
+                if (numberOfRecords <= 0)
+                {
+                    return BadRequest("Number of records must be greater than 0.");
+                }
+
+                if (DataSourceTables.DataSources.FirstOrDefault(item => item.Name == tableName) == null)
+                {
+                    throw new UnauthorizedAccessException();
+                }
+
+                var records = await _routeService.GetRecordsFromDataTableAsync(tableName, numberOfRecords);
+
+                if (records == null)
+                {
+                    return NotFound("No records found for the specified table.");
+                }
+
+                return Ok(records);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "Unauthorized access.");
+            }
+            catch (SecurityException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Access to the requested resource is forbidden.");
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+            }
+        }
+
+
+
+
+
+
+
+
 
         [HttpPatch("{id}/toggle-visibility")]
         public async Task<IActionResult> ToggleVisibility(int id)
