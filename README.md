@@ -8,7 +8,6 @@ Welcome to the APIMe Capstone Project! This project is a web-based application t
 APIMe can be deployed on an IIS server and accessed by multiple users at the same time. Using an API client such as Postman, users can make requests and examine responses with their codes for different routes. Users can also download and deploy the software on their own laptops, giving them more flexibility for testing and experimenting. The project was built with Angular on front-end and .NET 6 on back-end.
 
 
-
 ## Purpose
 
 The purpose of the APIMe Capstone Project is to provide a user-friendly application that enables users to learn and test APIs in a simple and efficient manner.
@@ -23,6 +22,8 @@ To install the application, follow these steps:
     3. Run 'ng build' command to generate needed packages for application to work.
     4. Run application from Visual Studio
     5. Browser window will pop up, prompting you to login.
+    
+    
 ## Features
 
 - Easy to install and deploy on IIS server
@@ -64,6 +65,36 @@ The instructor will deploy the application on an IIS server on the Conestoga Col
     3. Retrieve the route details from the description of the route
     4. If the route is POST/PUT/PATCH, the header of Content-Type: application/json will be required
     5. Fill out the JSON header based on the routes requirements that can be found in the route's dialog window
+    
+    
+## Available routes for testing in Postman
+- (GET)    https://localhost:44433/routeApi/records/{tableName}
+- (GET)    https://localhost:44433/routeApi/records/{tableName}/{id}
+- (POST)   https://localhost:44433/routeApi/records/{tableName}
+- (PUT)    https://localhost:44433/routeApi/records/{tableName}
+- (PATCH)  https://localhost:44433/routeApi/records/{tableName}/{id}
+- (DELETE) https://localhost:44433/routeApi/records/{tableName}/{id}
+
+### Tables to use in Postman routes
+- Products
+- Customers
+- Suppliers
+- Payments
+- Employees
+- Inventories
+- Categories
+- Orders
+
+### Example JSON header of Content-Type: application/json
+```
+{
+    "id": ,
+    "orderNumber": "",
+    "customerName": "",
+    "totalAmount": "",
+    "orderDate": ""
+} 
+```
 
 
 ## License
