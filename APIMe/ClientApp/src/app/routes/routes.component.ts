@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RouteDto } from '../../interfaces/response/routeDTO';
 import { RouteTypeDto } from '../../interfaces/response/routeTypeDTO';
+import { AuthenticationService } from '../shared/services/authentication.service';
 import { RepositoryService } from '../shared/services/repository.service';
 import { AddEditRouteDialogComponent } from './add-edit-route-dialog/add-edit-route-dialog.component';
 import { DeleteRouteDialogComponent } from './delete-route-dialog/delete-route-dialog.component';
@@ -18,11 +19,18 @@ export class RoutesComponent implements OnInit {
   selectedRouteType = '';
   routeTypes: string[]= []; // You can populate this array with available route types
   filteredRoutes: RouteDto[]= [];
+  isAdmin: boolean = false;
+  isUserAuthenticated: boolean = false;
 
-  constructor(private repositoryService: RepositoryService, private dialog: MatDialog) { }
+  constructor(private authService: AuthenticationService, private repositoryService: RepositoryService, private dialog: MatDialog) {
+    this.isUserAuthenticated = this.authService.isUserAuthenticated();
+    this.isAdmin = this.authService.isUserAdmin();
+  }
 
   ngOnInit(): void {
     this.loadRoutes();
+
+
   }
 
   filterRoutes() {

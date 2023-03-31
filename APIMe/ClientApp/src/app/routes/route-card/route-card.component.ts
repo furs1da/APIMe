@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { RouteDto } from '../../../interfaces/response/routeDTO';
 import { AuthenticationService } from 'src/app/shared/services/authentication.service';
 import { Router } from '@angular/router';
@@ -14,18 +14,15 @@ export class RouteCardComponent {
   @Output() delete = new EventEmitter<RouteDto>();
   @Output() test = new EventEmitter<RouteDto>(); 
   isAdmin: boolean = false;
-  public isUserAuthenticated: boolean = false;
+  isUserAuthenticated: boolean = false;
 
   constructor(private authService: AuthenticationService, private router: Router) {
-    this.authService.authChanged
-      .subscribe(res => {
-        this.isUserAuthenticated = res;
-      })
-
-    this.authService.authChanged.subscribe(() => {
-      this.isAdmin = this.authService.isUserAdmin();
-    });
+    this.isUserAuthenticated = this.authService.isUserAuthenticated();
+    this.isAdmin = this.authService.isUserAdmin(); 
   }
+
+ 
+  
 
   editRoute(): void {
     this.edit.emit(this.route);

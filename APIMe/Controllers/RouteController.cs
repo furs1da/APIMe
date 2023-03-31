@@ -149,27 +149,6 @@ namespace APIMe.Controllers
             return NoContent();
         }
 
-
-
-        //[HttpDelete("delete/{tableName}/{id}")]
-        //public async Task<IActionResult> DeleteRecord(int id, string tableName, [FromBody] object values)
-        //{
-        //    await _routeService.DeleteRecordFromDataTableAsync(tableName, (JsonElement)values);
-
-
-        //    if (!result)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return NoContent();
-        //}
-
-
-
-
-
-
         [HttpGet("records/{tableName}")]
         public async Task<ActionResult<IEnumerable<object>>> GetRecordsFromTable(string tableName, [FromQuery] int numberOfRecords = 10)
         {
@@ -189,7 +168,7 @@ namespace APIMe.Controllers
 
                 if (DataSourceTables.DataSources.FirstOrDefault(item => item.Name == tableName) == null)
                 {
-                    throw new UnauthorizedAccessException();
+                    throw new SecurityException();
                 }
 
                 var records = await _routeService.GetRecordsFromDataTableAsync(tableName, numberOfRecords);
@@ -229,7 +208,7 @@ namespace APIMe.Controllers
 
                 if (DataSourceTables.DataSources.FirstOrDefault(item => item.Name == tableName) == null)
                 {
-                    throw new UnauthorizedAccessException();
+                    throw new SecurityException();
                 }
 
                 var record = await _routeService.GetRecordByIdFromDataTableAsync(tableName, id);
@@ -256,7 +235,7 @@ namespace APIMe.Controllers
         }
 
         [HttpPost("records/{tableName}")]
-        public async Task<ActionResult<object>> AddRecordToTable(string tableName, [FromBody] object recordJson)
+        public async Task<ActionResult<object>> AddRecordToTable(string tableName, [FromBody] JsonElement recordJson)
         {
             tableName = tableName.ToLower();
             tableName = char.ToUpper(tableName[0]) + tableName.Substring(1);
@@ -270,10 +249,10 @@ namespace APIMe.Controllers
 
                 if (DataSourceTables.DataSources.FirstOrDefault(item => item.Name == tableName) == null)
                 {
-                    throw new UnauthorizedAccessException();
+                    throw new SecurityException();
                 }
 
-                var record = await _routeService.AddRecordToDataTableAsync(tableName, (JsonElement)recordJson);
+                var record = await _routeService.AddRecordToDataTableAsync(tableName, recordJson);
 
                 if (record == null)
                 {
@@ -297,32 +276,57 @@ namespace APIMe.Controllers
         }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        [HttpPatch("{id}/toggle-visibility")]
-        public async Task<IActionResult> ToggleVisibility(int id)
+        [HttpPut("records/{tableName}")]
+        public async Task<ActionResult<object>> UpdateRecordInTable(string tableName, [FromBody] JsonElement recordJson)
         {
-            var result = await _routeService.ToggleVisibilityAsync(id);
+            tableName = tableName.ToLower();
+            tableName = char.ToUpper(tableName[0]) + tableName.Substring(1);
 
-            if (!result)
+            try
             {
-                return NotFound();
-            }
+                if (string.IsNullOrEmpty(tableName))
+                {
+                    return BadRequest("Table name is required.");
+                }
 
-            return NoContent();
+                if (DataSourceTables.DataSources.FirstOrDefault(item => item.Name == tableName) == null)
+                {
+                    throw new SecurityException();
+                }
+
+                var record = await _routeService.UpdateRecordInDataTableAsync(tableName, recordJson);
+
+                if (record == null)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+                }
+
+                return Ok(record);
+            }
+            catch (UnauthorizedAccessException)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, "Unauthorized access.");
+            }
+            catch (SecurityException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Access to the requested resource is forbidden.");
+            }
+            catch (InvalidOperationException)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, "The record with the specified key values could not be found.");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+            }
         }
+
+
+
+
+
+
+
 
     }
 }

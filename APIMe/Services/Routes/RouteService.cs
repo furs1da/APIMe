@@ -120,6 +120,8 @@ namespace APIMe.Services.Routes
         public async Task<IEnumerable<RouteDto>> GetRoutesAsync()
         {
             var routes = await _context.Routes.Include(r => r.RouteType).ToListAsync();
+
+
             var routeDtos = _mapper.Map<IEnumerable<RouteDto>>(routes);
 
             foreach (var routeDto in routeDtos)

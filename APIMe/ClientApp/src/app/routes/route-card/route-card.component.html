@@ -6,11 +6,13 @@
   <mat-card-content>
     <p>Description: {{ route.description }}</p>
     <p>Data Table: {{ route.dataTableName }}</p>
-    <p>Visible: {{ route.isVisible ? 'Yes' : 'No' }}</p>
+    <p *ngIf="isAdmin && isUserAuthenticated">Visible: {{ route.isVisible ? 'Yes' : 'No' }}</p>
   </mat-card-content>
   <mat-card-actions>
-    <button mat-stroked-button *ngIf="!isAdmin && isUserAuthenticated" color="primary" (click)="editRoute()" class="card-btn">Edit</button>
-    <button mat-stroked-button *ngIf="!isAdmin && isUserAuthenticated" color="warn" (click)="deleteRoute()" class="card-btn">Delete</button>
+    <div *ngIf="isAdmin && isUserAuthenticated">
+      <button mat-stroked-button color="primary" (click)="editRoute()" class="card-btn">Edit</button>
+      <button mat-stroked-button color="warn" (click)="deleteRoute()" class="card-btn">Delete</button>
+    </div>
     <button mat-raised-button color="primary" (click)="onTest()">Test</button>
   </mat-card-actions>
 </mat-card>
