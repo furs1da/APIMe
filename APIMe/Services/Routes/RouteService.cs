@@ -9,7 +9,7 @@ using System.Text.Json;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.Linq;
-
+using Microsoft.AspNetCore.JsonPatch;
 
 namespace APIMe.Services.Routes
 {
@@ -349,6 +349,56 @@ namespace APIMe.Services.Routes
 
             return existingEntity;
         }
+
+        public async Task<object> PatchRecordInDataTableAsync(string tableName, int id, JsonElement recordJson)
+        {
+            var dbContextType = _context.GetType();
+            var tableProperty = dbContextType.GetProperty(tableName);
+            if (tableProperty == null)
+            {
+                throw new InvalidOperationException($"The table '{tableName}' does not exist in the DbContext.");
+            }
+
+            var table = (IQueryable)tableProperty.GetValue(_context);
+            var entityType = table.ElementType;
+
+            // Find and load the existing entity from the database
+            var existingEntity = await _context.FindAsync(entityType, id);
+
+            if (existingEntity == null)
+            {
+                throw new InvalidOperationException($"The entity with the specified ID could not be found.");
+            }
+
+            // Copy the properties from the updated record to the existing entity
+            foreach (var property in recordJson.EnumerateObject())
+            {
+                var propertyName = property.Name;
+                var newValue = property.Value;
+                var entityProperty = entityType.GetProperty(propertyName);
+
+                if (entityProperty != null && entityProperty.CanWrite)
+                {
+                    object convertedValue = newValue.ValueKind == JsonValueKind.Null
+                        ? null
+                        : JsonConvert.DeserializeObject(newValue.GetRawText(), entityProperty.PropertyType);
+
+                    entityProperty.SetValue(existingEntity, convertedValue);
+                }
+            }
+
+
+            // Save the changes
+            await _context.SaveChangesAsync();
+
+            return existingEntity;
+        }
+
+
+
+
+
+
 
 
 
