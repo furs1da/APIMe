@@ -73,6 +73,14 @@ namespace APIMe.Entities.Models
         public virtual DbSet<Student> Students { get; set; } = null!;
         public virtual DbSet<StudentSection> StudentSections { get; set; } = null!;
 
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Inventory> Inventories { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
