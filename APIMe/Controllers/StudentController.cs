@@ -130,7 +130,7 @@ namespace APIMe.Controllers
                 return NotFound();
             }
 
-            var studentSections = _aPIMeContext.StudentSections.Where(ss => ss.SectionId == id).Include(i => i.Student);
+            var studentSections = _aPIMeContext.StudentSections.Where(ss => ss.StudentId == id).Include(i => i.Student);
             _aPIMeContext.StudentSections.RemoveRange(studentSections);
 
 
