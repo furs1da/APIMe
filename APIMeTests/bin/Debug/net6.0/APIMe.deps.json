@@ -16,6 +16,7 @@
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "6.0.13",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.13",
           "Microsoft.AspNetCore.Identity.UI": "6.0.13",
+          "Microsoft.AspNetCore.JsonPatch": "7.0.4",
           "Microsoft.AspNetCore.SpaProxy": "6.0.13",
           "Microsoft.EntityFrameworkCore": "6.0.13",
           "Microsoft.EntityFrameworkCore.Relational": "6.0.13",
@@ -327,6 +328,18 @@
           "lib/net6.0/Microsoft.AspNetCore.Identity.UI.dll": {
             "assemblyVersion": "6.0.13.0",
             "fileVersion": "6.0.1322.58013"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.JsonPatch/7.0.4": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.7.0",
+          "Newtonsoft.Json": "13.0.2"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.JsonPatch.dll": {
+            "assemblyVersion": "7.0.4.0",
+            "fileVersion": "7.0.423.11903"
           }
         }
       },
@@ -1144,6 +1157,13 @@
       "sha512": "sha512-j2s49QT/ZsotW+LKeddeTuKv3lNWloDIDUr6AM9WbHOk8BWuIOLg0opCIK41WPuJfZ5jJrXL40HMG0TjbSfpTQ==",
       "path": "microsoft.aspnetcore.identity.ui/6.0.13",
       "hashPath": "microsoft.aspnetcore.identity.ui.6.0.13.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.JsonPatch/7.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Ign6gpOinYLePR66lVRHhh3qY9sBiVwvp2P3kjYIi5yRd/60BC5kQb+NZWqaIz1/8BXnVqdRE2baEKDm5fU3gg==",
+      "path": "microsoft.aspnetcore.jsonpatch/7.0.4",
+      "hashPath": "microsoft.aspnetcore.jsonpatch.7.0.4.nupkg.sha512"
     },
     "Microsoft.AspNetCore.SpaProxy/6.0.13": {
       "type": "package",

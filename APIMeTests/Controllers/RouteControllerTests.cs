@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using APIMe.Controllers;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using APIMe.Entities.Models;
 using APIMe.JwtFeatures;
 using APIMeTests;
@@ -10,6 +11,9 @@ using APIMe.Services.Routes;
 using AutoMapper;
 using APIMe.Entities.DataTransferObjects.Admin.Route;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace APIMe.Controllers.Tests
 {
@@ -63,8 +67,8 @@ namespace APIMe.Controllers.Tests
         [TestMethod()]
         public async Task TestRouteTest()
         {
-            Route details= new Route() { DataTableName = "Products", IsVisible = true, Id = 1, Description = "NewRoute", Name = "New", RouteTypeId = 1 };
-            ActionResult<TestRouteResponse> result = await route.TestRoute(1,details);
+            Route details = new Route() { DataTableName = "Products", IsVisible = true, Id = 1, Description = "NewRoute", Name = "New", RouteTypeId = 1 };
+            ActionResult<TestRouteResponse> result = await route.TestRoute(1, details);
             Assert.IsNotNull(result);
             Assert.AreEqual(200, actual: ((OkObjectResult)result.Result).StatusCode);
         }
@@ -88,7 +92,7 @@ namespace APIMe.Controllers.Tests
         [TestMethod()]
         public async Task CreateRouteTest()
         {
-            RouteDto dto = new RouteDto() { DataTableName="Products", IsVisible=true, Id=7, Description="NewRoute", Name="New", RouteTypeId=1};
+            RouteDto dto = new RouteDto() { DataTableName = "Products", IsVisible = true, Id = 7, Description = "NewRoute", Name = "New", RouteTypeId = 1 };
             ActionResult<RouteDto> result = await route.CreateRoute(dto);
             Assert.IsNotNull(result);
             Assert.AreEqual(201, actual: ((CreatedAtActionResult)result.Result).StatusCode);
@@ -99,7 +103,7 @@ namespace APIMe.Controllers.Tests
         {
             RouteDto dto = new RouteDto() { DataTableName = "Products", IsVisible = true, Id = 7, Description = "NewRoute", Name = "New", RouteTypeId = 1 };
             await route.CreateRoute(dto);
-            ActionResult result = (ActionResult)await route.UpdateRoute(7,dto);
+            ActionResult result = (ActionResult)await route.UpdateRoute(7, dto);
             Assert.IsNotNull(result);
             Assert.AreEqual(204, actual: ((NoContentResult)result).StatusCode);
         }
@@ -113,11 +117,60 @@ namespace APIMe.Controllers.Tests
         }
 
         [TestMethod()]
-        public async Task ToggleVisibilityTest()
+        public async Task GetRecordsFromTableTest()
         {
-            ActionResult result = (ActionResult)await route.ToggleVisibility(1);
+            ActionResult<IEnumerable<Object>> result = await route.GetRecordsFromTable("Products");
             Assert.IsNotNull(result);
-            Assert.AreEqual(204, actual: ((NoContentResult)result).StatusCode);
+            Assert.AreEqual(200, actual: ((OkObjectResult)result.Result).StatusCode);
+            result = await route.GetRecordsFromTable("Customers",1);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((OkObjectResult)result.Result).StatusCode);
+        }
+
+        [TestMethod()]
+        public async Task GetRecordByIdFromTableTest()
+        {
+            ActionResult<Object> result = await route.GetRecordByIdFromTable("Products",1);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((OkObjectResult)result.Result).StatusCode);
+        }
+
+        [TestMethod()]
+        public async Task AddRecordToTableTest()
+        {
+            Products products=new Products { Description="New", Id=-1, Name="New", Price=128.42m, Quantity=4001 };
+            var jsonElement = System.Text.Json.JsonSerializer.SerializeToElement(products);
+            ActionResult<Object> result = await route.AddRecordToTable("Products",jsonElement);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(201, actual: ((CreatedAtActionResult)result.Result).StatusCode);
+        }
+
+        [TestMethod()]
+        public async Task UpdateRecordInTableTest()
+        {
+            Products products = new Products { Description = "New", Id = 1, Name = "New", Price = 128.42m, Quantity = 4001 };
+            var jsonElement = System.Text.Json.JsonSerializer.SerializeToElement(products);
+            ActionResult<Object> result = await route.UpdateRecordInTable("Products", jsonElement);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((ObjectResult)result.Result).StatusCode);
+        }
+
+        [TestMethod()]
+        public async Task PatchRecordInTableTest()
+        {
+            Products products = new Products { Description = "New", Id = 1, Name = "New", Price = 128.42m, Quantity = 4001 };
+            var jsonElement = System.Text.Json.JsonSerializer.SerializeToElement(products);
+            ActionResult<Object> result = await route.PatchRecordInTable("Products",1, jsonElement);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((ObjectResult)result.Result).StatusCode);
+        }
+
+        [TestMethod()]
+        public async Task DeleteRecordFromTableTest()
+        {
+            ActionResult<Object> result = await route.DeleteRecordFromTable("Products", 1);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(204, actual: ((NoContentResult)result.Result).StatusCode);
         }
     }
 }
