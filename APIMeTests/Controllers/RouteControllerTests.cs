@@ -38,7 +38,7 @@ namespace APIMe.Controllers.Tests
             mapper.Setup(p => p.Map<Route>(It.IsAny<RouteDto>())).Returns(new Route() { DataTableName = "Products", IsVisible = true, Id = 7, Description = "NewRoute", Name = "New", RouteTypeId = 1 });
 
 
-            RouteService routeService = new RouteService(ContextDataAccess, mapper.Object);
+            MockRouteService routeService = new MockRouteService(ContextDataAccess, mapper.Object);
 
             route = new RouteController(userManager.Object, ContextDataAccess, routeService, mapper.Object);
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
