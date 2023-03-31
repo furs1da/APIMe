@@ -1,27 +1,73 @@
-# APIMe
+# **APIMe** Capstone Project
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.2.
+Welcome to the APIMe Capstone Project! This project is a web-based application that enables users to test and interact with APIMe platform.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Project Overview
 
-## Code scaffolding
+APIMe can be deployed on an IIS server and accessed by multiple users at the same time. Using an API client such as Postman, users can make requests and examine responses with their codes for different routes. Users can also download and deploy the software on their own laptops, giving them more flexibility for testing and experimenting. The project was built with Angular on front-end and .NET 6 on back-end.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Purpose
 
-## Running unit tests
+The purpose of the APIMe Capstone Project is to provide a user-friendly application that enables users to learn and test APIs in a simple and efficient manner.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## Installation
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+To install the application, follow these steps:
 
-## Further help
+    1. Clone the repository to your local machine.
+    2. Install the necessary dependencies using 'npm install' inside ClientApp folder.
+    3. Run 'ng build' command to generate needed packages for application to work.
+    4. Run application from Visual Studio
+    5. Browser window will pop up, prompting you to login.
+## Features
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+- Easy to install and deploy on IIS server
+- Application is self-contained within itself and consists of a front-end UI, business logic and database.
+- [ASP.NET Core Identity Authentication](https://learn.microsoft.com/en-us/aspnet/core/security/authentication/identity?view=aspnetcore-7.0&tabs=visual-studio)
+- Supports the following route codes:
+    -  200 (OK)
+    -  201 (Created)
+    -  400 (Bad Request)
+    -  401 (Unauthorized)
+    -  403 (Forbidden)
+    -  404 (Not Found)
+    -  500 (Internal Server Error)
+- Developed with [Angular](https://angular.io/docs), [.NET 6](https://learn.microsoft.com/en-us/dotnet/fundamentals/), and [SQL Server](https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16)
+- Designed according to [AODA](https://aoda.ca/) standards
+- The database features 8 different tables with more than 1,000 records in total
+- Built with Object-Oriented Programming standards in mind
+## Deployment
+
+The instructor will deploy the application on an IIS server on the Conestoga College network. Students can then access the application using an API client such as Postman to test the APIMe solution.
+
+
+## **Getting Started Guide**
+
+### Authorization
+    1. Register your student account
+    2. Confirm your email
+    3. Login to APIMe
+
+### Test the routes using APIMe
+    1. Go to the routes page
+    2. Observe the various routes offered by APIMe
+    3. Click 'Test' on any of the routes
+    4. Dialog window will pop up with the response details retrieved from the server
+
+### Test the routes using Postman
+    1. Go to the routes page
+    2. Observe the various routes offered by APIMe
+    3. Retrieve the route details from the description of the route
+    4. If the route is POST/PUT/PATCH, the header of Content-Type: application/json will be required
+    5. Fill out the JSON header based on the routes requirements that can be found in the route's dialog window
+
+
+## License
+
+This project is licensed under the **MIT License**. See the LICENSE file for more information.
+
+
