@@ -1,30 +1,14 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using APIMe.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using APIMe.Entities.Models;
 using APIMe.JwtFeatures;
 using APIMeTests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using System.Security.Claims;
 using APIMe.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using APIMe.Services.Email;
 using APIMe.Entities.DataTransferObjects.Authorization;
-using System.IdentityModel.Tokens.Jwt;
-using NSubstitute;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
-using Castle.Core.Configuration;
-using IConfiguration = Microsoft.Extensions.Configuration.IConfiguration;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace APIMe.Controllers.Tests
 {

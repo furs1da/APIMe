@@ -33,9 +33,7 @@ namespace APIMe.Controllers.Tests
 
             var userManager = new Mock<UserManager<IdentityUser>>(mockStore.Object, null, null, null, null, null, null, null, null);
 
-            JwtHandler jwtHandler = MockJwt.GetJwtHandler();
             APIMeContext ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-
 
             var mapper=new Mock<IMapper>();
             RouteService route = new RouteService(ContextDataAccess,mapper.Object);

@@ -1,21 +1,13 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using APIMe.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using APIMe.Entities.Models;
 using APIMe.JwtFeatures;
 using APIMeTests;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using System.Security.Claims;
 using APIMe.Services.Routes;
 using AutoMapper;
-using APIMe.Migrations;
 using APIMe.Entities.DataTransferObjects.Admin.Route;
 using Microsoft.AspNetCore.Mvc;
 
@@ -90,7 +82,7 @@ namespace APIMe.Controllers.Tests
         {
             ActionResult<RouteDto> result = await route.GetRoute(1);
             Assert.IsNotNull(result);
-            Assert.IsNotNull(result.Value);
+            Assert.IsInstanceOfType(result.Value, typeof(RouteDto));
         }
 
         [TestMethod()]

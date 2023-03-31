@@ -1,15 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using APIMe.Entities.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace APIMeTests
 {
-        public class MockContext<T>
+    public class MockContext<T>
         {
             public APIMeContext GetMockContext()
             {
@@ -24,7 +19,7 @@ namespace APIMeTests
                 context.Users.Add(new IdentityUser { Email ="test", EmailConfirmed= true, Id="0"  });
                 context.Students.Add(new Student { Id = 7, FirstName = "test", LastName = "test", StudentId = 1234567, Email = "test", ApiKey = "t" });
                 context.StudentSections.Add(new StudentSection { SectionId = 4, StudentId = 7 });
-            context.Routes.Add(new Route { Id = 1, Name = "testRoute", Description = "describe", IsVisible = true, DataTableName = "Products", RouteTypeId = 1 });
+                context.Routes.Add(new Route { Id = 1, Name = "testRoute", Description = "describe", IsVisible = true, DataTableName = "Products", RouteTypeId = 1 });
                 context.RouteTypes.Add(new RouteType { Id=1,CrudId=1, Name="GET", ResponseCode="201" });
 
                 context.SaveChanges();

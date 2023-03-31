@@ -48,10 +48,6 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
-            "AutoMapper": {
-              "target": "Package",
-              "version": "[11.0.0, )"
-            },
             "MSTest.TestAdapter": {
               "target": "Package",
               "version": "[2.2.10, )"

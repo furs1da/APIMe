@@ -1,36 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using APIMe.Controllers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using APIMe.Entities.Models;
 using APIMe.JwtFeatures;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
 using APIMe.Entities.DataTransferObjects.Admin.Section;
 using Microsoft.AspNetCore.Mvc;
-using NUnit.Framework;
-using Assert = NUnit.Framework.Assert;
-using System;
-using System.Collections.Generic;
-using NSubstitute;
 using APIMeTests;
-using System.Threading.Tasks;
-using static System.Net.WebRequestMethods;
-using Microsoft.AspNetCore.Authorization;
-using APIMe.Interfaces;
-using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using static Duende.IdentityServer.Models.IdentityResources;
-using System.IdentityModel.Tokens.Jwt;
-using APIMe.Entities.DataTransferObjects;
-using APIMe.Entities.DataTransferObjects.Authorization;
-using Duende.IdentityServer.Models;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
@@ -64,6 +39,7 @@ namespace APIMe.Controllers.Tests
         {
             ActionResult<List<SectionDTO>> result = await controller.GetSections();
             Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result.Value, typeof(List<SectionDTO>));
         }
         [TestMethod()]
             public async Task AddSectionTest()
@@ -109,23 +85,5 @@ namespace APIMe.Controllers.Tests
             Assert.IsNotNull(result);
             Assert.AreEqual(200, actual: ((OkObjectResult)result).StatusCode);
         }
-
-
-/*        private void testSetup()
-        {
-            IConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
-            IConfiguration configuration = configurationBuilder.Build();
-            var mockStore = new Mock<IUserStore<IdentityUser>>();
-            var userManager = new UserManager<IdentityUser>(mockStore.Object, null, null, null, null, null, null, null, null);
-            JwtHandler jwtHandler = new JwtHandler(configuration, userManager);
-            this.ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-
-            controller = new SectionController(userManager, ContextDataAccess, jwtHandler);
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
-            {
-                new Claim(ClaimTypes.Name, "testingmockup"),
-            }, "mock"));
-            controller.ControllerContext.HttpContext = new DefaultHttpContext() { User = user };
-        }*/
     }
 }
