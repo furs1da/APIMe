@@ -374,6 +374,7 @@ namespace APIMe.Services.Routes
             foreach (var property in recordJson.EnumerateObject())
             {
                 var propertyName = property.Name;
+                propertyName= propertyName.Substring(0,1).ToUpper()+propertyName.Substring(1);
                 var newValue = property.Value;
                 var entityProperty = entityType.GetProperty(propertyName);
 
