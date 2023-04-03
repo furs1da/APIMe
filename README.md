@@ -1,6 +1,6 @@
 # **APIMe** Capstone Project
 
-Welcome to the APIMe Capstone Project! This project helps students to understand how APIs work in a better way and provide to test all types of requests available in PostMan!
+Welcome to the APIMe Capstone Project! This project helps students to understand how APIs work in a better way and provide to test all types of requests available in PostMan.
 
 
 ## Project Overview
