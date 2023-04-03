@@ -1,6 +1,6 @@
 # **APIMe** Capstone Project
 
-Welcome to the APIMe Capstone Project! This project is a web-based application that enables users to test and interact with APIMe platform.
+Welcome to the APIMe Capstone Project! This project helps students to understand how APIs work in a better way and provide to test all types of requests available in PostMan!
 
 
 ## Project Overview
