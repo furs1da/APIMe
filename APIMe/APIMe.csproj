@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.0" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="dotenv.net" Version="3.1.2" />
     <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="6.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.13" />
@@ -42,6 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\postman\postman.module.ts" />
     <None Remove="ClientApp\src\app\routes\route.module.ts" />
     <None Remove="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <None Remove="ClientApp\src\app\student\students\student.module.ts" />
@@ -65,6 +67,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\postman\postman.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\routes\route.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\student\student.module.ts" />

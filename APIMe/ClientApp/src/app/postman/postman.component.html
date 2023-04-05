@@ -1,0 +1,39 @@
+<div class="container">
+  <mat-form-field appearance="fill">
+    <mat-label>Request Type</mat-label>
+    <mat-select [(ngModel)]="requestType">
+      <mat-option *ngFor="let type of requestTypes" [value]="type">{{type}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Endpoint</mat-label>
+    <input matInput [(ngModel)]="endpoint">
+    <button mat-icon-button matSuffix aria-label="Suggest Endpoint" (click)="suggestEndpoint()">
+      <mat-icon>auto_fix_high</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <div>
+    <h3>Headers</h3>
+    <div *ngFor="let key of headerKeys(); let i = index">
+      <mat-form-field appearance="fill" class="header-key">
+        <mat-label>Key</mat-label>
+        <input matInput [(ngModel)]="headerKeys()[i]">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="header-value">
+        <mat-label>Value</mat-label>
+        <input matInput [(ngModel)]="headers[key]">
+      </mat-form-field>
+      <button mat-button (click)="removeHeader(key)">Remove</button>
+    </div>
+    <button mat-raised-button color="primary" (click)="addHeader()">Add Header</button>
+  </div>
+
+  <div *ngIf="isRequestBodyRequired()">
+    <h3>Request Body</h3>
+    <textarea [(ngModel)]="requestBody" rows="10" cols="50"></textarea>
+  </div>
+
+  <button mat-raised-button color="primary" (click)="sendRequest()">Send Request</button>
+</div>

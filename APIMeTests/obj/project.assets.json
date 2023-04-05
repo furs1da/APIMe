@@ -53,6 +53,15 @@
           "build/netstandard1.0/coverlet.collector.targets": {}
         }
       },
+      "dotenv.net/3.1.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/dotenv.net.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/dotenv.net.dll": {}
+        }
+      },
       "Duende.IdentityServer/5.2.0": {
         "type": "package",
         "dependencies": {
@@ -2491,7 +2500,8 @@
           "Microsoft.Extensions.Configuration.Json": "6.0.0",
           "Microsoft.Extensions.FileProviders.Physical": "6.0.0",
           "NETCore.MailKit": "2.1.0",
-          "Newtonsoft.Json": "13.0.2"
+          "Newtonsoft.Json": "13.0.2",
+          "dotenv.net": "3.1.2"
         },
         "compile": {
           "bin/placeholder/APIMe.dll": {}
@@ -2608,6 +2618,20 @@
         "coverlet-icon.png",
         "coverlet.collector.3.1.2.nupkg.sha512",
         "coverlet.collector.nuspec"
+      ]
+    },
+    "dotenv.net/3.1.2": {
+      "sha512": "lFm4hGX9JkNtAF36Uz4C3WT7MC6Ys802k0cPvlln8ydmH67GQjnToH+w645tQm1czAjW/V6tPE088lD77sYFGA==",
+      "type": "package",
+      "path": "dotenv.net/3.1.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "dotenv.net.3.1.2.nupkg.sha512",
+        "dotenv.net.nuspec",
+        "lib/netstandard1.6/dotenv.net.dll",
+        "lib/netstandard2.0/dotenv.net.dll",
+        "lib/netstandard2.1/dotenv.net.dll"
       ]
     },
     "Duende.IdentityServer/5.2.0": {
@@ -7156,28 +7180,24 @@
       "Moq >= 4.18.4",
       "NSubstitute >= 5.0.0",
       "NUnit >= 3.13.3",
-      "coverlet.collector >= 3.1.2"
+      "coverlet.collector >= 3.1.2",
+      "dotenv.net >= 3.1.2"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\alex_\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\User\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
+      "projectUniqueName": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
       "projectName": "APIMeTests",
-      "projectPath": "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
-      "packagesPath": "C:\\Users\\alex_\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMeTests\\obj\\",
+      "projectPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\alex_\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7191,8 +7211,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMe\\APIMe.csproj": {
-              "projectPath": "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMe\\APIMe.csproj"
+            "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj": {
+              "projectPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj"
             }
           }
         }
@@ -7238,6 +7258,10 @@
           "coverlet.collector": {
             "target": "Package",
             "version": "[3.1.2, )"
+          },
+          "dotenv.net": {
+            "target": "Package",
+            "version": "[3.1.2, )"
           }
         },
         "imports": [
@@ -7256,7 +7280,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   },

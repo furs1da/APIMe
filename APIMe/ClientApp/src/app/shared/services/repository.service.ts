@@ -136,6 +136,13 @@ export class RepositoryService {
     return `${baseUrl}${route}`;
   }
 
+  public getPropertiesByTableName(tableName: string): Observable<any[]> {
+    return this.http.get<any[]>(this.createCompleteRoute(`routeApi/properties/${tableName}`, this.baseUrl));
+  }
+
+  public get(route: string, options?: { headers?: HttpHeaders }): Observable<any> {
+    return this.http.get(this.createCompleteRoute(route, this.baseUrl), options);
+  }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

@@ -13,16 +13,18 @@ import { HomeComponent } from './home/home.component';
 import { NotFoundComponent } from './error-pages/not-found/not-found.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { PrivacyComponent } from './privacy/privacy.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { PostmanComponent } from './postman/postman.component';
+
 import { AdminGuard } from './shared/guards/admin.guard';
 import { ForgotPasswordComponent } from './authentication/forgot-password/forgot-password.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
+import { MatDialogModule } from '@angular/material/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -34,6 +36,9 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
 import { MatOptionModule } from '@angular/material/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
+
 
 export function tokenGetter() {
   return localStorage.getItem("token");
@@ -46,14 +51,14 @@ export function tokenGetter() {
     NavMenuComponent,
     NotFoundComponent,
     ForbiddenComponent,
-    HomeComponent,
+    HomeComponent
+    
   ],
   imports: [
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatDialogModule,
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
@@ -65,11 +70,13 @@ export function tokenGetter() {
     MatCardModule,
     MatTableModule,
     MatSlideToggleModule,
+    MatSnackBarModule,
+
+
     CollapseModule.forRoot(),
     NgbModule,
     FontAwesomeModule,
     HttpClientModule,
-    BrowserAnimationsModule,
     RouterModule.forRoot([
       { path: 'home', component: HomeComponent },
       { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -79,6 +86,7 @@ export function tokenGetter() {
       { path: 'student', loadChildren: () => import('./student/student.module').then(m => m.StudentModule), canActivate: [AuthGuard] },
       { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule), canActivate: [AuthGuard] },
       { path: 'route', loadChildren: () => import('./routes/route.module').then(m => m.RouteModule) },
+      { path: 'postman', loadChildren: () => import('./postman/postman.module').then(m => m.PostmanModule) },
       { path: '404', component: NotFoundComponent },
       { path: 'forbidden', component: ForbiddenComponent },
       
