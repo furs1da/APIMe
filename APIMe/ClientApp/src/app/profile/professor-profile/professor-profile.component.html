@@ -1,26 +1,27 @@
-
-	<div class="container mt-4">
-		<div class="card">
-			<div class="card-header">
-				<h3>Profile</h3>
-			</div>
-			<div class="card-body">
-				<form [formGroup]="professorProfileForm" (ngSubmit)="onSave(professorProfileForm.value)">
-					<div class="form-group">
-						<label for="email">Email</label>
-						<input formControlName="email"  type="email" class="form-control" id="email" value="{{ professor?.email }}">
-					</div>
-					<div class="form-group">
-						<label for="firstName">First Name</label>
-						<input formControlName="firstName" type="text" class="form-control" id="firstName" value="{{ professor?.firstName }}">
-					</div>
-					<div class="form-group">
-						<label for="lastName">Last Name</label>
-						<input formControlName="lastName" type="text" class="form-control" id="lastName" value="{{ professor?.lastName }}">
-					</div>
-					<button type="submit" class="btn btn-primary">Save</button>
-				</form>
-			</div>
-		</div>
-	</div>
-
+<div class="container">
+	<mat-card class="profile-card">
+		<mat-card-header>
+			<mat-card-title>Profile</mat-card-title>
+		</mat-card-header>
+		<mat-card-content>
+			<form [formGroup]="professorProfileForm" (ngSubmit)="onSave(professorProfileForm.value)">
+				<mat-form-field appearance="outline">
+					<mat-label>Email</mat-label>
+					<input formControlName="email" matInput type="email" [value]="professor?.email">
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>First Name</mat-label>
+					<input formControlName="firstName" matInput type="text" [value]="professor?.firstName">
+				</mat-form-field>
+				<mat-form-field appearance="outline">
+					<mat-label>Last Name</mat-label>
+					<input formControlName="lastName" matInput type="text" [value]="professor?.lastName">
+				</mat-form-field>
+				<div class="form-actions">
+					<button mat-raised-button color="primary" type="submit">Save</button>
+				</div>
+			</form>
+			<mat-snack-bar-container></mat-snack-bar-container>
+		</mat-card-content>
+	</mat-card>
+</div>

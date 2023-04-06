@@ -39,7 +39,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
-
 export function tokenGetter() {
   return localStorage.getItem("token");
 }

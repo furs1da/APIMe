@@ -16,12 +16,14 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTableModule } from '@angular/material/table';
-
+import { MatSnackBarModule, MatSnackBarConfig } from '@angular/material/snack-bar';
 
 import { StudentProfileComponent } from './student-profile/student-profile.component';
 import { ProfessorProfileComponent } from './professor-profile/professor-profile.component';
 import { AuthGuard } from '../shared/guards/auth.guard';
 import { AdminGuard } from '../shared/guards/admin.guard';
+
+
 
 
 @NgModule({
@@ -42,11 +44,15 @@ import { AdminGuard } from '../shared/guards/admin.guard';
     MatTableModule,
     MatDividerModule,
     MatCardModule,
+    MatSnackBarModule,
     MatSlideToggleModule,
     RouterModule.forChild([
       { path: 'professor', component: ProfessorProfileComponent, canActivate: [AuthGuard, AdminGuard] },
       { path: 'student', component: StudentProfileComponent, canActivate: [AuthGuard] }
     ])
+  ],
+  providers: [
+    MatSnackBarConfig
   ]
 })
 export class ProfileModule { }

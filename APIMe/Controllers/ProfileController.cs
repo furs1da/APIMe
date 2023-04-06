@@ -20,6 +20,7 @@ using Duende.IdentityServer.Models;
 using static System.Collections.Specialized.BitVector32;
 using System.Security.Claims;
 using APIMe.Entities.DataTransferObjects.Admin.Profile;
+using static Duende.IdentityServer.Events.TokenIssuedSuccessEvent;
 
 namespace APIMe.Controllers
 {
@@ -28,15 +29,16 @@ namespace APIMe.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly JwtHandler _jwtHandler;
         private APIMeContext _aPIMeContext;
 
-        public ProfileController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, JwtHandler jwtHandler)
+        public ProfileController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, JwtHandler jwtHandler, SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
             _aPIMeContext = aPIMeContext;
+            _signInManager = signInManager;
         }
 
         [Authorize(Roles = "Administrator")]
@@ -45,8 +47,10 @@ namespace APIMe.Controllers
         {
             var professors = await _aPIMeContext.Professors.ToListAsync();
 
+            string debug = User.Identity.Name;
+
             var professor = await _aPIMeContext.Professors
-                .SingleOrDefaultAsync(p => p.Email == User.Identity.Name);
+                .SingleOrDefaultAsync(p => p.Email == debug);
 
             if (professor == null)
             {
@@ -67,10 +71,10 @@ namespace APIMe.Controllers
 
         [Authorize(Roles = "Administrator")]
         [HttpPut("edit/{id}")]
-        public async Task<ActionResult<ProfessorProfileDTO>> EditProfessorProfile(int id, [FromBody] ProfessorProfileDTO professorProfile)
+        public async Task<ActionResult> EditProfessorProfile(int id, [FromBody] ProfessorProfileDTO professorProfile)
         {
             var professor = await _aPIMeContext.Professors
-                .SingleOrDefaultAsync(p => p.Email == User.Identity.Name);
+                .SingleOrDefaultAsync(p => p.Id == id);
 
             if (professor == null)
             {
@@ -79,8 +83,65 @@ namespace APIMe.Controllers
 
             if (!string.IsNullOrEmpty(professorProfile.Email))
             {
-                professor.Email = professorProfile.Email;
+                // Validate the email format
+                if (IsValidEmail(professorProfile.Email))
+                {
+                    // Check if a user with the new email value already exists
+                    var existingUser = await _userManager.FindByEmailAsync(professorProfile.Email);
+                    if (existingUser != null && existingUser.UserName != professor.Email)
+                    {
+                        return BadRequest("The email address is already in use.");
+                    }
+
+                    // Update the email in the AspNetUsers table
+                    var user = await _userManager.FindByEmailAsync(professor.Email);
+
+                    if (user != null)
+                    {
+                        user.Email = professorProfile.Email;
+
+                        // Check if the existing UserName value is the same as the old email value
+                        if (user.UserName == professor.Email)
+                        {
+                            user.UserName = professorProfile.Email;
+                            await _userManager.UpdateNormalizedUserNameAsync(user);
+                        }
+
+                        await _userManager.UpdateNormalizedEmailAsync(user);
+                        await _userManager.UpdateAsync(user);
+
+                        // Refresh the user's claims by generating a new JWT token
+                        var signingCredentials = _jwtHandler.GetSigningCredentials();
+                        var claims = await _jwtHandler.GetClaims(user);
+                        var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
+                        var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+                        // Update the professor's email
+                        professor.Email = professorProfile.Email;
+
+                        // Update the professor's first and last name if provided
+                        if (!string.IsNullOrEmpty(professorProfile.FirstName))
+                        {
+                            professor.FirstName = professorProfile.FirstName;
+                        }
+                        if (!string.IsNullOrEmpty(professorProfile.LastName))
+                        {
+                            professor.LastName = professorProfile.LastName;
+                        }
+
+                        await _aPIMeContext.SaveChangesAsync();
+
+                        // Return the new token as part of the response
+                        return Ok(new { Token = token });
+                    }
+                    else
+                    {
+                        return BadRequest("The user associated with the professor does not exist.");
+                    }
+                }
             }
+
+            // Update the professor's first and last name if provided
             if (!string.IsNullOrEmpty(professorProfile.FirstName))
             {
                 professor.FirstName = professorProfile.FirstName;
@@ -90,22 +151,27 @@ namespace APIMe.Controllers
                 professor.LastName = professorProfile.LastName;
             }
 
-            var identity = new ClaimsIdentity(User.Identity);
-            identity.RemoveClaim(identity.FindFirst(ClaimTypes.Name));
-            identity.AddClaim(new Claim(ClaimTypes.Name, professorProfile.Email));
-
-            var newPrincipal = new ClaimsPrincipal(identity);
-            HttpContext.User = newPrincipal;
-
-
-            // Refresh the current user identity with the updated name
-            HttpContext.User = new System.Security.Principal.GenericPrincipal(identity, new string[] { });
-
-
             await _aPIMeContext.SaveChangesAsync();
 
             return Ok();
         }
+
+
+
+
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
 
 
         [Authorize(Roles = "Student")]

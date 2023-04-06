@@ -1,24 +1,56 @@
-.card {
-  border-radius: 10px;
-  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.144);
-  margin: 20px auto;
-  max-width: 500px;
-  background-color: #fff;
+.container {
+  padding: 32px;
 }
 
-.card-header {
-  background-color: #007bff;
-  color: #fff;
-  margin: 0;
-  border-radius: 20px;
+.profile-card {
+  max-width: 1000px;
+  margin: 32px auto;
+  padding: 16px;
 }
 
-input.form-control {
-  border-color: #007bff;
-  color: #007bff;
+mat-card-header {
+  margin-bottom: 16px;
 }
 
-button.btn-primary {
-  background-color: #007bff;
-  border-color: #007bff;
+mat-form-field {
+  display: block;
+  margin-bottom: 24px;
+  width: 100%;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+.success-snackbar {
+  background-color: #007bff !important;
+  color: white !important;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+  button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 4px;
+  }
+
+.error-snackbar {
+  background-color: #f44336 !important;
+  color: white !important;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.success-snackbar, .error-snackbar {
+  font-size: 24px;
+  font-weight: 500;
+  padding: 16px 24px;
+  border-radius: 4px;
+  line-height: 1.5;
 }

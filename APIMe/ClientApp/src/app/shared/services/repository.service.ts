@@ -9,6 +9,7 @@ import { Property } from '../../../interfaces/response/property';
 import { TestRouteResponse } from 'src/interfaces/response/testRouteResponse';
 import { Student } from '../../../interfaces/request/student';
 import { StudentProfile } from '../../../interfaces/profile/profile/studentProfile';
+import { AuthResponseDto } from '../../../interfaces/response/authResponseDto';
 
 @Injectable({
   providedIn: 'root'
@@ -147,12 +148,11 @@ export class RepositoryService {
 
 
 
-
-
-
-  public updateProfessorProfile = (professorProfile: ProfessorProfile) => {
-    return this.http.put<Section>(this.createCompleteRoute('profileApi/edit/' + professorProfile.id, this.baseUrl), professorProfile);
+  public updateProfessorProfile(professorProfile: ProfessorProfile): Observable<AuthResponseDto> {
+    return this.http.put<AuthResponseDto>(this.createCompleteRoute('profileApi/edit/' + professorProfile.id, this.baseUrl), professorProfile);
   }
+
+
 
   public updateStudentProfile = (studentProfile: StudentProfile) => {
     return this.http.put<Section>(this.createCompleteRoute('profileApi/editStudent/' + studentProfile.id, this.baseUrl), studentProfile);
