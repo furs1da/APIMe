@@ -49,7 +49,7 @@ namespace APIMe.Controllers
 
             if (professor == null)
             {
-                return BadRequest("The professor does not exist.");
+                    return BadRequest("The professor does not exist.");                
             }
 
             return professor;
@@ -83,6 +83,64 @@ namespace APIMe.Controllers
             var identity = new ClaimsIdentity(User.Identity);
             identity.RemoveClaim(identity.FindFirst(ClaimTypes.Name));
             identity.AddClaim(new Claim(ClaimTypes.Name, professorProfile.Email));
+
+            var newPrincipal = new ClaimsPrincipal(identity);
+            HttpContext.User = newPrincipal;
+
+
+            // Refresh the current user identity with the updated name
+            HttpContext.User = new System.Security.Principal.GenericPrincipal(identity, new string[] { });
+
+
+            await _aPIMeContext.SaveChangesAsync();
+
+            return Ok();
+        }
+        [Authorize(Roles = "Administrator")]
+        [HttpGet("profile")]
+        public async Task<ActionResult<Student>> GetStudentProfile()
+        {
+            var students = await _aPIMeContext.Students.ToListAsync();
+
+            var student = await _aPIMeContext.Students
+                .SingleOrDefaultAsync(p => p.Email == User.Identity.Name);
+
+            if (student == null)
+            {
+                return BadRequest("The student does not exist.");
+            }
+
+            return student;
+        }
+
+        [Authorize(Roles = "Administrator")]
+        [HttpPut("edit/{id}")]
+        public async Task<ActionResult<ProfileDTO>> EditStudentProfile(int id, [FromBody] ProfileDTO studentProfile)
+        {
+            var student = await _aPIMeContext.Students
+                .SingleOrDefaultAsync(p => p.Email == User.Identity.Name);
+
+            if (student == null)
+            {
+                return BadRequest("The student does not exist.");
+            }
+
+            if (!string.IsNullOrEmpty(studentProfile.Email))
+            {
+                student.Email = studentProfile.Email;
+            }
+            if (!string.IsNullOrEmpty(studentProfile.FirstName))
+            {
+                student.FirstName = studentProfile.FirstName;
+            }
+            if (!string.IsNullOrEmpty(studentProfile.LastName))
+            {
+                student.LastName = studentProfile.LastName;
+            }
+
+            var identity = new ClaimsIdentity(User.Identity);
+            identity.RemoveClaim(identity.FindFirst(ClaimTypes.Name));
+            identity.AddClaim(new Claim(ClaimTypes.Name, studentProfile.Email));
 
             var newPrincipal = new ClaimsPrincipal(identity);
             HttpContext.User = newPrincipal;

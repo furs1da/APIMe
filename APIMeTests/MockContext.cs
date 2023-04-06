@@ -20,6 +20,7 @@ namespace APIMeTests
             context.Professors.Add(new Professor { Id = 0, Email = "testingmockup", FirstName = "first", LastName = "last" });
             context.Users.Add(new IdentityUser { Email = "test", EmailConfirmed = true, Id = "0" });
             context.Students.Add(new Student { Id = 7, FirstName = "test", LastName = "test", StudentId = 1234567, Email = "test", ApiKey = "t" });
+            context.Students.Add(new Student { Id = 0, FirstName = "test", LastName = "test", StudentId = 1234567, Email = "testingmockup", ApiKey = "t" });
             context.StudentSections.Add(new StudentSection { SectionId = 4, StudentId = 7 });
             context.Routes.Add(new Route { Id = 1, Name = "testRoute", Description = "describe", IsVisible = true, DataTableName = "Products", RouteTypeId = 1 });
             context.RouteTypes.Add(new RouteType { Id = 1, CrudId = 1, Name = "GET", ResponseCode = "201" });
