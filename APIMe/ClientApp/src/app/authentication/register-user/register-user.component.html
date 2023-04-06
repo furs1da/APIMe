@@ -23,16 +23,17 @@
               </div>
 
 
+
               <div class="form-group">
                 <label for="studentNumber" class="form-label">Student Number:</label>
                 <input type="text" class="form-control" id="studentNumber" formControlName="studentNumber" placeholder="Enter Student Number">
                 <p>
                   <em *ngIf="validateControl('studentNumber') && hasError('studentNumber', 'required')">Student Number is required</em>
-                </p>
-                <p>
-                  <em *ngIf="validateControl('studentNumber') && hasError('studentNumber', 'maxLength') && hasError('studentNumber', 'minLength')">Student Number must be 7 digits</em>
+                  <em *ngIf="validateControl('studentNumber') && hasError('studentNumber', 'notDigits')">Student Number must contain only digits</em>
+                  <em *ngIf="validateControl('studentNumber') && hasError('studentNumber', 'invalidLength')">Student Number must be 7 digits</em>
                 </p>
               </div>
+
 
 
               <div class="form-group">

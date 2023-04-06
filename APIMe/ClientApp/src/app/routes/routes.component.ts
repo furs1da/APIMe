@@ -37,7 +37,8 @@ export class RoutesComponent implements OnInit {
     this.filteredRoutes = this.routes.filter(route => {
       const matchesName = route.name.toLowerCase().includes(this.searchName.toLowerCase());
       const matchesRouteType = this.selectedRouteType === '' || route.routeTypeName === this.selectedRouteType;
-      return matchesName && matchesRouteType;
+      const isVisible = this.isAdmin || route.isVisible;
+      return matchesName && matchesRouteType && isVisible;
     });
   }
 

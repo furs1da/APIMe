@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { AuthenticationService } from './../../shared/services/authentication.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { UserForRegistrationDto } from '../../../interfaces/user/userForRegistrationDTO';
 import { Section } from '../../../interfaces/request/section';
 import { PasswordConfirmationValidatorService } from '../../shared/custom-validators/password-confirmation-validator.service';
@@ -34,7 +34,7 @@ export class RegisterUserComponent implements OnInit {
       lastName: new FormControl('', [Validators.required]),
       accessCode: new FormControl('', [Validators.required]),
       studentSection: new FormControl('', [Validators.required]),
-      studentNumber: new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(7)]),
+      studentNumber: new FormControl('', [Validators.required, this.isDigits, this.studentNumberLengthValidator()]),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', [Validators.required]),
       confirm: new FormControl('')
@@ -45,7 +45,16 @@ export class RegisterUserComponent implements OnInit {
 
     if (passwordControl && confirmControl) {
       confirmControl.setValidators([Validators.required,
-        this.passConfValidator.validateConfirmPassword(passwordControl)]);
+      this.passConfValidator.validateConfirmPassword(passwordControl)]);
+
+      // Add value change subscriptions
+      passwordControl.valueChanges.subscribe(() => {
+        confirmControl.updateValueAndValidity();
+      });
+
+      confirmControl.valueChanges.subscribe(() => {
+        confirmControl.updateValueAndValidity();
+      });
     }
    
   }
@@ -86,4 +95,29 @@ export class RegisterUserComponent implements OnInit {
         }
       })
   }
+
+
+  isDigits(control: AbstractControl): { [key: string]: boolean } | null {
+    const value = control.value;
+    if (!value) {
+      return null;
+    }
+    if (!/^\d+$/.test(value)) {
+      return { notDigits: true };
+    }
+    return null;
+  }
+
+  studentNumberLengthValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: boolean } | null => {
+    const value = control.value;
+    if (!value) {
+      return null;
+    }
+    if (value.toString().length !== 7) {
+      return { invalidLength: true };
+    }
+    return null;
+  };
+}
 }
