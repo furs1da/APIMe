@@ -6,9 +6,7 @@
           Login
         </div>
         <div class="form-wrapper">
-          <div *ngIf="showError" class="alert alert-danger" role="alert">
-            {{errorMessage}}
-          </div>
+         
 
           <form [formGroup]="loginForm" autocomplete="off" novalidate (ngSubmit)="loginUser(loginForm.value)">
             <div class="form-group">
@@ -25,8 +23,11 @@
                 <em *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</em>
               </p>
             </div>
+            <div *ngIf="showError" class="alert alert-danger" role="alert">
+              {{errorMessage}}
+            </div>
             <div class="actions d-flex justify-content-between">
-              <button id="login_button"  type="submit" class="btn btn-info" [disabled]="!loginForm.valid">Login</button>
+              <button id="login_button" type="submit" class="btn btn-info" [disabled]="!loginForm.valid">Login</button>
               <a id="forgot_password" [routerLink]="['/authentication/forgotpassword']" class="align-self-end">Forgot Password</a>
             </div>
           </form>
