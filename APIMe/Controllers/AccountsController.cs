@@ -207,7 +207,10 @@ namespace APIMe.Controllers
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
             if (!ModelState.IsValid)
-                return BadRequest();
+            {
+                IEnumerable<string>? errors = new List<string> { "Password should be at least 6 characters long." };
+                return BadRequest(new RegistrationResponseDto { Errors = errors });
+            }
             var user = await _userManager.FindByEmailAsync(resetPasswordDto.Email);
             if (user == null)
                 return BadRequest("Invalid Request");

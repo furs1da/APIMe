@@ -30,7 +30,7 @@ export class PostmanComponent implements OnInit {
 
 
 
-  constructor(private repositoryService: RepositoryService, private dataSourcesService: DataSourcesService, @Inject('BASE_URL') baseUrl: string,) {
+  constructor(private repositoryService: RepositoryService, private dataSourcesService: DataSourcesService, @Inject('BASE_URL') baseUrl: string) {
     this.baseUrl = baseUrl;
   }
 

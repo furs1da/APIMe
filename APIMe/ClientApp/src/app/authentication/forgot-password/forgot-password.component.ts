@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { AuthenticationService } from './../../shared/services/authentication.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ForgotPasswordDto } from '../../../interfaces/request/forgotPassword';
 @Component({
@@ -14,8 +14,11 @@ export class ForgotPasswordComponent implements OnInit {
   errorMessage: string = "";
   showSuccess: boolean = false;
   showError: boolean = false;
+  baseUrl: string = "";
 
-  constructor(private _authService: AuthenticationService) { }
+  constructor(private _authService: AuthenticationService, @Inject('BASE_URL') baseUrl: string) {
+      this.baseUrl = baseUrl;
+  }
 
   ngOnInit(): void {
     this.forgotPasswordForm = new FormGroup({
@@ -39,7 +42,7 @@ export class ForgotPasswordComponent implements OnInit {
     const forgotPass = { ...forgotPasswordFormValue };
     const forgotPassDto: ForgotPasswordDto = {
       email: forgotPass.email,
-      clientURI: 'http://localhost:' + window.location.port + '/authentication/resetpassword'
+      clientURI: this.baseUrl + 'authentication/resetpassword'
     }
     this._authService.forgotPassword('account/forgotpassword', forgotPassDto)
       .subscribe({

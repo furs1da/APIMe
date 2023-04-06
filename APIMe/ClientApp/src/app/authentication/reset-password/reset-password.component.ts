@@ -34,8 +34,18 @@ export class ResetPasswordComponent implements OnInit {
 
     if (passwordControl && confirmControl) {
       confirmControl.setValidators([Validators.required,
-        this.passConfValidator.validateConfirmPassword(passwordControl)]);
+      this.passConfValidator.validateConfirmPassword(passwordControl)]);
+
+      // Add value change subscriptions
+      passwordControl.valueChanges.subscribe(() => {
+        confirmControl.updateValueAndValidity();
+      });
+
+      confirmControl.valueChanges.subscribe(() => {
+        confirmControl.updateValueAndValidity();
+      });
     }
+
     this.token = this.route.snapshot.queryParams['token'];
     this.email = this.route.snapshot.queryParams['email'];
   }
@@ -66,7 +76,7 @@ export class ResetPasswordComponent implements OnInit {
         next: (_) => this.showSuccess = true,
         error: (err: HttpErrorResponse) => {
           this.showError = true;
-          this.errorMessage = err.message;
+          this.errorMessage = err.error.message;
         }
       })
   }

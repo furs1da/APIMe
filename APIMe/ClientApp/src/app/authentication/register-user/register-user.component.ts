@@ -18,6 +18,8 @@ export class RegisterUserComponent implements OnInit {
   sectionList: Section[] = [];
   errorMessage: string = '';
   showError: boolean = false;
+  baseUrl: string = "";
+
 
   constructor(private authService: AuthenticationService, private passConfValidator: PasswordConfirmationValidatorService, private http: HttpClient, @Inject('BASE_URL') baseUrl: string, private router: Router) {
     this.http.get<{ sectionList: Section[] }>(baseUrl + 'account/sectionList')
@@ -25,6 +27,8 @@ export class RegisterUserComponent implements OnInit {
         this.sectionList = data.sectionList;
         console.log(this.sectionList);
       });
+
+    this.baseUrl = baseUrl;
   }
 
 
@@ -83,7 +87,7 @@ export class RegisterUserComponent implements OnInit {
       accessCode: formValues.accessCode,
       password: formValues.password,
       confirmPassword: formValues.confirm,
-      clientURI: 'https://localhost:' + window.location.port +'/authentication/emailconfirmation'
+      clientURI: this.baseUrl +'authentication/emailconfirmation'
     };
 
     this.authService.registerUser("account/registration", user)
