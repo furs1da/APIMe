@@ -254,11 +254,15 @@ export class PostmanComponent implements OnInit {
     this.repositoryService.getPropertiesByTableName(tableName).subscribe(
       (properties: Property[]) => {
         console.log(properties);
-        const obj: { [key: string]: string | null } = {};
-        properties.forEach((property) => {
-          obj[property.name] = property.type === 'System.String' ? '' : null;
+        const keyValuePairs = properties.map((property) => {
+          let value = "";
+          if (property.type !== 'Int32' && property.type !== 'Decimal' && property.type !== 'Double') {
+            value = '""';
+          }
+          return `"${property.name}": ${value}`;
         });
-        this.requestBody = JSON.stringify(obj, null, 2);
+
+        this.requestBody = `{\n  ${keyValuePairs.join(",\n  ")}\n}`;
       },
       (error) => {
         console.error('Error:', error);
@@ -270,6 +274,7 @@ export class PostmanComponent implements OnInit {
       }
     );
   }
+
 
 
 
