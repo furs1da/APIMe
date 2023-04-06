@@ -105,3 +105,8 @@ textarea {
     top: -12px;
     right: 0;
   }
+
+
+.success-message {
+  color: green;
+}

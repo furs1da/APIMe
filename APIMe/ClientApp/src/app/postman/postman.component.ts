@@ -22,6 +22,7 @@ export class PostmanComponent implements OnInit {
   tableNames: string[] = [];
   baseUrl: string = "";
   errorMessage: string | null = null;
+  successMessage: string | null = null;
 
   response: MatTableDataSource<any> | undefined;
   columns: string[] = [];
@@ -119,6 +120,7 @@ export class PostmanComponent implements OnInit {
 
   sendRequest(): void {
     this.errorMessage = null;
+    this.successMessage = null;
 
     if (this.isRequestBodyRequired() && !this.isValidJSON(this.requestBody)) {
       this.errorMessage = 'Error: The request body is not a valid JSON object.';
@@ -225,15 +227,20 @@ export class PostmanComponent implements OnInit {
           );
         break;
       case 'DELETE':
+      case 'DELETE':
         this.repositoryService
           .delete(this.endpoint, { headers })
           .subscribe(
             (response) => {
               console.log('Response:', response);
-              const transformedResponse = this.transformResponse(response);
-              this.response = new MatTableDataSource(transformedResponse);
-              if (transformedResponse.length > 0) {
-                this.columns = Object.keys(transformedResponse[0]);
+              if (response === null) {
+                this.successMessage = 'Record was successfully deleted.';
+              } else {
+                const transformedResponse = this.transformResponse(response);
+                this.response = new MatTableDataSource(transformedResponse);
+                if (transformedResponse.length > 0) {
+                  this.columns = Object.keys(transformedResponse[0]);
+                }
               }
             },
             (error) => {
