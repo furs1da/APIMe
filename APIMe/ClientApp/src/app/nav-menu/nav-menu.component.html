@@ -78,13 +78,19 @@
           </ul>
 
           <ul *ngIf='isUserAuthenticated' class="navbar-nav mr-3 ml-auto">
-            <li class="nav-item">
+            <li class="nav-item" *ngIf='isAdmin'>
               <a class="btn btn-link text-white nav-link nav-link-hover d-flex align-items-center" [routerLink]="['profile/professor']">
                 <fa-icon [icon]="faUser" class="icon-margin"></fa-icon>Profile
               </a>
             </li>
+            <li class="nav-item" *ngIf='!isAdmin'>
+              <a class="btn btn-link text-white nav-link nav-link-hover d-flex align-items-center" [routerLink]="['profile/student']">
+                <fa-icon [icon]="faUser" class="icon-margin"></fa-icon>Profile
+              </a>
+            </li>
+
             <li class="nav-item">
-                
+
               <button class="btn text-white" (click)="logout()">
                 <fa-icon [icon]="faSignOutAlt" class="icon-margin"></fa-icon>
                 Logout

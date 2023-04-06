@@ -153,10 +153,10 @@ export class RepositoryService {
   }
 
 
-
-  public updateStudentProfile = (studentProfile: StudentProfile) => {
-    return this.http.put<Section>(this.createCompleteRoute('profileApi/editStudent/' + studentProfile.id, this.baseUrl), studentProfile);
+  public updateStudentProfile(studentProfile: StudentProfile): Observable<AuthResponseDto> {
+    return this.http.put<AuthResponseDto>(this.createCompleteRoute('profileApi/editStudent/' + studentProfile.id, this.baseUrl), studentProfile);
   }
+
 
 
 

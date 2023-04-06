@@ -1,1 +1,32 @@
-<p>student-profile works!</p>
+<div class="container">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <mat-card-title>Profile</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="studentProfileForm" (ngSubmit)="onSave(studentProfileForm.value)">
+        <mat-form-field appearance="outline">
+          <mat-label>Email</mat-label>
+          <input formControlName="email" matInput type="email" [value]="student?.email">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>First Name</mat-label>
+          <input formControlName="firstName" matInput type="text" [value]="student?.firstName">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Last Name</mat-label>
+          <input formControlName="lastName" matInput type="text" [value]="student?.lastName">
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Student ID</mat-label>
+          <input formControlName="studentId" matInput type="text" [value]="student?.studentId">
+          <mat-error *ngIf="studentProfileForm.get('studentId')?.hasError('pattern')">Student ID must be a 7-digit number</mat-error>
+        </mat-form-field>
+        <div class="form-actions">
+          <button mat-raised-button color="primary" type="submit">Save</button>
+        </div>
+      </form>
+      <mat-snack-bar-container></mat-snack-bar-container>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -175,13 +175,15 @@ namespace APIMe.Controllers
 
 
         [Authorize(Roles = "Student")]
-        [HttpGet("profileStudent")]
+        [HttpGet("studentProfile")]
         public async Task<ActionResult<Student>> GetStudentProfile()
         {
-            var students = await _aPIMeContext.Students.ToListAsync();
+            var students = await _aPIMeContext.Professors.ToListAsync();
+
+            string debug = User.Identity.Name;
 
             var student = await _aPIMeContext.Students
-                .SingleOrDefaultAsync(p => p.Email == User.Identity.Name);
+                .SingleOrDefaultAsync(p => p.Email == debug);
 
             if (student == null)
             {
@@ -201,7 +203,7 @@ namespace APIMe.Controllers
         public async Task<ActionResult<StudentProfileDTO>> EditStudentProfile(int id, [FromBody] StudentProfileDTO studentProfile)
         {
             var student = await _aPIMeContext.Students
-                .SingleOrDefaultAsync(p => p.Email == User.Identity.Name);
+                 .SingleOrDefaultAsync(p => p.Id == id);
 
             if (student == null)
             {
@@ -210,8 +212,69 @@ namespace APIMe.Controllers
 
             if (!string.IsNullOrEmpty(studentProfile.Email))
             {
-                student.Email = studentProfile.Email;
+                // Validate the email format
+                if (IsValidEmail(studentProfile.Email))
+                {
+                    // Check if a user with the new email value already exists
+                    var existingUser = await _userManager.FindByEmailAsync(studentProfile.Email);
+                    if (existingUser != null && existingUser.UserName != student.Email)
+                    {
+                        return BadRequest("The email address is already in use.");
+                    }
+
+                    // Update the email in the AspNetUsers table
+                    var user = await _userManager.FindByEmailAsync(student.Email);
+
+                    if (user != null)
+                    {
+                        user.Email = studentProfile.Email;
+
+                        // Check if the existing UserName value is the same as the old email value
+                        if (user.UserName == student.Email)
+                        {
+                            user.UserName = studentProfile.Email;
+                            await _userManager.UpdateNormalizedUserNameAsync(user);
+                        }
+
+                        await _userManager.UpdateNormalizedEmailAsync(user);
+                        await _userManager.UpdateAsync(user);
+
+                        // Refresh the user's claims by generating a new JWT token
+                        var signingCredentials = _jwtHandler.GetSigningCredentials();
+                        var claims = await _jwtHandler.GetClaims(user);
+                        var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
+                        var token = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+                        // Update the professor's email
+                        student.Email = studentProfile.Email;
+
+                        // Update the professor's first and last name if provided
+                        if (!string.IsNullOrEmpty(studentProfile.FirstName))
+                        {
+                            student.FirstName = studentProfile.FirstName;
+                        }
+                        if (!string.IsNullOrEmpty(studentProfile.LastName))
+                        {
+                            student.LastName = studentProfile.LastName;
+                        }
+                        if (studentProfile.StudentId != 0)
+                        {
+                            student.StudentId = studentProfile.StudentId;
+                        }
+
+                        await _aPIMeContext.SaveChangesAsync();
+
+                        // Return the new token as part of the response
+                        return Ok(new { Token = token });
+                    }
+                    else
+                    {
+                        return BadRequest("The user associated with the professor does not exist.");
+                    }
+                }
             }
+
+            // Update the professor's first and last name if provided
             if (!string.IsNullOrEmpty(studentProfile.FirstName))
             {
                 student.FirstName = studentProfile.FirstName;
@@ -220,17 +283,10 @@ namespace APIMe.Controllers
             {
                 student.LastName = studentProfile.LastName;
             }
-
-            var identity = new ClaimsIdentity(User.Identity);
-            identity.RemoveClaim(identity.FindFirst(ClaimTypes.Name));
-            identity.AddClaim(new Claim(ClaimTypes.Name, studentProfile.Email));
-
-            var newPrincipal = new ClaimsPrincipal(identity);
-            HttpContext.User = newPrincipal;
-
-
-            // Refresh the current user identity with the updated name
-            HttpContext.User = new System.Security.Principal.GenericPrincipal(identity, new string[] { });
+            if (studentProfile.StudentId != 0)
+            {
+                student.StudentId = studentProfile.StudentId;
+            }
 
 
             await _aPIMeContext.SaveChangesAsync();
