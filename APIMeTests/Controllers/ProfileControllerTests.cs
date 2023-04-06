@@ -41,7 +41,7 @@ namespace APIMe.Controllers.Tests
         [TestMethod()]
         public async Task GetProfessorProfileTest()
         {
-            ActionResult<Professor> result= await profileController.GetProfessorProfile();
+            ActionResult<Professor> result = await profileController.GetProfessorProfile();
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result.Value, typeof(Professor));
         }
@@ -49,8 +49,25 @@ namespace APIMe.Controllers.Tests
         [TestMethod()]
         public async Task EditProfessorProfileTest()
         {
-            ProfileDTO profile = new ProfileDTO() { Id=0, Email="NewEmail", FirstName="Name",LastName="Name" };
-            ActionResult<ProfileDTO> result = await profileController.EditProfessorProfile(0,profile);
+            ProfileDTO profile = new ProfileDTO() { Id = 0, Email = "NewEmail", FirstName = "Name", LastName = "Name" };
+            ActionResult<ProfileDTO> result = await profileController.EditProfessorProfile(0, profile);
+            Assert.IsNotNull(result);
+            Assert.AreEqual(200, actual: ((OkResult)result.Result).StatusCode);
+        }
+
+        [TestMethod()]
+        public async Task GetStudentProfileTest()
+        {
+            ActionResult<Student> result = await profileController.GetStudentProfile();
+            Assert.IsNotNull(result);
+            Assert.IsInstanceOfType(result.Value, typeof(Student));
+        }
+
+        [TestMethod()]
+        public async Task EditStudentProfileTest()
+        {
+            ProfileDTO profile = new ProfileDTO() { Id = 0, Email = "NewEmail", FirstName = "Name", LastName = "Name" };
+            ActionResult<ProfileDTO> result = await profileController.EditStudentProfile(0, profile);
             Assert.IsNotNull(result);
             Assert.AreEqual(200, actual: ((OkResult)result.Result).StatusCode);
         }

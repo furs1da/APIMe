@@ -7185,19 +7185,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {}
+    "C:\\Users\\alex_\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
+      "projectUniqueName": "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
       "projectName": "APIMeTests",
-      "projectPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\obj\\",
+      "projectPath": "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
+      "packagesPath": "C:\\Users\\alex_\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMeTests\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\alex_\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7211,8 +7216,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj": {
-              "projectPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj"
+            "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMe\\APIMe.csproj": {
+              "projectPath": "C:\\Users\\alex_\\Documents\\GitHub\\Capstone-Project\\APIMe\\APIMe.csproj"
             }
           }
         }
@@ -7280,7 +7285,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.100\\RuntimeIdentifierGraph.json"
       }
     }
   },

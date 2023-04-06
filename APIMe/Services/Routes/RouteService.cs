@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using System.Linq;
 using Microsoft.AspNetCore.JsonPatch;
+using System;
 
 namespace APIMe.Services.Routes
 {
@@ -374,7 +375,7 @@ namespace APIMe.Services.Routes
             foreach (var property in recordJson.EnumerateObject())
             {
                 var propertyName = property.Name;
-                propertyName= propertyName.Substring(0,1).ToUpper()+propertyName.Substring(1);
+                propertyName= string.Concat(propertyName.Substring(0,1).ToUpper(), propertyName.AsSpan(1));
                 var newValue = property.Value;
                 var entityProperty = entityType.GetProperty(propertyName);
 

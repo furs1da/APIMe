@@ -17,6 +17,7 @@
           "NSubstitute": "5.0.0",
           "NUnit": "3.13.3",
           "coverlet.collector": "3.1.2",
+          "dotenv.net": "3.1.2",
           "Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions": "14.0.0.0"
         },
         "runtime": {
@@ -58,6 +59,14 @@
         }
       },
       "coverlet.collector/3.1.2": {},
+      "dotenv.net/3.1.2": {
+        "runtime": {
+          "lib/netstandard2.1/dotenv.net.dll": {
+            "assemblyVersion": "3.1.2.0",
+            "fileVersion": "3.1.2.0"
+          }
+        }
+      },
       "Duende.IdentityServer/5.2.0": {
         "dependencies": {
           "Duende.IdentityServer.Storage": "5.2.0",
@@ -1440,7 +1449,8 @@
           "Microsoft.Extensions.Configuration.Json": "6.0.0",
           "Microsoft.Extensions.FileProviders.Physical": "6.0.0",
           "NETCore.MailKit": "2.1.0",
-          "Newtonsoft.Json": "13.0.2"
+          "Newtonsoft.Json": "13.0.2",
+          "dotenv.net": "3.1.2"
         },
         "runtime": {
           "APIMe.dll": {}
@@ -1489,6 +1499,13 @@
       "sha512": "sha512-wuLDIDKD5XMt0A7lE31JPenT7QQwZPFkP5rRpdJeblyXZ9MGLI8rYjvm5fvAKln+2/X+4IxxQDxBtwdrqKNLZw==",
       "path": "coverlet.collector/3.1.2",
       "hashPath": "coverlet.collector.3.1.2.nupkg.sha512"
+    },
+    "dotenv.net/3.1.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lFm4hGX9JkNtAF36Uz4C3WT7MC6Ys802k0cPvlln8ydmH67GQjnToH+w645tQm1czAjW/V6tPE088lD77sYFGA==",
+      "path": "dotenv.net/3.1.2",
+      "hashPath": "dotenv.net.3.1.2.nupkg.sha512"
     },
     "Duende.IdentityServer/5.2.0": {
       "type": "package",
