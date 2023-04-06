@@ -27,9 +27,7 @@ export class ProfessorProfileComponent implements OnInit {
     });
   }
 
-  
-  // constructor(private repositoryService: RepositoryService) { }
-
+ 
   ngOnInit(): void {
     this.getProfessorProfile();
   }
