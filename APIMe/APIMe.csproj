@@ -48,6 +48,7 @@
     <None Remove="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <None Remove="ClientApp\src\app\student\students\student.module.ts" />
     <None Remove="ClientApp\src\classes\SectionClass.ts" />
+    <None Remove="ClientApp\src\interfaces\profile\profile\studentProfile.ts" />
     <None Remove="ClientApp\src\interfaces\request\ForgotPassword.ts" />
     <None Remove="ClientApp\src\interfaces\request\resetPassword.ts" />
     <None Remove="ClientApp\src\interfaces\request\student.ts" />
@@ -72,6 +73,7 @@
     <TypeScriptCompile Include="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\student\student.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\classes\SectionClass.ts" />
+    <TypeScriptCompile Include="ClientApp\src\interfaces\profile\profile\studentProfile.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\forgotPassword.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\resetPassword.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\request\student.ts" />

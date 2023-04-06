@@ -8,6 +8,7 @@ import { RouteDto } from '../../../interfaces/response/routeDTO';
 import { Property } from '../../../interfaces/response/property';
 import { TestRouteResponse } from 'src/interfaces/response/testRouteResponse';
 import { Student } from '../../../interfaces/request/student';
+import { StudentProfile } from '../../../interfaces/profile/profile/studentProfile';
 
 @Injectable({
   providedIn: 'root'
@@ -139,10 +140,26 @@ export class RepositoryService {
   public getProfessorProfile = (route: string) => {
     return this.http.get<ProfessorProfile>(this.createCompleteRoute(route, this.baseUrl));
   }
+  public getStudentProfile = (route: string) => {
+    return this.http.get<StudentProfile>(this.createCompleteRoute(route, this.baseUrl));
+  }
+
+
+
+
+
+
 
   public updateProfessorProfile = (professorProfile: ProfessorProfile) => {
     return this.http.put<Section>(this.createCompleteRoute('profileApi/edit/' + professorProfile.id, this.baseUrl), professorProfile);
   }
+
+  public updateStudentProfile = (studentProfile: StudentProfile) => {
+    return this.http.put<Section>(this.createCompleteRoute('profileApi/editStudent/' + studentProfile.id, this.baseUrl), studentProfile);
+  }
+
+
+
   
   private createCompleteRoute = (route: string, baseUrl: string) => {
     console.log(`${baseUrl}${route}`);

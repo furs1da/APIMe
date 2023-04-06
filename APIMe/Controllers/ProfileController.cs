@@ -19,6 +19,7 @@ using APIMe.Entities.DataTransferObjects.Admin.Section;
 using Duende.IdentityServer.Models;
 using static System.Collections.Specialized.BitVector32;
 using System.Security.Claims;
+using APIMe.Entities.DataTransferObjects.Admin.Profile;
 
 namespace APIMe.Controllers
 {
@@ -55,9 +56,18 @@ namespace APIMe.Controllers
             return professor;
         }
 
+
+
+
+
+
+
+
+
+
         [Authorize(Roles = "Administrator")]
         [HttpPut("edit/{id}")]
-        public async Task<ActionResult<ProfileDTO>> EditProfessorProfile(int id, [FromBody] ProfileDTO professorProfile)
+        public async Task<ActionResult<ProfessorProfileDTO>> EditProfessorProfile(int id, [FromBody] ProfessorProfileDTO professorProfile)
         {
             var professor = await _aPIMeContext.Professors
                 .SingleOrDefaultAsync(p => p.Email == User.Identity.Name);
@@ -96,8 +106,10 @@ namespace APIMe.Controllers
 
             return Ok();
         }
-        [Authorize(Roles = "Administrator")]
-        [HttpGet("profile")]
+
+
+        [Authorize(Roles = "Student")]
+        [HttpGet("profileStudent")]
         public async Task<ActionResult<Student>> GetStudentProfile()
         {
             var students = await _aPIMeContext.Students.ToListAsync();
@@ -113,9 +125,14 @@ namespace APIMe.Controllers
             return student;
         }
 
-        [Authorize(Roles = "Administrator")]
-        [HttpPut("edit/{id}")]
-        public async Task<ActionResult<ProfileDTO>> EditStudentProfile(int id, [FromBody] ProfileDTO studentProfile)
+
+
+
+
+
+        [Authorize(Roles = "Student")]
+        [HttpPut("editStudent/{id}")]
+        public async Task<ActionResult<StudentProfileDTO>> EditStudentProfile(int id, [FromBody] StudentProfileDTO studentProfile)
         {
             var student = await _aPIMeContext.Students
                 .SingleOrDefaultAsync(p => p.Email == User.Identity.Name);

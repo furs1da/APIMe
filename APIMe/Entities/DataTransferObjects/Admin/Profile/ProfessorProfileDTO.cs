@@ -1,6 +1,6 @@
 ﻿namespace APIMe.Entities.DataTransferObjects.Admin.Section
 {
-    public class ProfileDTO
+    public class ProfessorProfileDTO
     {
         public int Id { get; set; }
         public string Email { get; set; }

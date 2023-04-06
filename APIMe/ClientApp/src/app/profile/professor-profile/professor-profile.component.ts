@@ -23,7 +23,7 @@ export class ProfessorProfileComponent implements OnInit {
       id: [this.professor ? this.professor.id : 0],
       firstName: [this.professor ? this.professor.firstName : '', Validators.required],
       lastName: [this.professor ? this.professor.lastName : '', Validators.required],
-      email: [this.professor ? this.professor.email : '', Validators.required]    
+      email: [this.professor ? this.professor.email : '', Validators.required, Validators.email]    
     });
   }
 
