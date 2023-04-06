@@ -37,10 +37,14 @@ export class PostmanComponent implements OnInit {
       (data) => {
         this.tableNames = data.map((dataSource) => dataSource.name);
       },
-        (error) => {
-          console.error('Error:', error);
+      (error) => {
+        console.error('Error:', error);
+        if (error.error && typeof error.error === 'object') {
+          this.errorMessage = 'Error: ' + JSON.stringify(error.error);
+        } else {
           this.errorMessage = 'Error: ' + error.message;
         }
+      }
     );
   }
 
@@ -111,7 +115,13 @@ export class PostmanComponent implements OnInit {
             },
             (error) => {
               console.error('Error:', error);
-              this.errorMessage = 'Error: ' + error.message;
+              if (error.error && error.error.message) {
+                this.errorMessage = 'Error: ' + error.error.message;
+              } else if (error.error && typeof error.error === 'object') {
+                this.errorMessage = 'Error: ' + JSON.stringify(error.error, null, 2);
+              } else {
+                this.errorMessage = 'Error: ' + error.message;
+              }
             }
           );
         break;
@@ -129,7 +139,11 @@ export class PostmanComponent implements OnInit {
             },
             (error) => {
               console.error('Error:', error);
-              this.errorMessage = 'Error: ' + error.message;
+              if (error.error && typeof error.error === 'object') {
+                this.errorMessage = 'Error: ' + JSON.stringify(error.error);
+              } else {
+                this.errorMessage = 'Error: ' + error.message;
+              }
             }
           );
         break;
@@ -147,7 +161,11 @@ export class PostmanComponent implements OnInit {
             },
             (error) => {
               console.error('Error:', error);
-              this.errorMessage = 'Error: ' + error.message;
+              if (error.error && typeof error.error === 'object') {
+                this.errorMessage = 'Error: ' + JSON.stringify(error.error);
+              } else {
+                this.errorMessage = 'Error: ' + error.message;
+              }
             }
           );
         break;
@@ -165,7 +183,11 @@ export class PostmanComponent implements OnInit {
             },
             (error) => {
               console.error('Error:', error);
-              this.errorMessage = 'Error: ' + error.message;
+              if (error.error && typeof error.error === 'object') {
+                this.errorMessage = 'Error: ' + JSON.stringify(error.error);
+              } else {
+                this.errorMessage = 'Error: ' + error.message;
+              }
             }
           );
         break;
@@ -183,7 +205,11 @@ export class PostmanComponent implements OnInit {
             },
             (error) => {
               console.error('Error:', error);
-              this.errorMessage = 'Error: ' + error.message;
+              if (error.error && typeof error.error === 'object') {
+                this.errorMessage = 'Error: ' + JSON.stringify(error.error);
+              } else {
+                this.errorMessage = 'Error: ' + error.message;
+              }
             }
           );
         break;

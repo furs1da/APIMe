@@ -12,11 +12,15 @@ export class ErrorHandlerService implements HttpInterceptor {
   constructor(private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!req.url || req.url.trim() === '') {
+      return throwError({ error: { message: 'Please provide a valid endpoint.' } });
+    }
+
     return next.handle(req)
       .pipe(
         catchError((error: HttpErrorResponse) => {
           let errorMessage = this.handleError(error);
-          return throwError(() => new Error(errorMessage));
+          return throwError({ error: { message: errorMessage } });
         })
       )
   }
@@ -40,9 +44,12 @@ export class ErrorHandlerService implements HttpInterceptor {
   }
 
   private handleNotFound = (error: HttpErrorResponse): string => {
-    this.router.navigate(['/404']);
+    if (this.router.url !== '/postman') {
+      this.router.navigate(['/404']);
+    }
     return error.message;
-  }
+  };
+
 
   private handleBadRequest = (error: HttpErrorResponse): string => {
     if (this.router.url === '/authentication/register' ||
@@ -61,7 +68,9 @@ export class ErrorHandlerService implements HttpInterceptor {
   }
 
   private handleForbidden = (error: HttpErrorResponse) => {
-    this.router.navigate(["/forbidden"], { queryParams: { returnUrl: this.router.url } });
+    if (this.router.url !== '/postman') {
+      this.router.navigate(["/forbidden"], { queryParams: { returnUrl: this.router.url } });
+    }
     return "Forbidden";
   }
 
