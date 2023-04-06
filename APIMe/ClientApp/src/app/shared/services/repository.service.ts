@@ -110,6 +110,18 @@ export class RepositoryService {
     return this.http.get<Property[]>(this.createCompleteRoute(`routeApi/properties/${routeId}`, this.baseUrl));
   }
 
+  public getPropertiesByTableName(tableName: string): Observable<Property[]> {
+    return this.http.get<Property[]>(this.createCompleteRoute(`routeApi/properties/byTableName/${tableName}`, this.baseUrl));
+  }
+
+
+
+
+
+
+
+
+
   public testRoute(routeId: number, values: any): Observable<TestRouteResponse> {
     console.log(values);
     return this.http.post<TestRouteResponse>(
@@ -136,9 +148,7 @@ export class RepositoryService {
     return `${baseUrl}${route}`;
   }
 
-  public getPropertiesByTableName(tableName: string): Observable<any[]> {
-    return this.http.get<any[]>(this.createCompleteRoute(`routeApi/properties/${tableName}`, this.baseUrl));
-  }
+
 
   public get(route: string, options?: { headers?: HttpHeaders }): Observable<any> {
     return this.http.get(route, options);

@@ -4,7 +4,8 @@ import { Property } from '../../interfaces/response/property';
 import { DataSourcesService } from '../shared/services/data-sources.service';
 import { RepositoryService } from '../shared/services/repository.service';
 import { MatTableDataSource } from '@angular/material/table';
-
+import { fromEvent } from 'rxjs';
+import { debounceTime, map } from 'rxjs/operators';
 
 
 @Component({
@@ -47,6 +48,19 @@ export class PostmanComponent implements OnInit {
       }
     );
   }
+
+
+  ngAfterViewInit(): void {
+    const endpointInput = document.querySelector('input[matInput]');
+    if (endpointInput) {
+      fromEvent(endpointInput, 'input')
+        .pipe(debounceTime(1000))
+        .subscribe(() => {
+          this.generateRequestBody();
+        });
+    }
+  }
+
 
   isRequestBodyRequired(): boolean {
     return this.requestType === 'POST' || this.requestType === 'PUT' || this.requestType === 'PATCH';
@@ -227,6 +241,39 @@ export class PostmanComponent implements OnInit {
       return [response];
     }
   }
+
+
+  generateRequestBody(): void {
+    if (!this.endpoint || typeof this.endpoint !== 'string') {
+      console.error('Error: Endpoint is not defined or is not a string');
+      return;
+    }
+    const endpointParts = this.endpoint.split('/');
+    const tableName = endpointParts[endpointParts.length - 1];
+
+    this.repositoryService.getPropertiesByTableName(tableName).subscribe(
+      (properties: Property[]) => {
+        console.log(properties);
+        const obj: { [key: string]: string | null } = {};
+        properties.forEach((property) => {
+          obj[property.name] = property.type === 'System.String' ? '' : null;
+        });
+        this.requestBody = JSON.stringify(obj, null, 2);
+      },
+      (error) => {
+        console.error('Error:', error);
+        if (error.error && typeof error.error === 'object') {
+          this.errorMessage = 'Error: ' + JSON.stringify(error.error);
+        } else {
+          this.errorMessage = 'Error: ' + error.message;
+        }
+      }
+    );
+  }
+
+
+
+
 
 
 }

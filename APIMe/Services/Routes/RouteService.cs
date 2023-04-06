@@ -508,5 +508,30 @@ namespace APIMe.Services.Routes
 
             return properties;
         }
+
+
+        public async Task<List<Property>> GetPropertiesByTableNameAsync(string tableName)
+        {
+            var properties = new List<Property>();
+
+            var dbContextType = _context.GetType();
+            var tableProperty = dbContextType.GetProperty(tableName);
+            if (tableProperty == null)
+            {
+                throw new InvalidOperationException($"The table '{tableName}' does not exist in the DbContext.");
+            }
+
+            var table = (IQueryable)tableProperty.GetValue(_context);
+            var entityType = table.ElementType;
+
+            foreach (var prop in entityType.GetProperties())
+            {
+                properties.Add(new Property { Name = prop.Name, Type = prop.PropertyType.Name });
+            }
+
+            return properties;
+        }
+
+
     }
 }

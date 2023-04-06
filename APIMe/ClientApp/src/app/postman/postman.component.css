@@ -68,3 +68,25 @@ table {
 .error-response {
   color: red;
 }
+
+.request-body {
+  position: relative;
+}
+
+.request-body textarea {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.request-body button {
+    position: absolute;
+    top: -12px;
+    right: 0;
+}
+
+/* Add this style to your postman.component.css file */
+textarea {
+  width: 100%;
+  resize: vertical; /* Allows vertical resizing of the textarea */
+}
+

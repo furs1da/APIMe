@@ -33,7 +33,9 @@
   <div *ngIf="isRequestBodyRequired()">
     <h3>Request Body</h3>
     <textarea [(ngModel)]="requestBody" rows="10" cols="50"></textarea>
+    <button mat-raised-button color="primary" (click)="generateRequestBody()">Suggest Request Body</button> <!-- Add this line -->
   </div>
+
 
   <div *ngIf="errorMessage" class="error-message">
     {{errorMessage}}

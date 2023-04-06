@@ -409,13 +409,33 @@ namespace APIMe.Controllers
             }
         }
 
+        [HttpGet("properties/byTableName/{tableName}")]
+        public async Task<ActionResult<IEnumerable<Property>>> GetPropertiesByTableName(string tableName)
+        {
+            try
+            {
+                tableName = tableName.ToLower();
+                tableName = char.ToUpper(tableName[0]) + tableName.Substring(1);
 
+                if (string.IsNullOrEmpty(tableName))
+                {
+                    return BadRequest("Table name is required.");
+                }
 
+                if (DataSourceTables.DataSources.FirstOrDefault(item => item.Name == tableName) == null)
+                {
+                    throw new SecurityException();
+                }
 
-
-
-
-
+                var properties = await _routeService.GetPropertiesByTableNameAsync(tableName);
+                return Ok(properties);
+            }
+            catch (SecurityException)
+            {
+                return StatusCode(StatusCodes.Status403Forbidden, "Ensure that the table name is among the list of accessible resources.");
+            }
+          
+        }
 
     }
 }
