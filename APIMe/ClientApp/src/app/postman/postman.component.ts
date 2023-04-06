@@ -160,7 +160,6 @@ export class PostmanComponent implements OnInit {
           );
         break;
       case 'POST':
-        console.log(headers);
         this.repositoryService
           .post(this.endpoint, this.requestBody, { headers })
           .subscribe(
