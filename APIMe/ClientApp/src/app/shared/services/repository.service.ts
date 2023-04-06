@@ -111,6 +111,7 @@ export class RepositoryService {
   }
 
   public getPropertiesByTableName(tableName: string): Observable<Property[]> {
+    console.log(tableName);
     return this.http.get<Property[]>(this.createCompleteRoute(`routeApi/properties/byTableName/${tableName}`, this.baseUrl));
   }
 

@@ -280,18 +280,33 @@ export class PostmanComponent implements OnInit {
       return;
     }
     const endpointParts = this.endpoint.split('/');
-    const tableName = endpointParts[endpointParts.length - 1];
+
+    let tableName: string;
+
+    if (this.requestType === 'PATCH') {
+      tableName = endpointParts[endpointParts.length - 2];
+    } else {
+      tableName = endpointParts[endpointParts.length - 1];
+    }
 
     this.repositoryService.getPropertiesByTableName(tableName).subscribe(
       (properties: Property[]) => {
         console.log(properties);
-        const keyValuePairs = properties.map((property) => {
-          let value = "";
-          if (property.type !== 'Int32' && property.type !== 'Decimal' && property.type !== 'Double') {
-            value = '""';
-          }
-          return `"${property.name}": ${value}`;
-        });
+        const keyValuePairs = properties
+          .filter((property) => {
+            // Exclude the "Id" field for PATCH requests
+            if (this.requestType === 'PATCH' && property.name === 'Id') {
+              return false;
+            }
+            return true;
+          })
+          .map((property) => {
+            let value = "";
+            if (property.type !== 'Int32' && property.type !== 'Decimal' && property.type !== 'Double') {
+              value = '""';
+            }
+            return `"${property.name}": ${value}`;
+          });
 
         this.requestBody = `{\n  ${keyValuePairs.join(",\n  ")}\n}`;
       },
@@ -305,4 +320,5 @@ export class PostmanComponent implements OnInit {
       }
     );
   }
+
 }
