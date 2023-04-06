@@ -18,23 +18,36 @@
       <div class="navbar-collapse collapse d-sm-inline-flex justify-content-start"
            [ngClass]="{ show: isExpanded }">
         <ul class="navbar-nav ml-3" *ngIf="isAdmin && isUserAuthenticated">
+
+          <li class="nav-item">
+            <a class="nav-link text-white d-flex align-items-center" [routerLink]="['postman']">
+              <fa-icon [icon]="faPaperPlane" class="icon-margin"></fa-icon>Postman
+            </a>
+          </li>
           <li class="nav-item active">
             <a class="nav-link text-white d-flex align-items-center" [routerLink]="['route/list']"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-white d-flex align-items-center" [routerLink]="['section/list']" routerLinkActive="active"
-                 [routerLinkActiveOptions]="{exact: true}"><fa-icon [icon]="faThLarge" class="icon-margin"></fa-icon>Sections</a>
+               [routerLinkActiveOptions]="{exact: true}"><fa-icon [icon]="faThLarge" class="icon-margin"></fa-icon>Sections</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-white d-flex align-items-center" [routerLink]="['student/list']"><fa-icon [icon]="faUsers" class="icon-margin"></fa-icon>Students</a>
           </li>
-          
+
           <li class="nav-item">
             <a class="nav-link text-white d-flex align-items-center"><fa-icon [icon]="faHistory" class="icon-margin"></fa-icon>Routes Log</a>
           </li>
         </ul>
 
         <ul class="navbar-nav ml-3" *ngIf="!isAdmin && isUserAuthenticated">
+
+          <li class="nav-item">
+            <a class="nav-link text-white d-flex align-items-center" [routerLink]="['postman']">
+              <fa-icon [icon]="faPaperPlane" class="icon-margin"></fa-icon>Postman
+            </a>
+          </li>
+
           <li class="nav-item active">
             <a class="nav-link text-white d-flex align-items-center" [routerLink]="['route/list']"><fa-icon [icon]="faMap" class="icon-margin"></fa-icon>Routes</a>
           </li>

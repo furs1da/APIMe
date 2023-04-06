@@ -58,10 +58,20 @@ export class PostmanComponent implements OnInit {
     if (this.tableNames.length > 0) {
       const randomTable = this.tableNames[Math.floor(Math.random() * this.tableNames.length)];
       this.endpoint = `${this.baseUrl}routeApi/records/${randomTable.toLowerCase()}`;
+
+      if (this.requestType === 'DELETE' || this.requestType === 'PATCH') {
+        const randomId = Math.floor(Math.random() * 100) + 1; // Random ID from 1 to 100
+        this.endpoint += `/${randomId}`;
+      }
     } else {
       this.endpoint = `${this.baseUrl}routeApi/records/orders`;
+      if (this.requestType === 'DELETE' || this.requestType === 'PATCH') {
+        const randomId = Math.floor(Math.random() * 100) + 1; // Random ID from 1 to 100
+        this.endpoint += `/${randomId}`;
+      }
     }
   }
+
 
   addHeader(): void {
     let newKey = `Header-${Object.keys(this.headers).length + 1}`;
