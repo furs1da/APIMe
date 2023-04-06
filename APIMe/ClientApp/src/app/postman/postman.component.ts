@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { Property } from '../../interfaces/response/property';
 import { DataSourcesService } from '../shared/services/data-sources.service';
 import { RepositoryService } from '../shared/services/repository.service';
-
+import { MatTableDataSource } from '@angular/material/table';
 
 
 
@@ -22,7 +22,7 @@ export class PostmanComponent implements OnInit {
   baseUrl: string = "";
   errorMessage: string | null = null;
 
-  response: Property[][] | undefined;
+  response: MatTableDataSource<any> | undefined;
   columns: string[] = [];
 
 
@@ -93,9 +93,10 @@ export class PostmanComponent implements OnInit {
           .subscribe(
             (response) => {
               console.log('Response:', response);
-              this.response = response;
-              if (response && typeof response === 'object') {
-                this.columns = Object.keys(response);
+              const transformedResponse = this.transformResponse(response);
+              this.response = new MatTableDataSource(transformedResponse);
+              if (transformedResponse.length > 0) {
+                this.columns = Object.keys(transformedResponse[0]);
               }
             },
             (error) => {
@@ -110,9 +111,10 @@ export class PostmanComponent implements OnInit {
           .subscribe(
             (response) => {
               console.log('Response:', response);
-              this.response = response;
-              if (response && typeof response === 'object') {
-                this.columns = Object.keys(response);
+              const transformedResponse = this.transformResponse(response);
+              this.response = new MatTableDataSource(transformedResponse);
+              if (transformedResponse.length > 0) {
+                this.columns = Object.keys(transformedResponse[0]);
               }
             },
             (error) => {
@@ -127,9 +129,10 @@ export class PostmanComponent implements OnInit {
           .subscribe(
             (response) => {
               console.log('Response:', response);
-              this.response = response;
-              if (response && typeof response === 'object') {
-                this.columns = Object.keys(response);
+              const transformedResponse = this.transformResponse(response);
+              this.response = new MatTableDataSource(transformedResponse);
+              if (transformedResponse.length > 0) {
+                this.columns = Object.keys(transformedResponse[0]);
               }
             },
             (error) => {
@@ -144,9 +147,10 @@ export class PostmanComponent implements OnInit {
           .subscribe(
             (response) => {
               console.log('Response:', response);
-              this.response = response;
-              if (response && typeof response === 'object') {
-                this.columns = Object.keys(response);
+              const transformedResponse = this.transformResponse(response);
+              this.response = new MatTableDataSource(transformedResponse);
+              if (transformedResponse.length > 0) {
+                this.columns = Object.keys(transformedResponse[0]);
               }
             },
             (error) => {
@@ -161,9 +165,10 @@ export class PostmanComponent implements OnInit {
           .subscribe(
             (response) => {
               console.log('Response:', response);
-              this.response = response;
-              if (response && typeof response === 'object') {
-                this.columns = Object.keys(response);
+              const transformedResponse = this.transformResponse(response);
+              this.response = new MatTableDataSource(transformedResponse);
+              if (transformedResponse.length > 0) {
+                this.columns = Object.keys(transformedResponse[0]);
               }
             },
             (error) => {
@@ -181,23 +186,9 @@ export class PostmanComponent implements OnInit {
 
   transformResponse(response: any): any[] {
     if (Array.isArray(response)) {
-      return response.map((item) => {
-        const obj: { [key: string]: any } = {};
-        for (const key in item) {
-          if (item.hasOwnProperty(key)) {
-            obj[key] = item[key];
-          }
-        }
-        return obj;
-      });
+      return response;
     } else {
-      const obj: { [key: string]: any } = {};
-      for (const key in response) {
-        if (response.hasOwnProperty(key)) {
-          obj[key] = response[key];
-        }
-      }
-      return [obj];
+      return [response];
     }
   }
 
