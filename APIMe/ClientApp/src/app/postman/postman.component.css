@@ -42,3 +42,25 @@ body {
   width: 100%;
   box-sizing: border-box;
 }
+
+.error-message {
+  color: red;
+  margin: 1rem 0;
+}
+
+.response-section {
+  margin-top: 20px;
+  border-top: 1px solid #ccc;
+  padding-top: 20px;
+}
+
+table {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.mat-header-cell,
+.mat-cell {
+  padding: 0.5rem;
+  text-align: left;
+}

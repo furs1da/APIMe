@@ -141,8 +141,37 @@ export class RepositoryService {
   }
 
   public get(route: string, options?: { headers?: HttpHeaders }): Observable<any> {
-    return this.http.get(this.createCompleteRoute(route, this.baseUrl), options);
+    return this.http.get(route, options);
   }
+
+  public post(route: string, body: any, options?: { headers?: HttpHeaders }): Observable<any> {
+    return this.http.post(route, body, options);
+  }
+
+  public put(route: string, body: any, options?: { headers?: HttpHeaders }): Observable<any> {
+    return this.http.put(route, body, options);
+  }
+
+  public patch(route: string, body: any, options?: { headers?: HttpHeaders }): Observable<any> {
+    return this.http.patch(route, body, options);
+  }
+
+  public delete(route: string, options?: { headers?: HttpHeaders }): Observable<any> {
+    return this.http.delete(route, options);
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {

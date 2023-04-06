@@ -1,5 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
+import { Property } from '../../interfaces/response/property';
 import { DataSourcesService } from '../shared/services/data-sources.service';
 import { RepositoryService } from '../shared/services/repository.service';
 
@@ -18,17 +19,28 @@ export class PostmanComponent implements OnInit {
   requestBody: string = '';
   public headers: { [headerKey: string]: string } = {};
   tableNames: string[] = [];
+  baseUrl: string = "";
+  errorMessage: string | null = null;
 
-  constructor(private repositoryService: RepositoryService, private dataSourcesService: DataSourcesService) { }
+  response: Property[][] | undefined;
+  columns: string[] = [];
+
+
+
+
+  constructor(private repositoryService: RepositoryService, private dataSourcesService: DataSourcesService, @Inject('BASE_URL') baseUrl: string,) {
+    this.baseUrl = baseUrl;
+  }
 
   ngOnInit(): void {
     this.dataSourcesService.getDataSources().subscribe(
       (data) => {
         this.tableNames = data.map((dataSource) => dataSource.name);
       },
-      (error) => {
-        console.error('Error fetching table names:', error);
-      }
+        (error) => {
+          console.error('Error:', error);
+          this.errorMessage = 'Error: ' + error.message;
+        }
     );
   }
 
@@ -36,12 +48,18 @@ export class PostmanComponent implements OnInit {
     return this.requestType === 'POST' || this.requestType === 'PUT' || this.requestType === 'PATCH';
   }
 
+  getPropertyValue(element: any[], column: string): any {
+    const property = element.find((property: Property) => property.name === column);
+    return property ? property.value : null;
+  }
+
+
   suggestEndpoint(): void {
     if (this.tableNames.length > 0) {
       const randomTable = this.tableNames[Math.floor(Math.random() * this.tableNames.length)];
-      this.endpoint = `https://example.com/api/${randomTable.toLowerCase()}`;
+      this.endpoint = `${this.baseUrl}routeApi/records/${randomTable.toLowerCase()}`;
     } else {
-      this.endpoint = 'https://example.com/suggested/endpoint';
+      this.endpoint = `${this.baseUrl}routeApi/records/orders`;
     }
   }
 
@@ -62,28 +80,126 @@ export class PostmanComponent implements OnInit {
       return Object.keys(this.headers);
     }
 
-    sendRequest(): void {
-      const headers = new HttpHeaders(this.headers);
-      switch(this.requestType) {
+  // Modify the sendRequest method in the PostmanComponent class:
+
+  sendRequest(): void {
+    this.errorMessage = null;
+
+    const headers = new HttpHeaders(this.headers);
+    switch (this.requestType) {
       case 'GET':
-      this.repositoryService
-        .get(this.endpoint, { headers })
-        .subscribe(
-          (response) => console.log('Response:', response),
-          (error) => console.error('Error:', error)
-        );
-      break;
+        this.repositoryService
+          .get(this.endpoint, { headers })
+          .subscribe(
+            (response) => {
+              console.log('Response:', response);
+              this.response = response;
+              if (response && typeof response === 'object') {
+                this.columns = Object.keys(response);
+              }
+            },
+            (error) => {
+              console.error('Error:', error);
+              this.errorMessage = 'Error: ' + error.message;
+            }
+          );
+        break;
       case 'POST':
+        this.repositoryService
+          .post(this.endpoint, this.requestBody, { headers })
+          .subscribe(
+            (response) => {
+              console.log('Response:', response);
+              this.response = response;
+              if (response && typeof response === 'object') {
+                this.columns = Object.keys(response);
+              }
+            },
+            (error) => {
+              console.error('Error:', error);
+              this.errorMessage = 'Error: ' + error.message;
+            }
+          );
+        break;
       case 'PUT':
+        this.repositoryService
+          .put(this.endpoint, this.requestBody, { headers })
+          .subscribe(
+            (response) => {
+              console.log('Response:', response);
+              this.response = response;
+              if (response && typeof response === 'object') {
+                this.columns = Object.keys(response);
+              }
+            },
+            (error) => {
+              console.error('Error:', error);
+              this.errorMessage = 'Error: ' + error.message;
+            }
+          );
+        break;
       case 'PATCH':
-      // Handle POST, PUT, PATCH requests
-      break;
+        this.repositoryService
+          .patch(this.endpoint, this.requestBody, { headers })
+          .subscribe(
+            (response) => {
+              console.log('Response:', response);
+              this.response = response;
+              if (response && typeof response === 'object') {
+                this.columns = Object.keys(response);
+              }
+            },
+            (error) => {
+              console.error('Error:', error);
+              this.errorMessage = 'Error: ' + error.message;
+            }
+          );
+        break;
       case 'DELETE':
-      // Handle DELETE requests
-      break;
+        this.repositoryService
+          .delete(this.endpoint, { headers })
+          .subscribe(
+            (response) => {
+              console.log('Response:', response);
+              this.response = response;
+              if (response && typeof response === 'object') {
+                this.columns = Object.keys(response);
+              }
+            },
+            (error) => {
+              console.error('Error:', error);
+              this.errorMessage = 'Error: ' + error.message;
+            }
+          );
+        break;
       default:
-      console.error('Invalid request type:', this.requestType);
+        console.error('Invalid request type:', this.requestType);
+    }
+  }
+
+
+
+  transformResponse(response: any): any[] {
+    if (Array.isArray(response)) {
+      return response.map((item) => {
+        const obj: { [key: string]: any } = {};
+        for (const key in item) {
+          if (item.hasOwnProperty(key)) {
+            obj[key] = item[key];
+          }
+        }
+        return obj;
+      });
+    } else {
+      const obj: { [key: string]: any } = {};
+      for (const key in response) {
+        if (response.hasOwnProperty(key)) {
+          obj[key] = response[key];
         }
       }
+      return [obj];
+    }
+  }
+
 
 }

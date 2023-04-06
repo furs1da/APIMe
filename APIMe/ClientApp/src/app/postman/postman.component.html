@@ -35,5 +35,33 @@
     <textarea [(ngModel)]="requestBody" rows="10" cols="50"></textarea>
   </div>
 
+  <div *ngIf="errorMessage" class="error-message">
+    {{errorMessage}}
+  </div>
+
+
+
+  <!-- Add this block right above the "Send Request" button -->
+  <div *ngIf="response" class="response-section">
+    <h3>Response:</h3>
+    <table mat-table [dataSource]="response" class="mat-elevation-z8">
+      <!-- Generate columns dynamically -->
+      <ng-container *ngFor="let column of columns">
+        <ng-container matColumnDef="{{ column }}">
+          <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element[column] }}
+          </td>
+        </ng-container>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+    </table>
+  </div>
+
+
+
   <button mat-raised-button color="primary" (click)="sendRequest()">Send Request</button>
+
 </div>
