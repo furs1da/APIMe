@@ -18,7 +18,7 @@ export class PostmanComponent implements OnInit {
   requestType: string = 'GET';
   endpoint: string = '';
   requestBody: string = '';
-  public headers: { [headerKey: string]: string } = {};
+  public headers: { key: string; value: string }[] = [];
   tableNames: string[] = [];
   baseUrl: string = "";
   errorMessage: string | null = null;
@@ -50,16 +50,16 @@ export class PostmanComponent implements OnInit {
   }
 
 
-  ngAfterViewInit(): void {
-    const endpointInput = document.querySelector('input[matInput]');
-    if (endpointInput) {
-      fromEvent(endpointInput, 'input')
-        .pipe(debounceTime(1000))
-        .subscribe(() => {
-          this.generateRequestBody();
-        });
-    }
-  }
+  //ngAfterViewInit(): void {
+  //  const endpointInput = document.querySelector('input[matInput]');
+  //  if (endpointInput) {
+  //    fromEvent(endpointInput, 'input')
+  //      .pipe(debounceTime(1000))
+  //      .subscribe(() => {
+  //        this.generateRequestBody();
+  //      });
+  //  }
+  //}
 
 
   isRequestBodyRequired(): boolean {
@@ -92,17 +92,24 @@ export class PostmanComponent implements OnInit {
 
 
   addHeader(): void {
-    let newKey = `Header-${Object.keys(this.headers).length + 1}`;
-    while (this.headers.hasOwnProperty(newKey)) {
-      newKey = `Header-${parseInt(newKey.split('-')[1]) + 1}`;
+    if (this.headers.length === 0) {
+      // Set default header key and value for the first header
+      this.headers.push({ key: 'Content-Type', value: 'application/json' });
+    } else {
+      // Generate a new unique header key for subsequent headers
+      let newKey = `Header-${this.headers.length + 1}`;
+      while (this.headers.find((header) => header.key === newKey)) {
+        newKey = `Header-${parseInt(newKey.split('-')[1]) + 1}`;
+      }
+      this.headers.push({ key: newKey, value: '' });
     }
-    this.headers[newKey] = '';
   }
 
 
-    removeHeader(key: string): void {
-      delete this.headers[key];
-    }
+
+  removeHeader(key: string): void {
+    this.headers = this.headers.filter((header) => header.key !== key);
+  }
 
     headerKeys(): string[] {
       return Object.keys(this.headers);
@@ -113,7 +120,18 @@ export class PostmanComponent implements OnInit {
   sendRequest(): void {
     this.errorMessage = null;
 
-    const headers = new HttpHeaders(this.headers);
+    if (this.isRequestBodyRequired() && !this.isValidJSON(this.requestBody)) {
+      this.errorMessage = 'Error: The request body is not a valid JSON object.';
+      return;
+    }
+
+
+    let headers = new HttpHeaders();
+    for (const header of this.headers) {
+      headers = headers.append(header.key, header.value);
+    }
+
+
     switch (this.requestType) {
       case 'GET':
         this.repositoryService
@@ -140,6 +158,7 @@ export class PostmanComponent implements OnInit {
           );
         break;
       case 'POST':
+        console.log(headers);
         this.repositoryService
           .post(this.endpoint, this.requestBody, { headers })
           .subscribe(
@@ -232,8 +251,6 @@ export class PostmanComponent implements OnInit {
     }
   }
 
-
-
   transformResponse(response: any): any[] {
     if (Array.isArray(response)) {
       return response;
@@ -242,6 +259,14 @@ export class PostmanComponent implements OnInit {
     }
   }
 
+  isValidJSON(jsonString: string): boolean {
+    try {
+      JSON.parse(jsonString);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
 
   generateRequestBody(): void {
     if (!this.endpoint || typeof this.endpoint !== 'string') {
@@ -274,11 +299,4 @@ export class PostmanComponent implements OnInit {
       }
     );
   }
-
-
-
-
-
-
-
 }

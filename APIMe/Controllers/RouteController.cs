@@ -272,7 +272,7 @@ namespace APIMe.Controllers
             {
                 return StatusCode(StatusCodes.Status403Forbidden, "Access to the requested resource is forbidden.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
             }

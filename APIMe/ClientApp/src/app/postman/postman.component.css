@@ -90,3 +90,18 @@ textarea {
   resize: vertical; /* Allows vertical resizing of the textarea */
 }
 
+.request-body {
+  position: relative;
+}
+
+  .request-body textarea {
+    width: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+  }
+
+  .request-body button {
+    position: absolute;
+    top: -12px;
+    right: 0;
+  }

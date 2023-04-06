@@ -16,25 +16,30 @@
 
   <div>
     <h3>Headers</h3>
-    <div *ngFor="let key of headerKeys(); let i = index">
+    <div *ngFor="let header of headers; let i = index">
       <mat-form-field appearance="fill" class="header-key">
         <mat-label>Key</mat-label>
-        <input matInput [(ngModel)]="headerKeys()[i]">
+        <input matInput [(ngModel)]="headers[i].key">
       </mat-form-field>
       <mat-form-field appearance="fill" class="header-value">
         <mat-label>Value</mat-label>
-        <input matInput [(ngModel)]="headers[key]">
+        <input matInput [(ngModel)]="headers[i].value">
       </mat-form-field>
-      <button mat-button (click)="removeHeader(key)">Remove</button>
+      <button mat-button (click)="removeHeader(header.key)">Remove</button>
     </div>
     <button mat-raised-button color="primary" (click)="addHeader()">Add Header</button>
   </div>
 
   <div *ngIf="isRequestBodyRequired()">
     <h3>Request Body</h3>
-    <textarea [(ngModel)]="requestBody" rows="10" cols="50"></textarea>
-    <button mat-raised-button color="primary" (click)="generateRequestBody()">Suggest Request Body</button> <!-- Add this line -->
+    <div class="request-body">
+      <textarea [(ngModel)]="requestBody" rows="10" cols="50"></textarea>
+      <button mat-icon-button aria-label="Suggest Request Body" (click)="generateRequestBody()">
+        <mat-icon>auto_fix_high</mat-icon>
+      </button>
+    </div>
   </div>
+
 
 
   <div *ngIf="errorMessage" class="error-message">

@@ -151,7 +151,7 @@ namespace APIMe.Entities.Models
 
             modelBuilder.Entity<Customers>(entity =>
             {
-                entity.ToTable("Customer");
+                entity.ToTable("Customers");
 
                 entity.Property(e => e.Id).HasColumnName("id");
 
@@ -407,6 +407,9 @@ namespace APIMe.Entities.Models
 
             modelBuilder.Entity<Supplier>(entity =>
             {
+                entity.ToTable("Suppliers");
+
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Address)
@@ -429,6 +432,8 @@ namespace APIMe.Entities.Models
 
             modelBuilder.Entity<Category>(entity =>
             {
+                entity.ToTable("Categories");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Description)
@@ -443,6 +448,8 @@ namespace APIMe.Entities.Models
 
             modelBuilder.Entity<Employee>(entity =>
             {
+                entity.ToTable("Employees");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Email)
@@ -486,6 +493,8 @@ namespace APIMe.Entities.Models
 
             modelBuilder.Entity<Order>(entity =>
             {
+                entity.ToTable("Orders");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.CustomerName)
@@ -507,6 +516,8 @@ namespace APIMe.Entities.Models
 
             modelBuilder.Entity<Payment>(entity =>
             {
+                entity.ToTable("Payments");
+
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Amount)

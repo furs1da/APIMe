@@ -155,6 +155,9 @@ export class RepositoryService {
   }
 
   public post(route: string, body: any, options?: { headers?: HttpHeaders }): Observable<any> {
+
+    console.log(body);
+
     return this.http.post(route, body, options);
   }
 
