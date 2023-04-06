@@ -110,3 +110,14 @@ textarea {
 .success-message {
   color: green;
 }
+
+.bg-primary-button {
+  background-color: #007bff !important;
+  color: #fff !important;
+}
+
+.remove-header-button {
+  margin-left: 10px;
+  background-color: #dc3545 !important;
+  color: #fff !important;
+}

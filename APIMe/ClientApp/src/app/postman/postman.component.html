@@ -25,9 +25,9 @@
         <mat-label>Value</mat-label>
         <input matInput [(ngModel)]="headers[i].value">
       </mat-form-field>
-      <button mat-button (click)="removeHeader(header.key)">Remove</button>
+      <button mat-button class="remove-header-button" (click)="removeHeader(header.key)">Remove</button>
     </div>
-    <button mat-raised-button color="primary" (click)="addHeader()">Add Header</button>
+    <button mat-raised-button class="bg-primary-button" (click)="addHeader()">Add Header</button>
   </div>
 
   <div *ngIf="isRequestBodyRequired()">
@@ -71,6 +71,6 @@
   </div>
 
 
-  <button mat-raised-button color="primary" (click)="sendRequest()">Send Request</button>
+  <button mat-raised-button class="bg-primary-button" (click)="sendRequest()">Send Request</button>
 
 </div>
