@@ -229,6 +229,12 @@ namespace APIMe.Controllers
                     return NotFound("No record found for the specified ID in the given table.");
                 }
 
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser == null || !(await _userManager.IsInRoleAsync(currentUser, "Admin")))
+                {
+                    await _routeLogService.LogRequestAsync(HttpContext, tableName, id);
+                }
+
                 return Ok(record);
             }
             catch (UnauthorizedAccessException)
@@ -268,6 +274,12 @@ namespace APIMe.Controllers
                 if (record == null)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+                }
+
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser == null || !(await _userManager.IsInRoleAsync(currentUser, "Admin")))
+                {
+                    await _routeLogService.LogRequestAsync(HttpContext, tableName);
                 }
 
                 return CreatedAtAction(nameof(AddRecordToTable), new { tableName = tableName, id = record.GetType().GetProperty("Id").GetValue(record) }, record);
@@ -310,6 +322,12 @@ namespace APIMe.Controllers
                 if (record == null)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
+                }
+
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser == null || !(await _userManager.IsInRoleAsync(currentUser, "Admin")))
+                {
+                    await _routeLogService.LogRequestAsync(HttpContext, tableName);
                 }
 
                 return Ok(record);
@@ -357,6 +375,12 @@ namespace APIMe.Controllers
                     return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
                 }
 
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser == null || !(await _userManager.IsInRoleAsync(currentUser, "Admin")))
+                {
+                    await _routeLogService.LogRequestAsync(HttpContext, tableName, id);
+                }
+
                 return Ok(record);
             }
             catch (UnauthorizedAccessException)
@@ -396,6 +420,12 @@ namespace APIMe.Controllers
                 }
 
                 await _routeService.DeleteRecordFromDataTableAsync(tableName, id);
+
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser == null || !(await _userManager.IsInRoleAsync(currentUser, "Admin")))
+                {
+                    await _routeLogService.LogRequestAsync(HttpContext, tableName, id);
+                }
 
                 return NoContent();
             }
