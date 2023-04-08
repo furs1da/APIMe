@@ -20,7 +20,7 @@ using Duende.IdentityServer.Models;
 using static System.Collections.Specialized.BitVector32;
 using System.Security.Claims;
 using APIMe.Entities.DataTransferObjects.Admin.Profile;
-using static Duende.IdentityServer.Events.TokenIssuedSuccessEvent;
+
 
 namespace APIMe.Controllers
 {

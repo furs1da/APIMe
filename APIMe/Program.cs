@@ -37,6 +37,7 @@ var emailConfig = builder.Configuration
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 builder.Services.AddScoped<RouteService>();
+builder.Services.AddScoped<RouteLogService>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 

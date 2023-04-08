@@ -67,7 +67,9 @@ namespace APIMe.Entities.Models
         public virtual DbSet<Professor> Professors { get; set; } = null!;
         public virtual DbSet<Project> Projects { get; set; } = null!;
         public virtual DbSet<Route> Routes { get; set; } = null!;
+
         public virtual DbSet<RouteLog> RouteLogs { get; set; } = null!;
+
         public virtual DbSet<RouteType> RouteTypes { get; set; } = null!;
         public virtual DbSet<Section> Sections { get; set; } = null!;
         public virtual DbSet<Student> Students { get; set; } = null!;
@@ -277,38 +279,24 @@ namespace APIMe.Entities.Models
 
             modelBuilder.Entity<RouteLog>(entity =>
             {
-                entity.HasNoKey();
+                entity.Property(e => e.FullName).HasMaxLength(256);
 
-                entity.ToTable("RouteLog");
+                entity.Property(e => e.HttpMethod).HasMaxLength(10);
 
-                entity.HasIndex(e => e.RouteId, "IX_RouteLog_routeId");
+                entity.Property(e => e.Ipaddress)
+                    .HasMaxLength(45)
+                    .HasColumnName("IPAddress");
 
-                entity.HasIndex(e => e.StudentId, "IX_RouteLog_studentId");
+                entity.Property(e => e.RequestTimestamp).HasColumnType("datetime");
 
-                entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.RoutePath).HasMaxLength(256);
 
-                entity.Property(e => e.ResponseStatus).HasColumnName("responseStatus");
+                entity.Property(e => e.TableName).HasMaxLength(128);
 
-                entity.Property(e => e.RouteId).HasColumnName("routeId");
-
-                entity.Property(e => e.StudentId).HasColumnName("studentId");
-
-                entity.Property(e => e.Timestamp)
-                    .IsRowVersion()
-                    .IsConcurrencyToken()
-                    .HasColumnName("timestamp");
-
-                entity.HasOne(d => d.Route)
-                    .WithMany()
-                    .HasForeignKey(d => d.RouteId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RouteLog_Route");
-
-                entity.HasOne(d => d.Student)
-                    .WithMany()
-                    .HasForeignKey(d => d.StudentId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_RouteLog_Student");
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.RouteLogs)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__RouteLogs__UserI__756D6ECB");
             });
 
             modelBuilder.Entity<RouteType>(entity =>

@@ -36,13 +36,14 @@ namespace APIMe.Controllers
         private readonly IMapper _mapper;
         private readonly RouteService _routeService;
         private APIMeContext _aPIMeContext;
-
-        public RouteController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, RouteService routeService, IMapper mapper)
+        private readonly RouteLogService _routeLogService;
+        public RouteController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, RouteService routeService, IMapper mapper, RouteLogService routeLogService)
         {
             _userManager = userManager;
             _aPIMeContext = aPIMeContext;
             _routeService = routeService;
             _mapper = mapper;
+            _routeLogService = routeLogService;
         }
 
         [HttpGet("routes")]
@@ -180,6 +181,13 @@ namespace APIMe.Controllers
                 {
                     return NotFound("No records found for the specified table.");
                 }
+
+                var currentUser = await _userManager.GetUserAsync(User);
+                if (currentUser == null || !(await _userManager.IsInRoleAsync(currentUser, "Admin")))
+                {
+                    await _routeLogService.LogRequestAsync(HttpContext, tableName);
+                }
+
 
                 return Ok(records);
             }
