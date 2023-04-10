@@ -295,8 +295,9 @@ namespace APIMe.Entities.Models
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.RouteLogs)
+                    .HasPrincipalKey(p => p.StudentId)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__RouteLogs__UserI__756D6ECB");
+                    .HasConstraintName("FK__RouteLogs__UserI__793DFFAF");
             });
 
             modelBuilder.Entity<RouteType>(entity =>
@@ -346,6 +347,9 @@ namespace APIMe.Entities.Models
                 entity.ToTable("Student");
 
                 entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.HasIndex(e => e.StudentId, "UQ_Student_StudentId")
+                    .IsUnique();
 
                 entity.Property(e => e.ApiKey)
                     .HasMaxLength(70)

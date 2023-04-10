@@ -48,7 +48,7 @@ namespace APIMe.Services.Routes
             var routeLog = new RouteLog
             {
                 Ipaddress = context.Connection.RemoteIpAddress == null ? "" : context.Connection.RemoteIpAddress?.ToString(),
-                RequestTimestamp = DateTime.UtcNow,
+                RequestTimestamp = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time")),
                 HttpMethod = context.Request.Method,
                 TableName = tableName,
                 RecordId = recordId,
