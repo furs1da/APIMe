@@ -14,10 +14,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { RouteLogComponent } from './route-log.component';
+import { RouteLogInfoDialogComponent } from './route-log-info-dialog/route-log-info-dialog.component';
 
 
 @NgModule({
-  declarations: [RouteLogComponent],
+  declarations: [RouteLogComponent, RouteLogInfoDialogComponent],
   imports: [
     FormsModule,
     CommonModule,

@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Route Log Information</h2>
+<mat-dialog-content>
+  <div>
+    <strong>ID:</strong> {{ data.routeLog.id }}
+  </div>
+  <div>
+    <strong>IP Address:</strong> {{ data.routeLog.ipAddress }}
+  </div>
+  <div>
+    <strong>Request Timestamp:</strong> {{ data.routeLog.requestTimestamp | date: 'medium' }}
+  </div>
+  <div>
+    <strong>Full Name:</strong> {{ data.routeLog.fullName }}
+  </div>
+  <div>
+    <strong>HTTP Method:</strong> {{ data.routeLog.httpMethod }}
+  </div>
+  <div>
+    <strong>Table Name:</strong> {{ data.routeLog.tableName }}
+  </div>
+  <div>
+    <strong>Record ID:</strong> {{ data.routeLog.recordId || '-' }}
+  </div>
+  <div>
+    <strong>Route Path:</strong> {{ data.routeLog.routePath }}
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

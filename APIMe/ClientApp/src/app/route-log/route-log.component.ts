@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { RepositoryService } from '../shared/services/repository.service';
 import { RouteLogDto } from '../../interfaces/routelog/routeLogDTO';
+import { RouteLogInfoDialogComponent } from './route-log-info-dialog/route-log-info-dialog.component';
 
 
 @Component({
@@ -67,6 +68,13 @@ export class RouteLogComponent implements OnInit {
       date1.getMonth() === date2.getMonth() &&
       date1.getDate() === date2.getDate()
     );
+  }
+
+  openInfoDialog(routeLog: RouteLogDto): void {
+    this.dialog.open(RouteLogInfoDialogComponent, {
+      width: '500px',
+      data: { routeLog },
+    });
   }
 
 
