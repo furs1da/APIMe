@@ -145,6 +145,7 @@ namespace APIMe.Controllers
             if (user != null)
             {
                 await _userManager.DeleteAsync(user);
+                await _aPIMeContext.SaveChangesAsync();
             }
 
             return NoContent();
