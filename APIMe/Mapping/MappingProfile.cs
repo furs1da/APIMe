@@ -1,5 +1,6 @@
 ﻿using APIMe.Entities.Constants;
 using APIMe.Entities.DataTransferObjects.Admin.Route;
+using APIMe.Entities.DataTransferObjects.Admin.RouteLog;
 using APIMe.Entities.DataTransferObjects.Admin.Student;
 using APIMe.Entities.Models;
 using AutoMapper;
@@ -22,6 +23,7 @@ namespace APIMe.Mapping
 
             CreateMap<RouteType, RouteTypeDto>().ReverseMap();
 
+            CreateMap<RouteLog, RouteLogDto>().ReverseMap();
 
             CreateMap<Student, StudentDto>().ReverseMap();
         }

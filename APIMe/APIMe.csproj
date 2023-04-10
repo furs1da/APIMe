@@ -44,6 +44,7 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\postman\postman.module.ts" />
+    <None Remove="ClientApp\src\app\route-log\route-log.module.ts" />
     <None Remove="ClientApp\src\app\routes\route.module.ts" />
     <None Remove="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <None Remove="ClientApp\src\app\student\students\student.module.ts" />
@@ -58,6 +59,7 @@
     <None Remove="ClientApp\src\interfaces\response\routeTypeDTO.ts" />
     <None Remove="ClientApp\src\interfaces\response\sectionResponseDTO.ts" />
     <None Remove="ClientApp\src\interfaces\response\TestRouteResponse.ts" />
+    <None Remove="ClientApp\src\interfaces\routelog\routeLogDTO.ts" />
     <None Remove="ClientApp\tsconfig.json" />
   </ItemGroup>
 
@@ -69,6 +71,7 @@
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\postman\postman.module.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\route-log\route-log.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\routes\route.module.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\student\student.module.ts" />
@@ -83,6 +86,7 @@
     <TypeScriptCompile Include="ClientApp\src\interfaces\response\routeTypeDTO.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\response\sectionResponseDTO.ts" />
     <TypeScriptCompile Include="ClientApp\src\interfaces\response\testRouteResponse.ts" />
+    <TypeScriptCompile Include="ClientApp\src\interfaces\routelog\routeLogDTO.ts" />
     <TypeScriptCompile Include="ClientApp\tsconfig.json" />
   </ItemGroup>
 

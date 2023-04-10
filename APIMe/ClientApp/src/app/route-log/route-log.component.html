@@ -1,0 +1,64 @@
+<mat-card>
+  <mat-card-title>Route Logs</mat-card-title>
+  <mat-card-content>
+    <form [formGroup]="filterForm" class="filters">
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by Full Name</mat-label>
+        <input matInput formControlName="fullName" placeholder="Enter fullName" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by HTTP Method</mat-label>
+        <mat-select formControlName="httpMethod">
+          <mat-option [value]="null">None</mat-option>
+          <mat-option value="GET">GET</mat-option>
+          <mat-option value="POST">POST</mat-option>
+          <mat-option value="PUT">PUT</mat-option>
+          <mat-option value="PATCH">PATCH</mat-option>
+          <mat-option value="DELETE">DELETE</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by Table Name</mat-label>
+        <input matInput formControlName="tableName" placeholder="Enter table name" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Filter by Date</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="requestTimestamp" placeholder="Choose a date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </form>
+
+    <table mat-table [dataSource]="filteredRouteLogs" class="mat-elevation-z8">
+      <ng-container matColumnDef="fullName">
+        <th mat-header-cell *matHeaderCellDef>Full Name</th>
+        <td mat-cell *matCellDef="let routeLog">{{ routeLog.fullName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="httpMethod">
+        <th mat-header-cell *matHeaderCellDef>HTTP Method</th>
+        <td mat-cell *matCellDef="let routeLog">{{ routeLog.httpMethod }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="tableName">
+        <th mat-header-cell *matHeaderCellDef>Table Name</th>
+        <td mat-cell *matCellDef="let routeLog">{{ routeLog.tableName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="requestTimestamp">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let routeLog">{{ routeLog.requestTimestamp | date: 'mediumDate' }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let routeLog">
+          <!-- Add any actions if necessary -->
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </mat-card-content>
+</mat-card>

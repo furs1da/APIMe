@@ -11,6 +11,7 @@ const PROXY_CONFIG = [
       "/profileApi",
       "/routeApi",
       "/routeTypeApi",
+      "/routeLogApi",
       "/studentApi",
       "/_configuration",
       "/.well-known",

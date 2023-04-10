@@ -10,6 +10,7 @@ import { TestRouteResponse } from 'src/interfaces/response/testRouteResponse';
 import { Student } from '../../../interfaces/request/student';
 import { StudentProfile } from '../../../interfaces/profile/profile/studentProfile';
 import { AuthResponseDto } from '../../../interfaces/response/authResponseDto';
+import { RouteLogDto } from '../../../interfaces/routelog/routeLogDTO';
 
 @Injectable({
   providedIn: 'root'
@@ -158,6 +159,14 @@ export class RepositoryService {
   }
 
 
+
+  public getAllRouteLogs(): Observable<RouteLogDto[]> {
+    return this.http.get<RouteLogDto[]>(this.createCompleteRoute('routeLogApi/logs', this.baseUrl));
+  }
+
+  public getRouteLogsByUserId(userId: string): Observable<RouteLogDto[]> {
+    return this.http.get<RouteLogDto[]>(this.createCompleteRoute(`routeLogApi/logs/byuser/${userId}`, this.baseUrl));
+  }
 
 
   
