@@ -13,6 +13,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSortModule } from '@angular/material/sort';
+
+
+
+
 import { RouteLogComponent } from './route-log.component';
 import { RouteLogInfoDialogComponent } from './route-log-info-dialog/route-log-info-dialog.component';
 
@@ -33,6 +38,7 @@ import { RouteLogInfoDialogComponent } from './route-log-info-dialog/route-log-i
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSortModule,
     RouterModule.forChild([
       { path: 'list', component: RouteLogComponent },
     ]),

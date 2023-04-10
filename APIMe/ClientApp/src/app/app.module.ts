@@ -39,6 +39,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
+
+import { MatSortModule } from '@angular/material/sort';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+
+
+
 export function tokenGetter() {
   return localStorage.getItem("token");
 }
@@ -70,6 +77,9 @@ export function tokenGetter() {
     MatTableModule,
     MatSlideToggleModule,
     MatSnackBarModule,
+    MatSortModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
 
 
     CollapseModule.forRoot(),
