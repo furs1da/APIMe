@@ -85,9 +85,10 @@ export class RouteLogComponent implements OnInit {
   }
 
   exportToExcel() {
-  const workbook = new ExcelJS.Workbook();
-  const worksheet = workbook.addWorksheet('RouteLogs');
-  this.styleWorksheet(worksheet);
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('RouteLogs');
+    this.styleWorksheet(worksheet, 'FF2196F3', 'FFFFFFFF', 'FF000000');  // Apply styles to header row
+
 
   worksheet.columns = [
     { key: 'id', header: 'ID', width: 10 },
@@ -99,9 +100,11 @@ export class RouteLogComponent implements OnInit {
     { key: 'recordId', header: 'Record ID', width: 10 },
     { key: 'routePath', header: 'Route Path', width: 30 },
   ];
+    
+    this.styleWorksheet(worksheet, 'FFFFFFFF', 'FF000000', 'FF000000', 0);
 
   this.routeLogs.forEach(routeLog => {
-    worksheet.addRow({
+    const row = worksheet.addRow({
       id: routeLog.id,
       ipAddress: routeLog.ipAddress,
       requestTimestamp: new Date(routeLog.requestTimestamp).toLocaleString(),
@@ -111,6 +114,7 @@ export class RouteLogComponent implements OnInit {
       recordId: routeLog.recordId,
       routePath: routeLog.routePath,
     });
+    this.styleWorksheet(worksheet, 'FFFFFFFF', 'FF000000', 'FF000000', row.number);
   });
 
   workbook.xlsx.writeBuffer().then(buffer => {
@@ -124,25 +128,31 @@ export class RouteLogComponent implements OnInit {
   });
 }
 
-  styleWorksheet(worksheet: ExcelJS.Worksheet) {
-    const headerRow = worksheet.getRow(1);
-    headerRow.eachCell(cell => {
+  styleWorksheet(
+    worksheet: ExcelJS.Worksheet,
+    fillColor: string,
+    fontColor: string,
+    borderColor: string,
+    rowNum: number = 1
+  ) {
+    const row = worksheet.getRow(rowNum);
+    row.eachCell(cell => {
       cell.fill = {
         type: 'pattern',
         pattern: 'solid',
-        fgColor: { argb: 'FF2196F3' },
+        fgColor: { argb: fillColor },
       };
       cell.font = {
-        bold: true,
-        color: { argb: 'FFFFFFFF' },
+        color: { argb: fontColor },
       };
       cell.border = {
-        top: { style: 'thin', color: { argb: 'FF000000' } },
-        bottom: { style: 'thin', color: { argb: 'FF000000' } },
-        left: { style: 'thin', color: { argb: 'FF000000' } },
-        right: { style: 'thin', color: { argb: 'FF000000' } },
+        top: { style: 'thin', color: { argb: borderColor } },
+        bottom: { style: 'thin', color: { argb: borderColor } },
+        left: { style: 'thin', color: { argb: borderColor } },
+        right: { style: 'thin', color: { argb: borderColor } },
       };
     });
   }
+
 
 }

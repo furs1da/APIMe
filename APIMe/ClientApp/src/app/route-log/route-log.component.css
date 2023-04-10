@@ -39,6 +39,7 @@ mat-header-cell {
 
 .generate-report {
   margin-bottom: 1rem;
+  background-color: #007bff !important;
 }
 .title-container {
   display: flex;
