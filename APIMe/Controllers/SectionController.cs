@@ -21,6 +21,7 @@ using Duende.IdentityServer.Models;
 namespace APIMe.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Administrator")]
     [Route("sectionApi")]
     public class SectionController : ControllerBase
     {
@@ -36,7 +37,7 @@ namespace APIMe.Controllers
             _aPIMeContext = aPIMeContext;
         }
 
-        [Authorize(Roles = "Administrator")]
+
         [HttpGet("sections")]
         public async Task<ActionResult<List<SectionDTO>>> GetSections()
         {
@@ -55,7 +56,7 @@ namespace APIMe.Controllers
         }
 
 
-        [Authorize(Roles = "Administrator")]
+       
         [HttpPost("add")]
         public async Task<ActionResult<SectionDTO>> AddSection([FromBody] SectionDTO section)
         {
@@ -93,7 +94,7 @@ namespace APIMe.Controllers
             return CreatedAtAction(nameof(GetSections), new { id = newSection.Id }, section);
         }
 
-        [Authorize(Roles = "Administrator")]
+       
         [HttpPut("edit/{id}")]
         public async Task<ActionResult<SectionDTO>> EditSection(int id, [FromBody] SectionDTO section)
         {
@@ -167,7 +168,7 @@ namespace APIMe.Controllers
 
 
         [HttpGet("privacy")]
-        [Authorize(Roles = "Administrator")]
+       
         public IActionResult Privacy()
         {
             var claims = User.Claims

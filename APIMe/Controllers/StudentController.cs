@@ -22,6 +22,7 @@ using APIMe.Entities.DataTransferObjects.Admin.Student;
 namespace APIMe.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Administrator")]
     [Route("studentApi")]
     public class StudentController : Controller
     {
@@ -67,7 +68,6 @@ namespace APIMe.Controllers
             return studentList;
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpGet("sections")]
         public async Task<ActionResult<List<SectionDTO>>> GetSections()
         {

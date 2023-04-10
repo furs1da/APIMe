@@ -23,6 +23,7 @@ using APIMe.Entities.Constants;
 namespace APIMe.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("routeTypeApi")]
     public class RouteTypeController : Controller
     {
