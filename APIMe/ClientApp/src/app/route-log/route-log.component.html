@@ -29,6 +29,10 @@
       </mat-form-field>
     </form>
 
+    <mat-card-actions>
+      <button mat-raised-button color="primary" (click)="exportToExcel()">Export to Excel</button>
+    </mat-card-actions>
+
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="fullName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>

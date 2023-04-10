@@ -1,28 +1,13 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Options;
-using static System.Net.WebRequestMethods;
-using Microsoft.AspNetCore.Authorization;
-
-using APIMe.Interfaces;
 using AutoMapper;
-
-using Microsoft.EntityFrameworkCore;
-using static Duende.IdentityServer.Models.IdentityResources;
 using APIMe.JwtFeatures;
-using System.IdentityModel.Tokens.Jwt;
 using APIMe.Entities.Models;
-using APIMe.Entities.DataTransferObjects;
-using APIMe.Entities.DataTransferObjects.Authorization;
-using APIMe.Entities.DataTransferObjects.Admin.Section;
-using Duende.IdentityServer.Models;
 using APIMe.Entities.DataTransferObjects.Admin.RouteLog;
 using APIMe.Services.Routes;
 
 namespace APIMe.Controllers
 {
-
     [ApiController]
     [Route("routeLogApi")]
     public class RouteLogController : Controller

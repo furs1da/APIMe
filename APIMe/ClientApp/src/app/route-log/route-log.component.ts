@@ -6,6 +6,8 @@ import { MatSort } from '@angular/material/sort';
 import { RepositoryService } from '../shared/services/repository.service';
 import { RouteLogDto } from '../../interfaces/routelog/routeLogDTO';
 import { RouteLogInfoDialogComponent } from './route-log-info-dialog/route-log-info-dialog.component';
+import * as XLSX from 'xlsx';
+
 
 @Component({
   selector: 'app-route-log',
@@ -81,4 +83,12 @@ export class RouteLogComponent implements OnInit {
       data: { routeLog },
     });
   }
+
+  exportToExcel() {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.routeLogs);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'RouteLogs');
+    XLSX.writeFile(wb, 'RouteLogs.xlsx');
+  }
+
 }
