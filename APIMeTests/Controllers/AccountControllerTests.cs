@@ -9,6 +9,7 @@ using System.Security.Claims;
 using APIMe.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using APIMe.Entities.DataTransferObjects.Authorization;
+using AutoMapper;
 
 namespace APIMe.Controllers.Tests
 {
@@ -35,7 +36,8 @@ namespace APIMe.Controllers.Tests
             APIMeContext ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
 
             var email = new Mock<IEmailSender>();
-            controller = new AccountController(userManager.Object, ContextDataAccess, jwtHandler, email.Object);
+            var mapper = new Mock<IMapper>();
+            controller = new AccountController(userManager.Object, ContextDataAccess, jwtHandler, email.Object,mapper.Object);
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, "testingmockup"),
@@ -88,7 +90,7 @@ namespace APIMe.Controllers.Tests
                 ConfirmPassword= "new",
                 FirstName= "new",
                 LastName= "new",
-                StudentNumber="1234567",
+                StudentNumber="7654321",
                 AccessCode="n/a",
                 StudentSection=4,
                 ClientURI="quaint"
