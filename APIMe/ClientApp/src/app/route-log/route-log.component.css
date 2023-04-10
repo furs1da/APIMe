@@ -30,3 +30,19 @@ mat-header-cell,
 mat-cell {
   padding: 0.5rem;
 }
+
+mat-header-cell {
+  background-color: #2196f3;
+  color: white;
+  font-weight: bold;
+}
+
+.generate-report {
+  margin-bottom: 1rem;
+}
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+

@@ -6,8 +6,8 @@ import { MatSort } from '@angular/material/sort';
 import { RepositoryService } from '../shared/services/repository.service';
 import { RouteLogDto } from '../../interfaces/routelog/routeLogDTO';
 import { RouteLogInfoDialogComponent } from './route-log-info-dialog/route-log-info-dialog.component';
-import * as XLSX from 'xlsx';
 
+import * as ExcelJS from 'exceljs';
 
 @Component({
   selector: 'app-route-log',
@@ -85,10 +85,64 @@ export class RouteLogComponent implements OnInit {
   }
 
   exportToExcel() {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.routeLogs);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'RouteLogs');
-    XLSX.writeFile(wb, 'RouteLogs.xlsx');
+  const workbook = new ExcelJS.Workbook();
+  const worksheet = workbook.addWorksheet('RouteLogs');
+  this.styleWorksheet(worksheet);
+
+  worksheet.columns = [
+    { key: 'id', header: 'ID', width: 10 },
+    { key: 'ipAddress', header: 'IP Address', width: 15 },
+    { key: 'requestTimestamp', header: 'Request Timestamp', width: 20 },
+    { key: 'fullName', header: 'Full Name', width: 20 },
+    { key: 'httpMethod', header: 'HTTP Method', width: 12 },
+    { key: 'tableName', header: 'Table Name', width: 20 },
+    { key: 'recordId', header: 'Record ID', width: 10 },
+    { key: 'routePath', header: 'Route Path', width: 30 },
+  ];
+
+  this.routeLogs.forEach(routeLog => {
+    worksheet.addRow({
+      id: routeLog.id,
+      ipAddress: routeLog.ipAddress,
+      requestTimestamp: new Date(routeLog.requestTimestamp).toLocaleString(),
+      fullName: routeLog.fullName,
+      httpMethod: routeLog.httpMethod,
+      tableName: routeLog.tableName,
+      recordId: routeLog.recordId,
+      routePath: routeLog.routePath,
+    });
+  });
+
+  workbook.xlsx.writeBuffer().then(buffer => {
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'RouteLogs.xlsx';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  });
+}
+
+  styleWorksheet(worksheet: ExcelJS.Worksheet) {
+    const headerRow = worksheet.getRow(1);
+    headerRow.eachCell(cell => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: 'FF2196F3' },
+      };
+      cell.font = {
+        bold: true,
+        color: { argb: 'FFFFFFFF' },
+      };
+      cell.border = {
+        top: { style: 'thin', color: { argb: 'FF000000' } },
+        bottom: { style: 'thin', color: { argb: 'FF000000' } },
+        left: { style: 'thin', color: { argb: 'FF000000' } },
+        right: { style: 'thin', color: { argb: 'FF000000' } },
+      };
+    });
   }
 
 }
