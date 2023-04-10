@@ -43,9 +43,9 @@ export class RouteLogComponent implements OnInit {
 
   applyFilters(): void {
     const filterObj = {
-      fullName: this.filterForm.get('fullName')?.value.toLowerCase() || '',
+      fullName: this.filterForm.get('fullName')?.value?.toLowerCase() || '',
       httpMethod: this.filterForm.get('httpMethod')?.value,
-      tableName: this.filterForm.get('tableName')?.value.toLowerCase() || '',
+      tableName: this.filterForm.get('tableName')?.value?.toLowerCase() || '',
       requestTimestamp: this.filterForm.get('requestTimestamp')?.value,
     };
 
@@ -61,6 +61,7 @@ export class RouteLogComponent implements OnInit {
       return isInFullName && isInHttpMethod && isInTableName && isInRequestTimestamp;
     });
   }
+
 
   isSameDate(date1: Date, date2: Date): boolean {
     const sameYear = date1.getFullYear() === date2.getFullYear();
