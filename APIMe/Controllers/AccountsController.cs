@@ -28,13 +28,15 @@ namespace APIMe.Controllers
         private readonly JwtHandler _jwtHandler;
         private APIMeContext _aPIMeContext;
         private readonly IEmailSender _emailSender;
+        private readonly IMapper _mapper;
 
-        public AccountController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, JwtHandler jwtHandler, IEmailSender emailSender)
+        public AccountController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, JwtHandler jwtHandler, IEmailSender emailSender, IMapper mapper)
         {
             _userManager = userManager;
             _jwtHandler = jwtHandler;
             _aPIMeContext = aPIMeContext;
             _emailSender = emailSender;
+            _mapper = mapper;
         }
 
         [HttpGet("sectionlist")]
@@ -43,7 +45,9 @@ namespace APIMe.Controllers
             try
             {
                 InformationForRegistration informationForRegistration = new InformationForRegistration();
-                informationForRegistration.SectionList = await _aPIMeContext.Sections.ToListAsync();
+                var sections = await _aPIMeContext.Sections.ToListAsync();
+
+                informationForRegistration.SectionList = _mapper.Map<List<SectionDto>>(sections);
 
                 return Ok(informationForRegistration);
             }

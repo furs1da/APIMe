@@ -2,6 +2,7 @@
 using APIMe.Entities.DataTransferObjects.Admin.Route;
 using APIMe.Entities.DataTransferObjects.Admin.RouteLog;
 using APIMe.Entities.DataTransferObjects.Admin.Student;
+using APIMe.Entities.DataTransferObjects.Authorization;
 using APIMe.Entities.Models;
 using AutoMapper;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -26,6 +27,8 @@ namespace APIMe.Mapping
             CreateMap<RouteLog, RouteLogDto>().ReverseMap();
 
             CreateMap<Student, StudentDto>().ReverseMap();
+
+            CreateMap<Section, SectionDto>();
         }
     }
 }

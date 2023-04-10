@@ -4,6 +4,6 @@ namespace APIMe.Entities.DataTransferObjects.Authorization
 {
     public class InformationForRegistration
     {
-        public List<Section> SectionList { get; set; }
+        public List<SectionDto> SectionList { get; set; }
     }
 }
