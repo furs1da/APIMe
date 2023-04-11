@@ -26,6 +26,7 @@ using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 using APIMe.Utilities.Validators;
+using APIMe.Utilities.JsonHelper;
 
 namespace APIMe.Controllers
 {
@@ -335,16 +336,37 @@ namespace APIMe.Controllers
                     throw new SecurityException();
                 }
 
-                var record = await _routeService.UpdateRecordInDataTableAsync(tableName, recordJson);
+                var dbContextType = _aPIMeContext.GetType();
+                var tableProperty = dbContextType.GetProperty(tableName);
+                if (tableProperty == null)
+                {
+                    throw new InvalidOperationException($"The table '{tableName}' does not exist in the DbContext.");
+                }
 
-                if (record == null)
+                var table = (IQueryable)tableProperty.GetValue(_aPIMeContext);
+                var entityType = table.ElementType;
+
+                // Deserialize the record and perform validation
+                var recordString = recordJson.GetRawText();
+                var record = JsonConvert.DeserializeObject(recordString, entityType);
+                var validationResult = ValidateRecord(record);
+
+                if (validationResult != null)
+                {
+                    return BadRequest(new { Message = validationResult.ErrorMessage, Errors = validationResult.ValidationResults });
+                }
+
+                // Continue with updating the record
+                var updatedRecord = await _routeService.UpdateRecordInDataTableAsync(tableName, recordJson);
+
+                if (updatedRecord == null)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
                 }
 
                 await _routeLogService.LogRequestAsync(HttpContext, tableName);
 
-                return Ok(record);
+                return Ok(updatedRecord);
             }
             catch (UnauthorizedAccessException)
             {
@@ -382,16 +404,43 @@ namespace APIMe.Controllers
                     throw new SecurityException();
                 }
 
-                var record = await _routeService.PatchRecordInDataTableAsync(tableName, id, patchDocument);
+                // Get the existing record
+                var existingRecord = await _routeService.GetRecordByIdFromDataTableAsync(tableName, id);
+                if (existingRecord == null)
+                {
+                    return NotFound("The record with the specified key values could not be found.");
+                }
 
-                if (record == null)
+                // Apply the patch
+                var patcher = new JsonPatcher();
+                var patchedRecordJson = patcher.ApplyPatch(existingRecord, patchDocument);
+
+                // Deserialize the patched record and perform validation
+                var dbContextType = _aPIMeContext.GetType();
+                var tableProperty = dbContextType.GetProperty(tableName);
+                var table = (IQueryable)tableProperty.GetValue(_aPIMeContext);
+                var entityType = table.ElementType;
+
+                var patchedRecordString = patchedRecordJson.GetRawText();
+                var patchedRecord = JsonConvert.DeserializeObject(patchedRecordString, entityType);
+                var validationResult = ValidateRecord(patchedRecord);
+
+                if (validationResult != null)
+                {
+                    return BadRequest(new { Message = validationResult.ErrorMessage, Errors = validationResult.ValidationResults });
+                }
+
+                // Update the existing record with the patched record
+                var updatedRecord = await _routeService.PatchRecordInDataTableAsync(tableName, id, patchedRecordJson);
+
+                if (updatedRecord == null)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
                 }
 
                 await _routeLogService.LogRequestAsync(HttpContext, tableName);
 
-                return Ok(record);
+                return Ok(updatedRecord);
             }
             catch (UnauthorizedAccessException)
             {
@@ -410,6 +459,7 @@ namespace APIMe.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
             }
         }
+
 
         [HttpDelete("records/{tableName}/{id}")]
         public async Task<ActionResult> DeleteRecordFromTable(string tableName, int id)
