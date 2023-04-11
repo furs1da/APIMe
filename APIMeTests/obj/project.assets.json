@@ -7185,19 +7185,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {}
+    "C:\\Users\\nmysh\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
+      "projectUniqueName": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
       "projectName": "APIMeTests",
-      "projectPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMeTests\\obj\\",
+      "projectPath": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMeTests\\APIMeTests.csproj",
+      "packagesPath": "C:\\Users\\nmysh\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMeTests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\nmysh\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -7211,8 +7211,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj": {
-              "projectPath": "D:\\College\\Capstone Project\\Capstone-Project\\APIMe\\APIMe.csproj"
+            "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMe\\APIMe.csproj": {
+              "projectPath": "C:\\Users\\nmysh\\Desktop\\Capstone-Project\\APIMe\\APIMe.csproj"
             }
           }
         }
@@ -7280,7 +7280,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   },
