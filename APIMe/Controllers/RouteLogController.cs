@@ -5,10 +5,13 @@ using APIMe.JwtFeatures;
 using APIMe.Entities.Models;
 using APIMe.Entities.DataTransferObjects.Admin.RouteLog;
 using APIMe.Services.Routes;
+using Microsoft.AspNetCore.Authorization;
+using System.Data;
 
 namespace APIMe.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "Administrator")]
     [Route("routeLogApi")]
     public class RouteLogController : Controller
     {
