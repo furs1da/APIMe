@@ -24,6 +24,8 @@ using System.Security;
 using Microsoft.AspNetCore.JsonPatch;
 using Newtonsoft.Json.Linq;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
+using APIMe.Utilities.Validators;
 
 namespace APIMe.Controllers
 {
@@ -37,6 +39,10 @@ namespace APIMe.Controllers
         private readonly RouteService _routeService;
         private APIMeContext _aPIMeContext;
         private readonly RouteLogService _routeLogService;
+
+        private static readonly Regex PHONE_REGEX = new Regex(@"^(\+1\s?)?(\(\d{3}\)|\d{3})[-\s]?\d{3}[-\s]?\d{4}$");
+        private static readonly Regex EMAIL_REGEX = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
         public RouteController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, RouteService routeService, IMapper mapper, RouteLogService routeLogService)
         {
             _userManager = userManager;
@@ -263,16 +269,37 @@ namespace APIMe.Controllers
                     throw new SecurityException();
                 }
 
-                var record = await _routeService.AddRecordToDataTableAsync(tableName, recordJson);
+                var dbContextType = _aPIMeContext.GetType();
+                var tableProperty = dbContextType.GetProperty(tableName);
+                if (tableProperty == null)
+                {
+                    throw new InvalidOperationException($"The table '{tableName}' does not exist in the DbContext.");
+                }
 
-                if (record == null)
+                var table = (IQueryable)tableProperty.GetValue(_aPIMeContext);
+                var entityType = table.ElementType;
+
+                // Deserialize the record and perform validation
+                var recordString = recordJson.GetRawText();
+                var record = JsonConvert.DeserializeObject(recordString, entityType);
+                var validationResult = ValidateRecord(record);
+
+                if (validationResult != null)
+                {
+                    return BadRequest(new { Message = validationResult.ErrorMessage, Errors = validationResult.ValidationResults });
+                }
+
+                // Continue with adding the record
+                var savedRecord = await _routeService.AddRecordToDataTableAsync(tableName, recordJson);
+
+                if (savedRecord == null)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
                 }
 
                 await _routeLogService.LogRequestAsync(HttpContext, tableName);
 
-                return CreatedAtAction(nameof(AddRecordToTable), new { tableName = tableName, id = record.GetType().GetProperty("Id").GetValue(record) }, record);
+                return CreatedAtAction(nameof(AddRecordToTable), new { tableName = tableName, id = savedRecord.GetType().GetProperty("Id").GetValue(savedRecord) }, savedRecord);
             }
             catch (UnauthorizedAccessException)
             {
@@ -287,6 +314,7 @@ namespace APIMe.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred while processing the request.");
             }
         }
+
 
 
         [HttpPut("records/{tableName}")]
@@ -451,6 +479,40 @@ namespace APIMe.Controllers
                 return StatusCode(StatusCodes.Status403Forbidden, "Ensure that the table name is among the list of accessible resources.");
             }
           
+        }
+
+
+
+
+
+        private CustomValidationResult ValidateRecord(object record)
+        {
+            var validationResults = new List<ValidationResult>();
+            var validationContext = new ValidationContext(record);
+            Validator.TryValidateObject(record, validationContext, validationResults, true);
+
+            foreach (var property in record.GetType().GetProperties())
+            {
+                var propertyName = property.Name;
+                var propertyValue = property.GetValue(record);
+
+                if (propertyName.Equals("Phone", StringComparison.OrdinalIgnoreCase) && propertyValue != null)
+                {
+                    if (!PHONE_REGEX.IsMatch(propertyValue.ToString()))
+                    {
+                        validationResults.Add(new ValidationResult($"Invalid phone number format.", new[] { propertyName }));
+                    }
+                }
+                else if (propertyName.Equals("Email", StringComparison.OrdinalIgnoreCase) && propertyValue != null)
+                {
+                    if (!EMAIL_REGEX.IsMatch(propertyValue.ToString()))
+                    {
+                        validationResults.Add(new ValidationResult($"Invalid email address format.", new[] { propertyName }));
+                    }
+                }
+            }
+
+            return validationResults.Count > 0 ? new CustomValidationResult("Validation failed.", validationResults) : null;
         }
 
     }

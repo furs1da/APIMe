@@ -55,22 +55,6 @@ namespace APIMe.Services.Routes
             return record;
         }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         public async Task<Entities.Models.Route> CreateRouteAsync(Entities.Models.Route route)
         {
             _context.Routes.Add(route);
@@ -309,8 +293,6 @@ namespace APIMe.Services.Routes
             return record;
         }
 
-
-
         public async Task<object> UpdateRecordInDataTableAsync(string tableName, JsonElement recordJson)
         {
             var dbContextType = _context.GetType();
@@ -395,16 +377,6 @@ namespace APIMe.Services.Routes
 
             return existingEntity;
         }
-
-
-
-
-
-
-
-
-
-
         public async Task DeleteRecordFromDataTableAsync(string tableName, JsonElement recordJson)
         {
             var dbContextType = _context.GetType();
@@ -434,7 +406,6 @@ namespace APIMe.Services.Routes
 
             await _context.SaveChangesAsync();
         }
-
         public async Task DeleteRecordFromDataTableAsync(string tableName, int id)
         {
             var dbContextType = _context.GetType();
@@ -468,16 +439,6 @@ namespace APIMe.Services.Routes
 
             await _context.SaveChangesAsync();
         }
-
-
-
-
-
-
-
-
-
-
         public async Task<List<Property>> GetPropertiesByRouteIdAsync(int routeId)
         {
             var properties = new List<Property>();
@@ -509,7 +470,6 @@ namespace APIMe.Services.Routes
             return properties;
         }
 
-
         public async Task<List<Property>> GetPropertiesByTableNameAsync(string tableName)
         {
             var properties = new List<Property>();
@@ -531,7 +491,5 @@ namespace APIMe.Services.Routes
 
             return properties;
         }
-
-
     }
 }
