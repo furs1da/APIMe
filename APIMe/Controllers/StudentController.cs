@@ -133,6 +133,9 @@ namespace APIMe.Controllers
             var studentSections = _aPIMeContext.StudentSections.Where(ss => ss.StudentId == id).Include(i => i.Student);
             _aPIMeContext.StudentSections.RemoveRange(studentSections);
 
+            var studentRouteLogs = _aPIMeContext.RouteLogs.Where(ss => ss.UserId == student.StudentId).Include(i => i.User);
+            _aPIMeContext.RouteLogs.RemoveRange(studentRouteLogs);
+
 
             _aPIMeContext.Students.Remove(student);
             await _aPIMeContext.SaveChangesAsync();
@@ -142,6 +145,7 @@ namespace APIMe.Controllers
             if (user != null)
             {
                 await _userManager.DeleteAsync(user);
+                await _aPIMeContext.SaveChangesAsync();
             }
 
             return NoContent();

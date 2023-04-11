@@ -39,8 +39,8 @@ namespace APIMe.Controllers.Tests
 
 
             MockRouteService routeService = new MockRouteService(ContextDataAccess, mapper.Object);
-
-            route = new RouteController(userManager.Object, ContextDataAccess, routeService, mapper.Object);
+            RouteLogService logService=new RouteLogService(ContextDataAccess,mapper.Object);
+            route = new RouteController(userManager.Object, ContextDataAccess, routeService, mapper.Object,logService);
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, "testingmockup"),

@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using APIMe.Entities.DataTransferObjects.Admin.Section;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
+using APIMe.Entities.DataTransferObjects.Admin.Profile;
 
 namespace APIMe.Controllers.Tests
 {
@@ -30,8 +31,7 @@ namespace APIMe.Controllers.Tests
             var userManager = new Mock<UserManager<IdentityUser>>(mockStore.Object, null, null, null, null, null, null, null, null);
             JwtHandler jwtHandler = MockJwt.GetJwtHandler();
             APIMeContext ContextDataAccess = new MockContext<APIMeContext>().GetMockContext();
-
-            profileController = new ProfileController(userManager.Object, ContextDataAccess, jwtHandler);
+            profileController = new ProfileController(userManager.Object, ContextDataAccess, jwtHandler,null);
             var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, "testingmockup"),
@@ -49,8 +49,8 @@ namespace APIMe.Controllers.Tests
         [TestMethod()]
         public async Task EditProfessorProfileTest()
         {
-            ProfileDTO profile = new ProfileDTO() { Id = 0, Email = "NewEmail", FirstName = "Name", LastName = "Name" };
-            ActionResult<ProfileDTO> result = await profileController.EditProfessorProfile(0, profile);
+            ProfessorProfileDTO profile = new ProfessorProfileDTO() { Id = 1, Email = "NewEmail", FirstName = "Name", LastName = "Name" };
+            ActionResult<ProfessorProfileDTO> result = await profileController.EditProfessorProfile(1, profile);
             Assert.IsNotNull(result);
             Assert.AreEqual(200, actual: ((OkResult)result.Result).StatusCode);
         }
@@ -66,8 +66,8 @@ namespace APIMe.Controllers.Tests
         [TestMethod()]
         public async Task EditStudentProfileTest()
         {
-            ProfileDTO profile = new ProfileDTO() { Id = 0, Email = "NewEmail", FirstName = "Name", LastName = "Name" };
-            ActionResult<ProfileDTO> result = await profileController.EditStudentProfile(0, profile);
+            StudentProfileDTO profile = new StudentProfileDTO() { Id = 0, Email = "NewEmail", FirstName = "Name", LastName = "Name" };
+            ActionResult<StudentProfileDTO> result = await profileController.EditStudentProfile(1, profile);
             Assert.IsNotNull(result);
             Assert.AreEqual(200, actual: ((OkResult)result.Result).StatusCode);
         }
