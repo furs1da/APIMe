@@ -560,10 +560,18 @@ namespace APIMe.Controllers
                         validationResults.Add(new ValidationResult($"Invalid email address format.", new[] { propertyName }));
                     }
                 }
+                else if (propertyName.Contains("Date", StringComparison.OrdinalIgnoreCase) && propertyValue != null)
+                {
+                    if (!DateTime.TryParse(propertyValue.ToString(), out _))
+                    {
+                        validationResults.Add(new ValidationResult($"Invalid date format.", new[] { propertyName }));
+                    }
+                }
             }
 
             return validationResults.Count > 0 ? new CustomValidationResult("Validation failed.", validationResults) : null;
         }
+
 
     }
 }

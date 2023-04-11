@@ -491,32 +491,5 @@ namespace APIMe.Services.Routes
 
             return properties;
         }
-
-
-
-        public async Task<object> GetRecordByIdAsync(string tableName, int id)
-        {
-            var dbContextType = _context.GetType();
-            var tableProperty = dbContextType.GetProperty(tableName);
-            if (tableProperty == null)
-            {
-                throw new InvalidOperationException($"The table '{tableName}' does not exist in the DbContext.");
-            }
-
-            var table = (IQueryable)tableProperty.GetValue(_context);
-            var entityType = table.ElementType;
-            var parameter = Expression.Parameter(entityType, "entity");
-            var idProperty = entityType.GetProperty("Id");
-            var idValue = Expression.Constant(id);
-            var idEquals = Expression.Equal(Expression.Property(parameter, idProperty), idValue);
-            var lambda = Expression.Lambda(idEquals, parameter);
-
-            var findMethod = typeof(Queryable).GetMethods().First(m => m.Name == "SingleOrDefault" && m.GetParameters().Length == 2);
-            findMethod = findMethod.MakeGenericMethod(entityType);
-            var record = await (Task<object>)findMethod.Invoke(null, new object[] { table, lambda });
-
-            return record;
-        }
-
     }
 }
