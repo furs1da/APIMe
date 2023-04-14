@@ -43,7 +43,7 @@ namespace APIMe.Controllers
 
         private static readonly Regex PHONE_REGEX = new Regex(@"^(\+1\s?)?(\(\d{3}\)|\d{3})[-\s]?\d{3}[-\s]?\d{4}$");
         private static readonly Regex EMAIL_REGEX = new Regex(@"^[^@\s]+@[^@\s]+\.[^@\s]+$");
-        private static readonly Regex PRICE_REGEX = new Regex(@"^[1-9]\d*(\.\d+)?|0*\.[1-9]\d*$");
+        private static readonly Regex NUMBER_REGEX = new Regex(@"^[1-9]\d*(\.\d+)?|0*\.[1-9]\d*$");
 
         public RouteController(UserManager<IdentityUser> userManager, APIMeContext aPIMeContext, RouteService routeService, IMapper mapper, RouteLogService routeLogService)
         {
@@ -563,21 +563,21 @@ namespace APIMe.Controllers
                 }                
                 else if (propertyName.Equals("Price", StringComparison.OrdinalIgnoreCase) && propertyValue != null)
                 {
-                    if (!PRICE_REGEX.IsMatch(propertyValue.ToString()))
+                    if (!NUMBER_REGEX.IsMatch(propertyValue.ToString()))
                     {
                         validationResults.Add(new ValidationResult($"Price should be more than 0.", new[] { propertyName }));
                     }
                 }
                 else if (propertyName.Equals("TotalAmount", StringComparison.OrdinalIgnoreCase) && propertyValue != null)
                 {
-                    if (!PRICE_REGEX.IsMatch(propertyValue.ToString()))
+                    if (!NUMBER_REGEX.IsMatch(propertyValue.ToString()))
                     {
                         validationResults.Add(new ValidationResult($"Total Amount should be more than 0.", new[] { propertyName }));
                     }
                 }
                 else if (propertyName.Equals("Quantity", StringComparison.OrdinalIgnoreCase) && propertyValue != null)
                 {
-                    if (!PRICE_REGEX.IsMatch(propertyValue.ToString()))
+                    if (!NUMBER_REGEX.IsMatch(propertyValue.ToString()))
                     {
                         validationResults.Add(new ValidationResult($"Quantity should be more than 0.", new[] { propertyName }));
                     }

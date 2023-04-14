@@ -19,7 +19,8 @@ namespace APIMe.Entities.Models
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
                 string username = "apimeconestoga@gmail.com";
-                string password = "1OBb$^#0^u21!"; 
+                string professorUserName = "bbilkhu@conestogac.on.ca";
+                string password = "1OBb$^#0^u21!";
                 string roleName = "Administrator";
 
                 // if role doesn't exist, create it
@@ -27,6 +28,7 @@ namespace APIMe.Entities.Models
                 {
                     await roleManager.CreateAsync(new IdentityRole(roleName));
                 }
+
                 // if username doesn't exist, create it and add it to role
                 if (await userManager.FindByNameAsync(username) == null)
                 {
@@ -41,8 +43,24 @@ namespace APIMe.Entities.Models
                         await userManager.AddToRoleAsync(user, roleName);
                     }
                 }
+
+                // if professorUserName doesn't exist, create it and add it to role
+                if (await userManager.FindByNameAsync(professorUserName) == null)
+                {
+                    IdentityUser professor = new IdentityUser();
+                    professor.EmailConfirmed = true;
+                    professor.Email = "bbilkhu@conestogac.on.ca";
+                    professor.UserName = professorUserName;
+
+                    var resultProfessor = await userManager.CreateAsync(professor, password);
+                    if (resultProfessor.Succeeded)
+                    {
+                        await userManager.AddToRoleAsync(professor, roleName);
+                    }
+                }
             }
         }
+
         public APIMeContext()
         {
         }

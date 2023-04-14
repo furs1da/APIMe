@@ -37,6 +37,7 @@ namespace APIMe.Controllers
             _aPIMeContext = aPIMeContext;
             _emailSender = emailSender;
             _mapper = mapper;
+            
         }
 
         [HttpGet("sectionlist")]
