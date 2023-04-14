@@ -32,45 +32,50 @@
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
       </form>
-      <div class="buttons-container">
-        <button mat-raised-button color="primary" class="generate-report" (click)="exportToExcel()">Export to Excel</button>
-        <button mat-raised-button color="warn" class="clear-log" (click)="clearLogs()">Clear Log</button>
+      <div class="buttons-wrapper">
+        <div class="buttons-container">
+          <button mat-raised-button color="primary" class="generate-report" (click)="exportToExcel()">Export to Excel</button>
+          <button mat-raised-button color="warn" class="clear-log" (click)="clearLogs()">Clear Log</button>
+        </div>
       </div>
     </div>
 
 
-    <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
-      <ng-container matColumnDef="fullName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>
-        <td mat-cell *matCellDef="let routeLog">{{ routeLog.fullName }}</td>
-      </ng-container>
 
-      <ng-container matColumnDef="httpMethod">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>HTTP Method</th>
-        <td mat-cell *matCellDef="let routeLog">{{ routeLog.httpMethod }}</td>
-      </ng-container>
 
-      <ng-container matColumnDef="tableName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Table Name</th>
-        <td mat-cell *matCellDef="let routeLog">{{ routeLog.tableName }}</td>
-      </ng-container>
 
-      <ng-container matColumnDef="requestTimestamp">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
-        <td mat-cell *matCellDef="let routeLog">{{ routeLog.requestTimestamp | date: 'mediumDate' }}</td>
-      </ng-container>
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <ng-container matColumnDef="fullName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Full Name</th>
+    <td mat-cell *matCellDef="let routeLog">{{ routeLog.fullName }}</td>
+  </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef>Actions</th>
-        <td mat-cell *matCellDef="let routeLog">
-          <button mat-icon-button color="primary" (click)="openInfoDialog(routeLog)">
-            <mat-icon>info</mat-icon>
-          </button>
-        </td>
-      </ng-container>
+  <ng-container matColumnDef="httpMethod">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>HTTP Method</th>
+    <td mat-cell *matCellDef="let routeLog">{{ routeLog.httpMethod }}</td>
+  </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+  <ng-container matColumnDef="tableName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Table Name</th>
+    <td mat-cell *matCellDef="let routeLog">{{ routeLog.tableName }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="requestTimestamp">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+    <td mat-cell *matCellDef="let routeLog">{{ routeLog.requestTimestamp | date: 'mediumDate' }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="actions">
+    <th mat-header-cell *matHeaderCellDef>Actions</th>
+    <td mat-cell *matCellDef="let routeLog">
+      <button mat-icon-button color="primary" (click)="openInfoDialog(routeLog)">
+        <mat-icon>info</mat-icon>
+      </button>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
   </mat-card-content>
 </mat-card>

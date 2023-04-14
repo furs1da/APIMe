@@ -1,6 +1,6 @@
 ﻿namespace APIMe.Entities.Models
 {
-    public partial class Employee
+    public partial class Employees
     {
         public int Id { get; set; }
         public string FirstName { get; set; } = null!;

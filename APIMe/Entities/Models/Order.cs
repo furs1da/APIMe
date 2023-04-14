@@ -1,6 +1,6 @@
 ﻿namespace APIMe.Entities.Models
 {
-    public partial class Order
+    public partial class Orders
     {
         public int Id { get; set; }
         public string OrderNumber { get; set; } = null!;

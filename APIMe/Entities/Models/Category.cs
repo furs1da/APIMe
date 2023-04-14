@@ -1,6 +1,6 @@
 ﻿namespace APIMe.Entities.Models
 {
-    public partial class Category
+    public partial class Categories
     {
         public int Id { get; set; }
         public string Name { get; set; } = null!;

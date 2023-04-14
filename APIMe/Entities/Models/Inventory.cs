@@ -1,6 +1,6 @@
 ﻿namespace APIMe.Entities.Models
 {
-    public partial class Inventory
+    public partial class Inventories
     {
         public int Id { get; set; }
         public string ProductName { get; set; } = null!;

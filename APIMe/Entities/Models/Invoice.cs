@@ -1,6 +1,6 @@
 ﻿namespace APIMe.Entities.Models
 {
-    public class Invoice
+    public class Invoices
     {
         public int Id { get; set; }
         public int OrderId { get; set; }

@@ -75,13 +75,13 @@ namespace APIMe.Entities.Models
         public virtual DbSet<Student> Students { get; set; } = null!;
         public virtual DbSet<StudentSection> StudentSections { get; set; } = null!;
 
-        public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
-        public virtual DbSet<Payment> Payments { get; set; } = null!;
-        public virtual DbSet<Employee> Employees { get; set; } = null!;
-        public virtual DbSet<Inventory> Inventories { get; set; } = null!;
-        public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<Suppliers> Suppliers { get; set; } = null!;
+        public virtual DbSet<Payments> Payments { get; set; } = null!;
+        public virtual DbSet<Employees> Employees { get; set; } = null!;
+        public virtual DbSet<Inventories> Inventories { get; set; } = null!;
+        public virtual DbSet<Categories> Categories { get; set; } = null!;
 
-        public virtual DbSet<Order> Orders { get; set; } = null!;
+        public virtual DbSet<Orders> Orders { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -179,6 +179,7 @@ namespace APIMe.Entities.Models
 
             modelBuilder.Entity<Products>(entity =>
             {
+                entity.ToTable("Products");
                 entity.Property(e => e.Id).HasColumnName("id");
 
                 entity.Property(e => e.Description)
@@ -397,7 +398,7 @@ namespace APIMe.Entities.Models
                     .HasConstraintName("FK_StudentSection_Student");
             });
 
-            modelBuilder.Entity<Supplier>(entity =>
+            modelBuilder.Entity<Suppliers>(entity =>
             {
                 entity.ToTable("Suppliers");
 
@@ -422,7 +423,7 @@ namespace APIMe.Entities.Models
             });
 
 
-            modelBuilder.Entity<Category>(entity =>
+            modelBuilder.Entity<Categories>(entity =>
             {
                 entity.ToTable("Categories");
 
@@ -438,7 +439,7 @@ namespace APIMe.Entities.Models
             });
 
 
-            modelBuilder.Entity<Employee>(entity =>
+            modelBuilder.Entity<Employees>(entity =>
             {
                 entity.ToTable("Employees");
 
@@ -464,7 +465,7 @@ namespace APIMe.Entities.Models
                     .HasMaxLength(50)
                     .HasColumnName("phone");
             });
-            modelBuilder.Entity<Inventory>(entity =>
+            modelBuilder.Entity<Inventories>(entity =>
             {
                 entity.ToTable("Inventory");
 
@@ -483,7 +484,7 @@ namespace APIMe.Entities.Models
                     .HasColumnName("unit_cost");
             });
 
-            modelBuilder.Entity<Order>(entity =>
+            modelBuilder.Entity<Orders>(entity =>
             {
                 entity.ToTable("Orders");
 
@@ -506,7 +507,7 @@ namespace APIMe.Entities.Models
                     .HasColumnName("total_amount");
             });
 
-            modelBuilder.Entity<Payment>(entity =>
+            modelBuilder.Entity<Payments>(entity =>
             {
                 entity.ToTable("Payments");
 

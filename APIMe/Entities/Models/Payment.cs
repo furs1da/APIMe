@@ -1,6 +1,6 @@
 ﻿namespace APIMe.Entities.Models
 {
-    public partial class Payment
+    public partial class Payments
     {
         public int Id { get; set; }
         public string CustomerName { get; set; } = null!;
