@@ -7,6 +7,7 @@ using APIMe.Entities.DataTransferObjects.Admin.RouteLog;
 using APIMe.Services.Routes;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace APIMe.Controllers
 {
@@ -47,5 +48,16 @@ namespace APIMe.Controllers
 
             return Ok(routeLogDtos);
         }
+
+        [HttpDelete("clear")]
+        public async Task<IActionResult> ClearAllRouteLogs()
+        {
+            var routeLogs = await _aPIMeContext.RouteLogs.ToListAsync();
+            _aPIMeContext.RouteLogs.RemoveRange(routeLogs);
+            await _aPIMeContext.SaveChangesAsync();
+
+            return Ok();
+        }
+
     }
 }

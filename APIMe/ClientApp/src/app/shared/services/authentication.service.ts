@@ -34,7 +34,6 @@ export class AuthenticationService {
   }
 
   private createCompleteRoute = (route: string, baseUrl: string) => {
-    console.log(`${baseUrl}${route}`)
     return `${baseUrl}${route}`;
   }
 

@@ -38,15 +38,12 @@ export class StudentListComponent implements OnInit {
     this.repository.getStudents().subscribe((students) => {
       this.students = students;
       this.filteredStudents = students;
-      console.log(this.students);
-      console.log(this.filteredStudents);
     });
   }
 
   getSections(): void {
     this.repository.getSectionsStudent().subscribe((sections) => {
       this.sections = sections;
-      console.log(this.sections);
     });
   }
 

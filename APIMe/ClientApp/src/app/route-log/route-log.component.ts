@@ -85,6 +85,14 @@ export class RouteLogComponent implements OnInit {
     });
   }
 
+  clearLogs(): void {
+    this.repository.clearAllRouteLogs().subscribe(() => {
+      this.getRouteLogs();
+    });
+  }
+
+
+
   exportToExcel() {
     const workbook = new ExcelJS.Workbook();
     const worksheet = workbook.addWorksheet('RouteLogs');

@@ -15,11 +15,10 @@ mat-card-title {
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 1rem;
-  align-items: center;
 }
 
 mat-form-field {
-  width: 100%;
+  flex-grow: 1;
 }
 
 table {
@@ -38,12 +37,37 @@ mat-header-cell {
 }
 
 .generate-report {
-  margin-bottom: 1rem;
   background-color: #007bff !important;
 }
+
+.clear-log {
+  margin-left: 1rem;
+  background-color: #f44336 !important;
+}
+
 .title-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
+.filters-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.buttons-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.buttons-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

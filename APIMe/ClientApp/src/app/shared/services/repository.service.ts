@@ -33,7 +33,6 @@ export class RepositoryService {
   }
 
   public createSection(section: Section) {
-    console.log(this.createCompleteRoute('sectionApi/add', this.baseUrl));
     return this.http.post<Section>(this.createCompleteRoute('sectionApi/add', this.baseUrl), section);
   }
 
@@ -114,7 +113,6 @@ export class RepositoryService {
   }
 
   public getPropertiesByTableName(tableName: string): Observable<Property[]> {
-    console.log(tableName);
     return this.http.get<Property[]>(this.createCompleteRoute(`routeApi/properties/byTableName/${tableName}`, this.baseUrl));
   }
 
@@ -127,7 +125,6 @@ export class RepositoryService {
 
 
   public testRoute(routeId: number, values: any): Observable<TestRouteResponse> {
-    console.log(values);
     return this.http.post<TestRouteResponse>(
       this.createCompleteRoute(`routeApi/testRoute/${routeId}`, this.baseUrl),
       values
@@ -168,10 +165,14 @@ export class RepositoryService {
     return this.http.get<RouteLogDto[]>(this.createCompleteRoute(`routeLogApi/logs/byuser/${userId}`, this.baseUrl));
   }
 
+  public clearAllRouteLogs(): Observable<any> {
+    return this.http.delete(this.createCompleteRoute('routeLogApi/clear', this.baseUrl));
+  }
+
+
 
   
   private createCompleteRoute = (route: string, baseUrl: string) => {
-    console.log(`${baseUrl}${route}`);
     return `${baseUrl}${route}`;
   }
 
@@ -182,9 +183,6 @@ export class RepositoryService {
   }
 
   public post(route: string, body: any, options?: { headers?: HttpHeaders }): Observable<any> {
-
-    console.log(body);
-
     return this.http.post(route, body, options);
   }
 
@@ -202,7 +200,6 @@ export class RepositoryService {
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
       return of(result as T);
     };
   }

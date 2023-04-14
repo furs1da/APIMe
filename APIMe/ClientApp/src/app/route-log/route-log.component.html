@@ -1,38 +1,42 @@
 <mat-card>
   <div class="title-container">
     <mat-card-title>Route Logs</mat-card-title>
-    <button mat-raised-button color="primary" class="generate-report" (click)="exportToExcel()">Export to Excel</button>
   </div>
 
   <mat-card-content>
-    <form [formGroup]="filterForm" class="filters">
-      <mat-form-field appearance="outline">
-        <mat-label>Filter by Full Name</mat-label>
-        <input matInput formControlName="fullName" placeholder="Enter fullName" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Filter by HTTP Method</mat-label>
-        <mat-select formControlName="httpMethod">
-          <mat-option [value]="null">None</mat-option>
-          <mat-option value="GET">GET</mat-option>
-          <mat-option value="POST">POST</mat-option>
-          <mat-option value="PUT">PUT</mat-option>
-          <mat-option value="PATCH">PATCH</mat-option>
-          <mat-option value="DELETE">DELETE</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Filter by Table Name</mat-label>
-        <input matInput formControlName="tableName" placeholder="Enter table name" />
-      </mat-form-field>
-      <mat-form-field appearance="outline">
-        <mat-label>Filter by Date</mat-label>
-        <input matInput [matDatepicker]="picker" formControlName="requestTimestamp" placeholder="Choose a date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-    </form>
-
+    <div class="filters-container">
+      <form [formGroup]="filterForm" class="filters">
+        <mat-form-field appearance="outline">
+          <mat-label>Filter by Full Name</mat-label>
+          <input matInput formControlName="fullName" placeholder="Enter fullName" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Filter by HTTP Method</mat-label>
+          <mat-select formControlName="httpMethod">
+            <mat-option [value]="null">None</mat-option>
+            <mat-option value="GET">GET</mat-option>
+            <mat-option value="POST">POST</mat-option>
+            <mat-option value="PUT">PUT</mat-option>
+            <mat-option value="PATCH">PATCH</mat-option>
+            <mat-option value="DELETE">DELETE</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Filter by Table Name</mat-label>
+          <input matInput formControlName="tableName" placeholder="Enter table name" />
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Filter by Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="requestTimestamp" placeholder="Choose a date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </form>
+      <div class="buttons-container">
+        <button mat-raised-button color="primary" class="generate-report" (click)="exportToExcel()">Export to Excel</button>
+        <button mat-raised-button color="warn" class="clear-log" (click)="clearLogs()">Clear Log</button>
+      </div>
+    </div>
 
 
     <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">

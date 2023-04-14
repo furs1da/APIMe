@@ -20,7 +20,6 @@ export class DataSourcesService {
 
 
   private createCompleteRoute = (route: string, baseUrl: string) => {
-    console.log(`${baseUrl}${route}`);
     return `${baseUrl}${route}`;
   }
 }
