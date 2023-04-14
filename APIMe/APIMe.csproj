@@ -48,6 +48,7 @@
     <None Remove="ClientApp\src\app\routes\route.module.ts" />
     <None Remove="ClientApp\src\app\shared\custom-encoders\custom-encoder.ts" />
     <None Remove="ClientApp\src\app\student\students\student.module.ts" />
+    <None Remove="ClientApp\src\assets\favicon.ico" />
     <None Remove="ClientApp\src\classes\SectionClass.ts" />
     <None Remove="ClientApp\src\interfaces\profile\profile\studentProfile.ts" />
     <None Remove="ClientApp\src\interfaces\request\ForgotPassword.ts" />
@@ -61,6 +62,13 @@
     <None Remove="ClientApp\src\interfaces\response\TestRouteResponse.ts" />
     <None Remove="ClientApp\src\interfaces\routelog\routeLogDTO.ts" />
     <None Remove="ClientApp\tsconfig.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\src\assets\favicon.ico">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
