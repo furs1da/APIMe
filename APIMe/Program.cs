@@ -25,6 +25,15 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("APIMeConnection") ?? throw new InvalidOperationException("Connection string 'APIMeConnection' not found.");
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("CorsPolicy",
+        builder => builder
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader());
+});
+
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 builder.Services.AddMemoryCache();
 builder.Services.AddSession();
@@ -100,7 +109,7 @@ else
 }
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseCors("CorsPolicy");
+app.UseCors("CorsPolicy"); // Add this line
 app.UseRouting();
 
 app.UseAuthentication();
@@ -117,4 +126,3 @@ app.MapFallbackToFile("index.html");
 
 // Run the app
 app.Run();
-
